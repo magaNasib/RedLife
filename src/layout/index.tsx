@@ -7,6 +7,8 @@ import Main from './Main';
 export const Layout: React.FC = () => {
     return (
         <>
+
+
             <Header />
             <Main>
                 <Outlet />
