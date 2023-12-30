@@ -2,7 +2,9 @@ import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Main from './Main';
-import { Box,  Flex } from '@chakra-ui/react';
+import { Box, Container, Flex } from '@chakra-ui/react';
+import { SearchBox } from '../components/SearchBox';
+import { Hashtags } from '../components/Hashtags';
 
 export const Layout: React.FC = () => {
     return (
@@ -10,10 +12,14 @@ export const Layout: React.FC = () => {
             <Box w={'20%'} p={'2'}>
                 <Header />
             </Box>
-            <Box w={'80%'} p={'2'}>
+            <Container maxW='container.lg' p={'2'}>
                 <Main>
                     <Outlet />
                 </Main>
+            </Container>
+            <Box p='2' maxW='20%'>
+                <SearchBox/>
+                <Hashtags/>
             </Box>
         </Flex>
     );
