@@ -97,6 +97,13 @@ const LoginPage: React.FunctionComponent<IPageProps> = props => {
                     </Text>
                 </Link>
             </Text>
+            <Text mt={2} textAlign="center">
+                <Link to="/forget">
+                    <Text color="red" display="inline">
+                    Forget your password?
+                    </Text>
+                </Link>
+            </Text>
 
             <ErrorText error={error} />
             <Button

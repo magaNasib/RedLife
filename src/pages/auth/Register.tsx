@@ -45,7 +45,7 @@ const RegisterPage: React.FunctionComponent<IPageProps> = (props) => {
             .then((result: any) => {
                 logging.info(result);
                 console.log(result);
-                navigate('login')
+                navigate('/login')
             })
             .catch((error: { code: string | string[] }) => {
                 if (error.code.includes('auth/weak-password')) {
