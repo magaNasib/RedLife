@@ -11,7 +11,7 @@ export const SearchBox = () => {
             <InputLeftElement >
                 <SearchIcon />
             </InputLeftElement>
-            <Input />
+            <Input value={value} onChange={(e)=>setValue(e.target.value)}/>
         </InputGroup>
     )
 
