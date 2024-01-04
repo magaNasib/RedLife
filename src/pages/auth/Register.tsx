@@ -39,7 +39,7 @@ const Register: React.FC<IProps> = () => {
         navigate('/')
     }
     const handleSubmit = methods.handleSubmit(async (data: IRegister) => {
-        const {email, password } = data
+        const {fullname, email, password } = data
         try {   
             const {user} = await createUserWithEmailAndPassword(auth,email,password);
             console.log(user);
