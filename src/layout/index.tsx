@@ -17,7 +17,7 @@ export const Layout: React.FC = () => {
                     <Outlet />
                 </Main>
             </Container>
-            <Box p='2' maxW='20%'>
+            <Box p='2' maxW='20%' borderLeft={'1px'} borderColor={'gray.200'} >
                 <SearchBox/>
                 <Hashtags/>
             </Box>
