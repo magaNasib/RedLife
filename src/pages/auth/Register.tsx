@@ -10,6 +10,7 @@ import { Controller, FormProvider, useForm } from "react-hook-form"
 import { createUserWithEmailAndPassword } from "@firebase/auth"
 import { auth, db } from "../../firebase"
 import { doc, setDoc } from "@firebase/firestore"
+import { useState } from "react"
 
 interface IProps {
 }
@@ -19,9 +20,9 @@ interface IRegister {
     password: string
     repassword: string
 }
-
 const Register: React.FC<IProps> = () => {
 
+    const [error,setError] = useState('')
     const methods = useForm<IRegister>({
         defaultValues: {
             fullname: '',
@@ -38,16 +39,21 @@ const Register: React.FC<IProps> = () => {
         navigate('/')
     }
     const handleSubmit = methods.handleSubmit(async (data: IRegister) => {
-        const { fullname, email, password } = data
+        const {email, password } = data
         try {   
             const {user} = await createUserWithEmailAndPassword(auth,email,password);
             console.log(user);
             
             await setDoc(doc(db,'users',user.uid),{email})      
             
-        } catch (error) {
-            console.log(error);
-            
+        } catch (error:any) {
+                if (error?.code?.includes('auth/weak-password')) {
+                    setError('Please enter a stronger password.');
+                } else if (error.code.includes('auth/email-already-in-use')) {
+                    setError('Email already in use.');
+                } else {
+                    setError('Unable to register. Please try again later.');
+                }
         }
     })
     return (
@@ -145,6 +151,7 @@ const Register: React.FC<IProps> = () => {
                                     </Stack>
                                     <Stack spacing="6">
                                         <Button type="submit" onClick={handleSubmit}>Sign up</Button>
+                                        <Text fontSize='14' color='red'>{error}</Text>
                                         <HStack>
                                             <Divider />
                                             <Text textStyle="sm" whiteSpace="nowrap" color="fg.muted">

@@ -21,6 +21,7 @@ import { PasswordField } from "./components/PasswordField"
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { auth } from "../../firebase"
 import { signInWithEmailAndPassword } from "@firebase/auth"
+import { useState } from "react"
 
 interface IProps {
 }
@@ -30,8 +31,10 @@ interface ILogin {
     password: string
 }
 const Login: React.FC<IProps> = () => {
+    const [error, setError] = useState('')
+
     const navigate = useNavigate()
-    const onClickClose = () => {
+     const onClickClose = () => {
         navigate('/')
     }
     const methods = useForm<ILogin>({
@@ -46,13 +49,19 @@ const Login: React.FC<IProps> = () => {
         const { email, password } = data
 
         try {
-
             const { user } = await signInWithEmailAndPassword(auth, email, password)
             user && user.email && navigate('/')
             console.log(user);
-        } catch (error) {
+        } catch (error: any) {
             console.log(error);
-
+            
+            if (error?.code?.includes('auth/invalid-credential')) {
+                setError('Your email or password is not correct.');
+            } else if (error.code.includes('auth/invalid-email')) {
+                setError('Email is not valid');
+            } else {
+                setError('Unable to login. Please try again later.');
+            }
         }
 
     })
@@ -121,12 +130,13 @@ const Login: React.FC<IProps> = () => {
                                     </Stack>
                                     <HStack justify="space-between">
                                         <Checkbox defaultChecked>Remember me</Checkbox>
-                                        <Button variant="text" size="sm">
+                                        <Button variant="text" size="sm" onClick={()=>navigate('/forgotpassword')}> 
                                             Forgot password?
                                         </Button>
                                     </HStack>
                                     <Stack spacing="6">
                                         <Button type="submit" onClick={handleSubmit}>Sign in</Button>
+                                        <Text fontSize='14' color='red'>{error}</Text>
                                         <HStack>
                                             <Divider />
                                             <Text textStyle="sm" whiteSpace="nowrap" color="fg.muted">
