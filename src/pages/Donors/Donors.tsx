@@ -1,6 +1,6 @@
-import { Box,FormControl, FormErrorMessage, Grid, GridItem, Heading, Select } from "@chakra-ui/react";
+import { Box, FormControl, FormErrorMessage, Grid, GridItem, Heading, Select } from "@chakra-ui/react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-
+import Bg from './../../assets/donorBg.jpg'
 interface IDonors { }
 interface IFDonars {
     bloodGroups: string,
@@ -20,8 +20,10 @@ const Donors: React.FC<IDonors> = () => {
     return (
         <>
             <FormProvider {...methods}>
-                <Box w={'100%'} 
-                bgGradient='linear(to-l, #7928CA, #FF0080)'
+                <Box w={'100%'}
+                    backgroundImage={Bg}
+
+                    // bgGradient='linear(to-l, #7928CA, #FF0080)'
                 >
                     <Grid templateColumns="repeat(3,1fr)" gap='24px' width={'60%'} margin={'200px auto'}>
                         <GridItem colSpan={3}>
