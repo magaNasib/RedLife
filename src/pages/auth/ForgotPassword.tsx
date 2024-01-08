@@ -9,7 +9,6 @@ import {
   ModalBody,
   Stack,
   Text,
-  Link,
   FormControl,
   FormLabel,
   Input,
@@ -28,7 +27,6 @@ interface IRegister {
 }
 
 const ForgotPassword: React.FC = () => {
-  const [error, setError] = useState("");
 
   const methods = useForm<IRegister>({
     defaultValues: {
@@ -47,7 +45,7 @@ const ForgotPassword: React.FC = () => {
   })
 
   return (
-    <FormProvider {...useForm<IRegister>({ defaultValues: { email: "" } })}>
+    <FormProvider {...methods}>
       <Modal
         isCentered
         closeOnOverlayClick={false}
@@ -98,7 +96,6 @@ const ForgotPassword: React.FC = () => {
                       Get a link
                     </Button>
                     <Text fontSize="14" color="red">
-                      {error}
                     </Text>
                   </Stack>
                 </Stack>
