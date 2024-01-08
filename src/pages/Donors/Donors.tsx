@@ -22,8 +22,8 @@ const Donors: React.FC<IDonors> = () => {
             <FormProvider {...methods}>
                 <Box w={'100%'}
                     backgroundImage={Bg}
-
-                    // bgGradient='linear(to-l, #7928CA, #FF0080)'
+                    backgroundRepeat='no-repeat'
+                // bgGradient='linear(to-l, #7928CA, #FF0080)'
                 >
                     <Grid templateColumns="repeat(3,1fr)" gap='24px' width={'60%'} margin={'200px auto'}>
                         <GridItem colSpan={3}>
