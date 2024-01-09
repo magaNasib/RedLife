@@ -10,6 +10,7 @@ import ProfilePage from './pages/Profile';
 import Home from './pages/Home';
 import Donors from './pages/Donors/Donors';
 import ChangePassword from './pages/auth/ChangePassword';
+import LogoutPage from './pages/auth/Logout';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route path='register' element={<Register />} />
             <Route path='donors' element={<Donors />} />
             <Route path='changepassword' element={<ChangePassword />} />
+            <Route path='logout' element={<LogoutPage />} />
           </Route>
         </Routes>
       </ChakraProvider>
