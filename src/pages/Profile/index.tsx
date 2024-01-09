@@ -1,8 +1,10 @@
 import React from 'react';
-import { ChakraProvider, GridItem, Grid, Box } from '@chakra-ui/react';
+import { ChakraProvider, GridItem, Grid, Box, Button, ButtonGroup } from '@chakra-ui/react';
 import { UserProfile, DonationHistory, DonorStatus, Banner, MedicalInfo, SocialFunctions, NotificationSettings, PersonalSettings } from './components';
+import { useNavigate } from 'react-router-dom';
 
 const ProfilePage: React.FC = () => {
+  const navigate = useNavigate()
   const userData = {
     name: 'Ali Veliyev',
     age: 25,
@@ -23,6 +25,11 @@ const ProfilePage: React.FC = () => {
 
   return (
     <Box>
+      <ButtonGroup m={'5'}>
+        
+      <Button onClick={()=>navigate('/')}>Home</Button>
+      <Button onClick={()=>navigate('/login')}>Logout</Button>
+      </ButtonGroup>
       <Banner />
       <Grid templateColumns="repeat(3, 1fr)" gap={6} p="4">
         <GridItem colSpan={1}>
