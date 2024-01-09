@@ -52,7 +52,7 @@ const ChangePassword: React.FC<IProps> = () => {
             navigate('/login')
         } catch (error: any) {
             console.log(error);
-            
+                        
             if (error?.code?.includes('auth/wrong-password')) {
                 setError('Invalid current password.');
             } else {
