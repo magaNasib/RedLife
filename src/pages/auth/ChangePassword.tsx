@@ -5,7 +5,7 @@ import { Box, Stack, Text } from "@chakra-ui/layout"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from "@chakra-ui/modal"
 import { useNavigate } from "react-router"
 import { Controller, FormProvider, useForm } from "react-hook-form"
-import { updatePassword } from "@firebase/auth"
+import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "@firebase/auth"
 import { auth } from "../../firebase"
 import { useState } from "react"
 
@@ -53,15 +53,13 @@ const ChangePassword: React.FC<IProps> = () => {
             await updatePassword(auth.currentUser!, password);
             navigate('/login')
         } catch (error: any) {
-            setChanging(false);
-            if (error?.code?.includes('auth/weak-password')) {
-                setError('Please enter a stronger password.');
-            } else if (error.code.includes('auth/email-already-in-use')) {
-                setError('Email already in use.');
+            if (error?.code?.includes('auth/wrong-password')) {
+                setError('Invalid current password.');
             } else {
-                setError('Unable to register. Please try again later.');
+                setError('Unable to change password. Please try again later.');
             }
         }
+
     })
     return (
         <FormProvider {...methods}>
