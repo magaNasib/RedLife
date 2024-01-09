@@ -14,20 +14,18 @@ interface IProps {
 interface IChange {
     oldPassword: string,
     newPassword: string,
-    password: string
+    confirmPassword:string
 }
 const ChangePassword: React.FC<IProps> = () => {
 
     const [changing, setChanging] = useState<boolean>(false);
-    const [password, setPassword] = useState<string>('');
-    const [old, setOld] = useState<string>('');
-    const [confirm, setConfirm] = useState<string>('');
     const [error, setError] = useState<string>('');
 
     const methods = useForm<IChange>({
         defaultValues: {
             oldPassword: "",
             newPassword: "",
+            confirmPassword:''
         }
     })
 
@@ -39,8 +37,8 @@ const ChangePassword: React.FC<IProps> = () => {
     }
 
     const handleSubmit = methods.handleSubmit(async (data: IChange) => {
-        const { password } = data
-        if (password !== confirm) {
+        const { newPassword,confirmPassword } = data
+        if (newPassword !== confirmPassword) {
             setError('Make sure your passwords are matching');
             return;
         }
@@ -50,9 +48,11 @@ const ChangePassword: React.FC<IProps> = () => {
         setChanging(true);
 
         try {
-            await updatePassword(auth.currentUser!, password);
+            await updatePassword(auth.currentUser!, newPassword);
             navigate('/login')
         } catch (error: any) {
+            console.log(error);
+            
             if (error?.code?.includes('auth/wrong-password')) {
                 setError('Invalid current password.');
             } else {
@@ -87,8 +87,10 @@ const ChangePassword: React.FC<IProps> = () => {
                                                 render={({ field }) => (
                                                     <>
                                                         <FormLabel htmlFor="oldPassword">Current Password</FormLabel>
-                                                        <Input {...field} onChange={event => setOld(event.target.value)}
-                                                            id="oldPassword" type="password" value={old} />
+                                                        <Input {...field}
+                                                            onChange={field.onChange}
+                                                            value={field.value}
+                                                            id="oldPassword" type="password" />
                                                     </>
                                                 )}
                                             />
@@ -106,7 +108,11 @@ const ChangePassword: React.FC<IProps> = () => {
                                                 render={({ field }) => (
                                                     <>
                                                         <FormLabel htmlFor="newPassword">New Password</FormLabel>
-                                                        <Input {...field} onChange={event => setPassword(event.target.value)} id="newPassword" type="password" value={password} />
+                                                        <Input {...field}
+                                                            onChange={field.onChange}
+                                                            value={field.value}
+                                                            id="newPassword" type="password"
+                                                        />
                                                     </>
                                                 )}
                                             />
@@ -117,19 +123,23 @@ const ChangePassword: React.FC<IProps> = () => {
                                         <FormControl isInvalid={!!methods.formState.errors.newPassword}>
                                             <Controller
                                                 control={methods.control}
-                                                name='newPassword'
+                                                name='confirmPassword'
                                                 rules={{
                                                     required: 'This field is required'
                                                 }}
                                                 render={({ field }) => (
                                                     <>
                                                         <FormLabel htmlFor="newPassword">Confirm Your New Password</FormLabel>
-                                                        <Input {...field} onChange={event => setConfirm(event.target.value)} id="newPassword" type="password" value={confirm} />
+                                                        <Input {...field}
+                                                            onChange={field.onChange}
+                                                            value={field.value}
+                                                            id="confirmPassword" type="password"
+                                                        />
                                                     </>
                                                 )}
                                             />
                                             <FormErrorMessage>
-                                                {methods.formState.errors?.newPassword?.message}
+                                                {methods.formState.errors?.confirmPassword?.message}
                                             </FormErrorMessage>
                                         </FormControl>
 
