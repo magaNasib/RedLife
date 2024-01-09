@@ -1,6 +1,6 @@
 import React from 'react';
-import { ChakraProvider, GridItem, Grid} from '@chakra-ui/react';
-import { UserProfile, DonationHistory, DonorStatus, Banner, MedicalInfo, SocialFunctions, NotificationSettings, PersonalSettings } from './components'; 
+import { ChakraProvider, GridItem, Grid, Box } from '@chakra-ui/react';
+import { UserProfile, DonationHistory, DonorStatus, Banner, MedicalInfo, SocialFunctions, NotificationSettings, PersonalSettings } from './components';
 
 const ProfilePage: React.FC = () => {
   const userData = {
@@ -22,7 +22,7 @@ const ProfilePage: React.FC = () => {
   };
 
   return (
-    <ChakraProvider>
+    <Box>
       <Banner />
       <Grid templateColumns="repeat(3, 1fr)" gap={6} p="4">
         <GridItem colSpan={1}>
@@ -39,7 +39,7 @@ const ProfilePage: React.FC = () => {
           <PersonalSettings />
         </GridItem>
       </Grid>
-    </ChakraProvider>
+    </Box>
   );
 };
 
