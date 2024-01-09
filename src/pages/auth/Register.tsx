@@ -11,6 +11,7 @@ import { createUserWithEmailAndPassword } from "@firebase/auth"
 import { auth, db } from "../../firebase"
 import { doc, setDoc } from "@firebase/firestore"
 import { useState } from "react"
+import { updateProfile } from "firebase/auth"
 
 interface IProps {
 }
@@ -22,38 +23,40 @@ interface IRegister {
 }
 const Register: React.FC<IProps> = () => {
 
-    const [error,setError] = useState('')
+    const [error, setError] = useState('')
     const methods = useForm<IRegister>({
         defaultValues: {
             fullname: '',
             email: '',
-            password:'',
-            repassword:''
+            password: '',
+            repassword: ''
         }
     })
 
     const navigate = useNavigate()
-    
+
 
     const onClickClose = () => {
         navigate('/')
     }
+
     const handleSubmit = methods.handleSubmit(async (data: IRegister) => {
-        const {email, password } = data
-        try {   
-            const {user} = await createUserWithEmailAndPassword(auth,email,password);
-            console.log(user);
-            
-            await setDoc(doc(db,'users',user.uid),{email})      
-            
-        } catch (error:any) {
-                if (error?.code?.includes('auth/weak-password')) {
-                    setError('Please enter a stronger password.');
-                } else if (error.code.includes('auth/email-already-in-use')) {
-                    setError('Email already in use.');
-                } else {
-                    setError('Unable to register. Please try again later.');
-                }
+        const { fullname, email, password } = data
+        try {
+            const { user } = await createUserWithEmailAndPassword(auth, email, password);
+            await updateProfile(user, {
+                displayName: fullname,
+            });
+            await setDoc(doc(db, 'users', user.uid), { email })
+
+        } catch (error: any) {
+            if (error?.code?.includes('auth/weak-password')) {
+                setError('Please enter a stronger password.');
+            } else if (error.code.includes('auth/email-already-in-use')) {
+                setError('Email already in use.');
+            } else {
+                setError('Unable to register. Please try again later.');
+            }
         }
     })
     return (

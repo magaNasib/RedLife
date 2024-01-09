@@ -8,6 +8,7 @@ import Register from './pages/auth/Register';
 import ForgotPassword from './pages/auth/ForgotPassword';
 import ProfilePage from './pages/Profile';
 import Home from './pages/Home';
+import Donors from './pages/Donors/Donors';
 
 function App() {
   return (
@@ -15,11 +16,12 @@ function App() {
       <ChakraProvider>
         <Routes>
           <Route path='/' element={<Layout />}>
-          <Route index element={<Home />} />
+            <Route index element={<Home />} />
             <Route path='profile' element={<ProfilePage />} />
             <Route path='login' element={<Login />} />
             <Route path='forgotpassword' element={<ForgotPassword />} />
             <Route path='register' element={<Register />} />
+            <Route path='donors' element={<Donors />} />
           </Route>
         </Routes>
       </ChakraProvider>
