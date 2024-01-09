@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm, FormProvider, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import {
   Modal,
   ModalOverlay,
