@@ -5,7 +5,7 @@ import { Box, Stack, Text } from "@chakra-ui/layout"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from "@chakra-ui/modal"
 import { useNavigate } from "react-router"
 import { Controller, FormProvider, useForm } from "react-hook-form"
-import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "@firebase/auth"
+import { updatePassword } from "@firebase/auth"
 import { auth } from "../../firebase"
 import { useState } from "react"
 

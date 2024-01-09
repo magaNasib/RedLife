@@ -1,5 +1,4 @@
 import React from "react";
-import { useForm, FormProvider } from "react-hook-form";
 import {
     Modal,
     ModalOverlay,
@@ -18,16 +17,9 @@ import { useNavigate } from "react-router-dom";
 import { signOut } from "@firebase/auth";
 import { auth } from "../../firebase"
 
-interface ILogout {
-}
 
-const ForgotPassword: React.FC = () => {
+const Logout: React.FC = () => {
 
-    const methods = useForm<ILogout>({
-        defaultValues: {
-            email: "",
-        },
-    });
 
     const navigate = useNavigate();
     const onClickClose = () => {
@@ -41,7 +33,6 @@ const ForgotPassword: React.FC = () => {
     }
 
     return (
-        <FormProvider {...methods}>
             <Modal
                 isCentered
                 closeOnOverlayClick={false}
@@ -79,8 +70,7 @@ const ForgotPassword: React.FC = () => {
                     </ModalBody>
                 </ModalContent>
             </Modal>
-        </FormProvider>
     );
 };
 
-export default ForgotPassword;
+export default Logout;
