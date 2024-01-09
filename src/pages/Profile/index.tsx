@@ -2,7 +2,7 @@ import React from 'react';
 import { ChakraProvider, GridItem, Grid} from '@chakra-ui/react';
 import { UserProfile, DonationHistory, DonorStatus, Banner, MedicalInfo, SocialFunctions, NotificationSettings, PersonalSettings } from './components'; 
 
-const MyProfilePage: React.FC = () => {
+const ProfilePage: React.FC = () => {
   const userData = {
     name: 'Ali Veliyev',
     age: 25,
@@ -43,4 +43,4 @@ const MyProfilePage: React.FC = () => {
   );
 };
 
-export default MyProfilePage;
+export default ProfilePage;

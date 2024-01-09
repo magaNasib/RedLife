@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from './layout';
 import Login from './pages/auth/Login';
 // import Home from './pages/Home';
-import MyProfilePage from './pages/myProfile';
+import ProfilePage from './pages/Profile';
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Layout />}>
           {/* <Route index element={<Home/>}/> */}
-          <Route index element={<MyProfilePage/>}/>
+          <Route index element={<ProfilePage/>}/>
           <Route path='login' element={<Login />} />
         </Route>
       </Routes>
