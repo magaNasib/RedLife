@@ -11,6 +11,7 @@ import Home from './pages/Home';
 import Donors from './pages/Donors/Donors';
 import ChangePassword from './pages/auth/ChangePassword';
 import LogoutPage from './pages/auth/Logout';
+import AuthRoute from './pages/auth/components/AuthRoute';
 
 function App() {
   return (
@@ -18,14 +19,14 @@ function App() {
       <ChakraProvider>
         <Routes>
           <Route path='/' element={<Layout />}>
-            <Route index element={<Home />} />
+            <Route index element={<AuthRoute><Home /></AuthRoute>} />
             <Route path='profile' element={<ProfilePage />} />
             <Route path='login' element={<Login />} />
             <Route path='forgotpassword' element={<ForgotPassword />} />
             <Route path='register' element={<Register />} />
             <Route path='donors' element={<Donors />} />
-            <Route path='changepassword' element={<ChangePassword />} />
-            <Route path='logout' element={<LogoutPage />} />
+            <Route path='changepassword' element={<AuthRoute><ChangePassword /></AuthRoute>} />
+            <Route path='logout' element={<AuthRoute><LogoutPage /></AuthRoute>} />
           </Route>
         </Routes>
       </ChakraProvider>
