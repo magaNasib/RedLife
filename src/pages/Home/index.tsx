@@ -1,7 +1,9 @@
+import AddPost from "../../components/AddPost/AddPost"
+
 const Home = () => {
     return (
         <>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi pariatur distinctio tempore voluptates, provident esse numquam, maxime dolorum, deleniti alias repudiandae porro architecto atque. Porro voluptatum repellat rem! Quasi, eum?
+        <AddPost/>
         </>
     )
 }
