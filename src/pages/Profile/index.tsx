@@ -29,6 +29,7 @@ const ProfilePage: React.FC = () => {
         
       <Button onClick={()=>navigate('/')}>Home</Button>
       <Button onClick={()=>navigate('/logout')}>Logout</Button>
+      <Button onClick={()=>navigate('/profile/addpost')}>AddPost</Button>
       </ButtonGroup>
       <Banner />
       <Grid templateColumns="repeat(3, 1fr)" gap={6} p="4">

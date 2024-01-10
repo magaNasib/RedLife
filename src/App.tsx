@@ -12,6 +12,7 @@ import Donors from './pages/Donors/Donors';
 import ChangePassword from './pages/auth/ChangePassword';
 import LogoutPage from './pages/auth/Logout';
 import AuthRoute from './pages/auth/components/AuthRoute';
+import AddPost from './pages/AddPost';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route index element={<Home />} />
             <Route element={<AuthRoute />}>
               <Route path='profile' element={<ProfilePage />} />
+              <Route path='profile/addpost' element={<AddPost />} />
               <Route path='changepassword' element={<ChangePassword />} />
               <Route path='logout' element={<LogoutPage />} />
             </Route>
