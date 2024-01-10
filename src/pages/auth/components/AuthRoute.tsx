@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 
 export interface IAuthRouteProps { children?: ReactNode | undefined; }
@@ -20,17 +20,18 @@ const AuthRoute: React.FunctionComponent<IAuthRouteProps> = props => {
         });
 
         return () => AuthCheck();
-    }, [auth,navigate]);
+    }, [auth, navigate]);
 
-    if (!auth.currentUser)
-    {
+    if (!auth.currentUser) {
         return <Navigate to="/login" />;
     }
 
     if (loading) return <p>loading ...</p>;
 
     return (
-        <div>{children}</div>
+        <>
+            <Outlet />
+        </>
     );
 }
 

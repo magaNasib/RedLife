@@ -19,14 +19,16 @@ function App() {
       <ChakraProvider>
         <Routes>
           <Route path='/' element={<Layout />}>
-            <Route index element={<AuthRoute><Home /></AuthRoute>} />
-            <Route path='profile' element={<ProfilePage />} />
+            <Route index element={<Home />} />
+            <Route element={<AuthRoute />}>
+              <Route path='profile' element={<ProfilePage />} />
+              <Route path='changepassword' element={<ChangePassword />} />
+              <Route path='logout' element={<LogoutPage />} />
+            </Route>
             <Route path='login' element={<Login />} />
             <Route path='forgotpassword' element={<ForgotPassword />} />
             <Route path='register' element={<Register />} />
             <Route path='donors' element={<Donors />} />
-            <Route path='changepassword' element={<AuthRoute><ChangePassword /></AuthRoute>} />
-            <Route path='logout' element={<AuthRoute><LogoutPage /></AuthRoute>} />
           </Route>
         </Routes>
       </ChakraProvider>
