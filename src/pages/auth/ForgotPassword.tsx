@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm, FormProvider, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import {
   Modal,
   ModalOverlay,
@@ -13,22 +13,21 @@ import {
   FormLabel,
   Input,
   FormErrorMessage,
-  Checkbox,
   Button,
-  HStack,
-  Divider,
   Box,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { OAuthButtonGroup } from "./components/OAuthButtonGroup";
+import { sendPasswordResetEmail } from "@firebase/auth";
+import { auth} from "../../firebase"
 
-interface IRegister {
+interface IForgot {
   email: string;
 }
 
 const ForgotPassword: React.FC = () => {
+  const [error, setError] = useState('')
 
-  const methods = useForm<IRegister>({
+  const methods = useForm<IForgot>({
     defaultValues: {
       email: "",
     },
@@ -39,8 +38,27 @@ const ForgotPassword: React.FC = () => {
     navigate("/");
   };
 
-  const handleSubmit = methods.handleSubmit((data) => {
+  const handleSubmit = methods.handleSubmit(async (data: IForgot) => {
+    const { email } = data
     console.log(data);
+    try {
+      await sendPasswordResetEmail(auth, email);
+    
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000); 
+
+      alert('Email sent successfully. Redirecting to login page.');
+
+    } catch (error: any) {
+      if (error?.code?.includes('auth/invalid-email')) {
+        setError('Invalid email address.');
+      } else if (error?.code?.includes('auth/user-not-found')) {
+        setError('User not found. Please check your email address.');
+      } else {
+        setError('Unable to reset password. Please try again later.');
+      }
+    }
 
   })
 
@@ -67,7 +85,7 @@ const ForgotPassword: React.FC = () => {
             <Stack spacing="8">
               <Stack spacing="6">
                 <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
-                 
+
                   <FormControl isInvalid={!!methods.formState.errors.email}>
                     <Controller
                       control={methods.control}
@@ -95,7 +113,7 @@ const ForgotPassword: React.FC = () => {
                     <Button type="submit" onClick={handleSubmit}>
                       Get a link
                     </Button>
-                    <Text fontSize="14" color="red">
+                    <Text fontSize="14" color="red">{error}
                     </Text>
                   </Stack>
                 </Stack>

@@ -20,11 +20,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.49.2",
-    "react-icons": "^4.12.0",
+    "react-icons": "^5.0.0",
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
-    "typescript": "^4.9.5",
-    "web-vitals": "^2.1.4"
+    "typescript": "^4.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
