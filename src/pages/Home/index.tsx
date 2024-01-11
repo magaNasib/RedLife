@@ -1,10 +1,8 @@
-import AddPost from "../../components/AddPost/AddPost"
+import React from "react";
+import HomeFeature from "../../features/HomeFeature";
 
-const Home = () => {
-    return (
-        <>
-        <AddPost/>
-        </>
-    )
+function Home() {
+  return <HomeFeature />;
 }
-export default Home
+
+export default Home;
