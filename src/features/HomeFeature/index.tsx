@@ -7,6 +7,9 @@ function HomeFeature() {
     <>
       <AddPost />
       <CardPost />
+      <CardPost />
+      <CardPost />
+      <CardPost />
     </>
   );
 }

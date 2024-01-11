@@ -28,7 +28,7 @@ const Logout: React.FC = () => {
 
     const Logout = () => {
         signOut(auth)
-            .then(() => navigate('/login'))
+            .then(() => navigate('/'))
             .catch(error => alert('Logout failed'));
     }
 

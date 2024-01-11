@@ -3,6 +3,7 @@ import { PhoneIcon } from "@chakra-ui/icons";
 import { Container, Stack, Flex, HStack, Box } from "@chakra-ui/layout";
 import {
   Button,
+  Card,
   Input,
   InputGroup,
   InputLeftElement,
@@ -16,7 +17,7 @@ const AddPost = () => {
   const [show, setShow] = useState(false);
 
   return (
-    <Container p={"2"}>
+    <Box my={'2'} maxW={'xl'} mx={'auto'}>
       <Flex
         justifyContent="space-between"
         bg={"white"}
@@ -88,7 +89,7 @@ const AddPost = () => {
           </Stack>
         </Stack>
       </Flex>
-    </Container>
+    </Box>
   );
 };
 

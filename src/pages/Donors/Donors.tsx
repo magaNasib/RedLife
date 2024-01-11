@@ -22,10 +22,10 @@ const Donors: React.FC<IDonors> = () => {
             <FormProvider {...methods}>
                 <Box w={'100%'}
                     backgroundImage={Bg}
-                    backgroundRepeat='no-repeat'
+                    backgroundRepeat='no-repeat' py={'20'}
                 // bgGradient='linear(to-l, #7928CA, #FF0080)'
                 >
-                    <Grid templateColumns="repeat(3,1fr)" gap='24px' width={'60%'} margin={'200px auto'}>
+                    <Grid templateColumns="repeat(3,1fr)" gap='24px' width={'60%'} margin={'0px auto'}>
                         <GridItem colSpan={3}>
                             <Heading color={'#ff4d4d'} as='h1' size='lg' textAlign={'center'}>
                                 Search a Donors

@@ -13,27 +13,29 @@ function Header() {
       pr="150px"
       pl="150px"
     >
-      <Text
-        fontSize="2xl"
-        fontWeight="bold"
-        letterSpacing="wide"
-        color="white"
-        textTransform="uppercase"
-        fontFamily="monospace"
-      >
+      <Link href="/">
         <Text
-          color="#790b18"
-          display="inline"
           fontSize="2xl"
           fontWeight="bold"
           letterSpacing="wide"
+          color="white"
           textTransform="uppercase"
           fontFamily="monospace"
         >
-          RED
+          <Text
+            color="#790b18"
+            display="inline"
+            fontSize="2xl"
+            fontWeight="bold"
+            letterSpacing="wide"
+            textTransform="uppercase"
+            fontFamily="monospace"
+          >
+            RED
+          </Text>
+          LIFE
         </Text>
-        LIFE
-      </Text>
+      </Link>
       <Box fontSize="md" fontWeight="800" color="white">
         <NavLink
           to="/"
@@ -51,7 +53,7 @@ function Header() {
             paddingRight: "20px",
           })}
         >
-          DONARS
+          DONORS
         </NavLink>
         <NavLink
           to="/blogs"

@@ -9,7 +9,10 @@ import ForgotPassword from "../pages/auth/ForgotPassword";
 import Register from "../pages/auth/Register";
 import Donors from "../pages/Donors/Donors";
 import Blogs from "../features/BlogsFeature";
-import BllodRequest from "../pages/BloodRequest";
+import BloodRequest from "../pages/BloodRequest";
+import AuthRoute from "../pages/auth/components/AuthRoute";
+import ChangePassword from "../pages/auth/ChangePassword";
+import Logout from "../pages/auth/Logout";
 function Router() {
   return (
     <>
@@ -17,13 +20,18 @@ function Router() {
         <Routes>
           <Route element={<PageLayout />}>
             <Route index element={<Home />} />
-            <Route path="/" element={<ProfilePage />} />
+            <Route element={<AuthRoute />}>
+              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/logout" element={<Logout />} />
+              <Route path="/profile/changepassword" element={<ChangePassword/>}/>
+              
+            </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/donors" element={<Donors />} />
             <Route path="/blogs" element={<Blogs />} />
-            <Route path="/bllodRequest" element={<BllodRequest />} />
+            <Route path="/bloodRequest" element={<BloodRequest />} />
           </Route>
         </Routes>
       </ChakraProvider>

@@ -18,7 +18,7 @@ import React from "react";
 function CardPost() {
   return (
     <>
-      <Flex justifyContent="center">
+      <Flex justifyContent="center" my='2'>
         <Card maxW="xl">
           <CardHeader>
             <Flex gap="4">
