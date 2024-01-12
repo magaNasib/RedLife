@@ -1,8 +1,27 @@
-import { Box, Container, Flex, Heading, Link, Text } from "@chakra-ui/react";
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { Avatar, Box, Container, Flex, Heading, Link, Spinner, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 function Header() {
+  const [authChecked, setAuthChecked] = useState(false);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoading(false);
+      }
+      setAuthChecked(true);
+    });
+
+    return () => unsubscribe();
+  }, [auth, navigate]);
+
+  if (!authChecked) {
+  }
   return (
     <Flex
       w="100%"
@@ -36,7 +55,7 @@ function Header() {
           LIFE
         </Text>
       </Link>
-      <Box fontSize="md" fontWeight="800" color="white">
+      <Box fontSize="md" fontWeight="800" color="white" display={'flex'} alignItems={'center'}>
         <NavLink
           to="/"
           style={({ isActive }) => ({
@@ -64,7 +83,23 @@ function Header() {
         >
           BLOGS
         </NavLink>
-        <NavLink
+        {
+          !authChecked && <Spinner size='xs' />
+        }
+        {authChecked && auth.currentUser && <NavLink
+          to="/profile"
+          style={({ isActive }) => ({
+            color: isActive ? "#790b18" : "#fff",
+            paddingRight: "15px",
+          })}
+        >
+          <Avatar
+            src="https://bit.ly/broken-link"
+            borderColor="green.500"
+            borderWidth="2px"
+          />
+        </NavLink>}
+        {authChecked && !auth.currentUser && <NavLink
           to="/login"
           style={({ isActive }) => ({
             color: isActive ? "#790b18" : "#fff",
@@ -72,7 +107,7 @@ function Header() {
           })}
         >
           LOGIN
-        </NavLink>
+        </NavLink>}
       </Box>
     </Flex>
   );

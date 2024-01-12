@@ -34,8 +34,8 @@ const Login: React.FC<IProps> = () => {
     const [error, setError] = useState('')
 
     const navigate = useNavigate()
-     const onClickClose = () => {
-        navigate('/')
+    const onClickClose = () => {
+        navigate(-1)
     }
     const methods = useForm<ILogin>({
         defaultValues: {
@@ -50,11 +50,11 @@ const Login: React.FC<IProps> = () => {
 
         try {
             const { user } = await signInWithEmailAndPassword(auth, email, password)
-            user && user.email && navigate('/profile')
+            user && user.email && navigate(-1) 
             console.log(user);
         } catch (error: any) {
             console.log(error);
-            
+
             if (error?.code?.includes('auth/invalid-credential')) {
                 setError('Your email or password is not correct.');
             } else if (error.code.includes('auth/invalid-email')) {
@@ -130,7 +130,7 @@ const Login: React.FC<IProps> = () => {
                                     </Stack>
                                     <HStack justify="space-between">
                                         <Checkbox defaultChecked>Remember me</Checkbox>
-                                        <Button variant="text" size="sm" onClick={()=>navigate('/forgotpassword')}> 
+                                        <Button variant="text" size="sm" onClick={() => navigate('/forgotpassword')}>
                                             Forgot password?
                                         </Button>
                                     </HStack>
