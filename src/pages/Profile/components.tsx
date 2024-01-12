@@ -12,26 +12,18 @@ import { AtSignIcon, EditIcon, LockIcon, StarIcon } from '@chakra-ui/icons'
 import { MyPostsCards } from './Cards/MyPostCard';
 import { SavedPostsCards } from './Cards/SavedPostCards';
 import { EditProfileModal } from './EditProfileModal';
-import { ChangePasswordModal } from './ChangePasswordModal';
+import { useNavigate } from 'react-router';
 
 
 export const Banner = () => {
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [isChangePasswordModalOpen, setIsChangePasswordModalOpen] = useState(false);
-
+  const navigate = useNavigate()
   const handleEditModalClose = () => {
     setIsEditModalOpen(false);
   };
 
-  const handleChangePasswordModalClose = () => {
-    setIsChangePasswordModalOpen(false);
-  };
-
-  const handleChangePasswordClick = () => {
-    setIsChangePasswordModalOpen(true);
-  };
-
+ 
 
   return (
     <Box
@@ -69,13 +61,15 @@ export const Banner = () => {
           <Button colorScheme="whiteAlpha" variant="outline" borderColor="white" color="white" w="180px" onClick={() => setIsEditModalOpen(true)}>
             <EditIcon />Edit
           </Button>
-          <Button colorScheme="whiteAlpha" variant="outline" borderColor="white" color="white" w="180px" onClick={handleChangePasswordClick}>
+          <Button colorScheme="whiteAlpha" variant="outline" borderColor="white" color="white" w="180px" onClick={()=>navigate('/profile/changepassword')}>
             <LockIcon />Change password
+          </Button>
+          <Button colorScheme="whiteAlpha" variant="outline" borderColor="white" color="white" w="180px" onClick={()=>navigate('/logout')}>
+           Logout
           </Button>
         </GridItem>
       </Grid>
       <EditProfileModal isOpen={isEditModalOpen} onClose={handleEditModalClose} />
-      <ChangePasswordModal isOpen={isChangePasswordModalOpen} onClose={handleChangePasswordModalClose}/>
     </Box>
   );
 };

@@ -33,7 +33,7 @@ const ChangePassword: React.FC<IProps> = () => {
 
 
     const onClickClose = () => {
-        navigate('/')
+        navigate(-1)
     }
 
     const handleSubmit = methods.handleSubmit(async (data: IChange) => {

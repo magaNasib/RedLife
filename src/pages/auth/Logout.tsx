@@ -23,7 +23,7 @@ const Logout: React.FC = () => {
 
     const navigate = useNavigate();
     const onClickClose = () => {
-        navigate("/");
+        navigate(-1);
     };
 
     const Logout = () => {
