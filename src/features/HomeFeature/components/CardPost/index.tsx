@@ -6,34 +6,39 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  CircularProgress,
+  Divider,
   Flex,
   Heading,
   IconButton,
+  SkeletonCircle,
+  SkeletonText,
   Text,
 } from "@chakra-ui/react";
-import { BiLike, BiChat, BiShare } from "react-icons/bi";
+import { BiLike, BiChat, BiBookmark } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../../../firebase";
+import { IPost } from "../AddPost";
 
 
-interface IDonors {
-  bloodGroup: string;
-  city: string;
-  description: string;
-  phone: string;
-  publish_date: string;
-  type: string;
-  uid: string;
-  id: string;
-  fullName: string
-  photoURL: string
-}
+// interface IDonors {
+//   bloodGroup: string;
+//   city: string;
+//   description: string;
+//   phone: string;
+//   publish_date: string;
+//   type: string;
+//   uid: string;
+//   id: string;
+//   fullName: string
+//   photoURL: string
+// }
 
 function CardPost() {
-  const [posts, setPosts] = useState<IDonors[]>([]);
-
+  const [posts, setPosts] = useState<IPost[]>([]);
+  const [loading, setLoading] = useState(true)
   const donorCollectionRef = collection(db, 'donors');
 
   useEffect(() => {
@@ -42,23 +47,54 @@ function CardPost() {
         const data = await getDocs(donorCollectionRef);
 
         if (data.docs.length > 0) {
-          const donorData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }) as IDonors);
+          const donorData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }) as IPost);
           setPosts(donorData);
         }
       } catch (error) {
         console.error('Error fetching posts:', error);
+      }
+      finally {
+        setLoading(false)
       }
     };
 
     getPosts();
   }, []);
 
+  if (loading) return (
+    <>
+      <Flex justifyContent="center" my='2'>
+        <Box padding='6' boxShadow='lg' bg='white' w={'xl'}>
+          <SkeletonCircle size='10' />
+          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
+        </Box>
+      </Flex>
+      <Flex justifyContent="center" my='2'>
+        <Box padding='6' boxShadow='lg' bg='white' w={'xl'}>
+          <SkeletonCircle size='10' />
+          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
+        </Box>
+      </Flex>
+    </>
+  )
+
+  if (posts.length === 0) {
+    return (
+      <>
+        <Flex justifyContent="center" my='2'>
+          <Text>
+            No posts present...
+          </Text>
+        </Flex>
+      </>
+    )
+  }
   return (
     <>
-      {posts?.map((post: IDonors) => {
-        const { phone, publish_date, type, description, city, bloodGroup, fullName, photoURL, } = post
+      {posts?.map((post: IPost) => {
+        const { id, phone, publish_date, likes, comments, type, description, city, bloodGroup, fullName, photoURL, } = post
         return (
-          <Flex justifyContent="center" my='2'>
+          <Flex justifyContent="center" my='2' key={id}>
             <Card w="xl" >
               <CardHeader>
                 <Flex gap="4">
@@ -77,9 +113,10 @@ function CardPost() {
                         <Text marginRight="2">{type}</Text>
                         <Text>{bloodGroup}</Text>
                       </Flex>
-                      <Flex>
+                      <Flex alignSelf={'end'}>
                         <Text marginRight="2">{city}</Text>
                         <Text>{phone}</Text>
+
                       </Flex>
                     </Box>
                   </Flex>
@@ -96,6 +133,8 @@ function CardPost() {
                   {description}
                 </Text>
               </CardBody>
+              <Divider color={'lightgray'} />
+
               <CardFooter
                 justify="space-between"
                 flexWrap="wrap"
@@ -105,13 +144,13 @@ function CardPost() {
                   },
                 }}
               >
-                <Button flex="1" variant="ghost" leftIcon={<BiLike />}>
-                  Like
+                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiLike />}>
+                  {likes?.length || '0'}
                 </Button>
-                <Button flex="1" variant="ghost" leftIcon={<BiChat />}>
-                  Comment
+                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiChat />}>
+                  {comments ? Object.keys(comments).length : 0}
                 </Button>
-                <Button flex="1" variant="ghost" leftIcon={<BiShare />}>
+                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiBookmark />}>
                   Save
                 </Button>
               </CardFooter>
@@ -119,6 +158,7 @@ function CardPost() {
           </Flex>
         )
       })}
+
     </>
   )
 

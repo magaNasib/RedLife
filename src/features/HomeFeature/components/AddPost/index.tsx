@@ -11,6 +11,7 @@ import {
   InputGroup,
   InputLeftElement,
   Select,
+  useToast,
 } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/textarea";
 import { addDoc, collection } from "firebase/firestore";
@@ -19,7 +20,7 @@ import { Controller, FormProvider, useForm } from "react-hook-form";
 import { auth, db } from "../../../../firebase";
 import { useNavigate } from "react-router-dom";
 
-interface IPost {
+export interface IPost {
   bloodGroup: 'B+' | 'A+' | 'AB+' | 'O+' | 'B-' | 'A-' | 'AB-' | 'O-'
   type: 'Donor' | 'Acceptor'
   city: string
@@ -27,10 +28,22 @@ interface IPost {
   description?: string
   fullName: string
   photoURL: string
+  likes: string[]
+  uid:string
+  id:string
+  publish_date:string
+  comments: {
+    uid: string
+    message: string
+    date: string
+  }
 }
 const AddPost = () => {
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate()
+
+  const toast = useToast()
   const methods = useForm<IPost>({
     defaultValues: {
       phone: ''
@@ -38,19 +51,32 @@ const AddPost = () => {
   })
   const donorCollectionRef = collection(db, 'donors')
   const handleSubmit = methods.handleSubmit(async (data: IPost) => {
+    setLoading(true)
     try {
       const sendingData = {
         ...data,
         publish_date: new Date(),
         uid: auth.currentUser?.uid,
         fullName: auth.currentUser?.displayName,
-        avatar: auth.currentUser?.photoURL
+        avatar: auth.currentUser?.photoURL,
+        likes:[],
+        comments:{}
       }
       await addDoc(donorCollectionRef, sendingData)
       setShow(false)
+      methods.reset()
+      toast({
+        title: 'Post created successfully',
+        description: "Refresh the page to see latest posts",
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      })
     } catch (error) {
       console.log(error);
-      
+    }
+    finally {
+      setLoading(false)
     }
   })
   return (
@@ -187,7 +213,7 @@ const AddPost = () => {
                     methods.reset()
                     setShow(false)
                   }}>Cancel</Button>
-                  <Button bg={"green"} color={"white"} rounded={".5rem"}
+                  <Button bg={"green"} color={"white"} rounded={".5rem"} isLoading={loading}
                     onClick={handleSubmit}>
                     Post
                   </Button>
