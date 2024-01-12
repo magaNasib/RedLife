@@ -1,29 +1,25 @@
-import { Box, Container, Flex, Heading, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Image, Text } from "@chakra-ui/react";
+import { Link } from "@chakra-ui/react";
 import React from "react";
-import { NavLink } from "react-router-dom";
+import logo from "../../assets/logo.png";
+import { GoPeople } from "react-icons/go";
+import { IoHomeOutline } from "react-icons/io5";
 
 function Header() {
   return (
-    <Flex
-      w="100%"
-      h="100px"
-      bgGradient="linear(to-l, #af4a7d, #160f0f)"
-      align="center"
-      justify="space-between"
-      pr="150px"
-      pl="150px"
-    >
+    <Flex h="65px" bgColor="#FFFFF" align="center">
+      <Image src={logo} maxH="40px" maxW="100px" ml="20px" />
       <Link href="/">
         <Text
           fontSize="2xl"
           fontWeight="bold"
           letterSpacing="wide"
-          color="white"
+          color="green"
           textTransform="uppercase"
           fontFamily="monospace"
         >
           <Text
-            color="#790b18"
+            color="#e6010b"
             display="inline"
             fontSize="2xl"
             fontWeight="bold"
@@ -36,44 +32,14 @@ function Header() {
           LIFE
         </Text>
       </Link>
-      <Box fontSize="md" fontWeight="800" color="white">
-        <NavLink
-          to="/"
-          style={({ isActive }) => ({
-            color: isActive ? "#490527" : "#fff",
-            paddingRight: "20px",
-          })}
-        >
-          HOME
-        </NavLink>
-        <NavLink
-          to="/donors"
-          style={({ isActive }) => ({
-            color: isActive ? "#790b18" : "#fff",
-            paddingRight: "20px",
-          })}
-        >
-          DONORS
-        </NavLink>
-        <NavLink
-          to="/blogs"
-          style={({ isActive }) => ({
-            color: isActive ? "#790b18" : "#fff",
-            paddingRight: "20px",
-          })}
-        >
-          BLOGS
-        </NavLink>
-        <NavLink
-          to="/login"
-          style={({ isActive }) => ({
-            color: isActive ? "#790b18" : "#fff",
-            paddingRight: "15px",
-          })}
-        >
-          LOGIN
-        </NavLink>
-      </Box>
+      <Flex justify="center">
+        <Link href="/donors">
+          <GoPeople size={30} style={{ marginRight: "10px" }} />
+        </Link>
+        <Link href="/">
+          <IoHomeOutline size={30} />
+        </Link>
+      </Flex>
     </Flex>
   );
 }

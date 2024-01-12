@@ -17,7 +17,7 @@ const AddPost = () => {
   const [show, setShow] = useState(false);
 
   return (
-    <Box my={'2'} maxW={'xl'} mx={'auto'}>
+    <Box my={'2'} maxW={'xl'} mx={'auto'} mt="0">
       <Flex
         justifyContent="space-between"
         bg={"white"}

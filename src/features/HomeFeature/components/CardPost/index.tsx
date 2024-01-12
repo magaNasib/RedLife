@@ -11,14 +11,14 @@ import {
   IconButton,
   Text,
 } from "@chakra-ui/react";
-import { BiLike, BiChat, BiShare } from "react-icons/bi";
+import { BiLike, BiChat, BiShare, BiSave } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import React from "react";
 
 function CardPost() {
   return (
     <>
-      <Flex justifyContent="center" my='2'>
+      <Flex justifyContent="center" my="2">
         <Card maxW="xl">
           <CardHeader>
             <Flex gap="4">
@@ -72,7 +72,7 @@ function CardPost() {
             <Button flex="1" variant="ghost" leftIcon={<BiChat />}>
               Comment
             </Button>
-            <Button flex="1" variant="ghost" leftIcon={<BiShare />}>
+            <Button flex="1" variant="ghost" leftIcon={<BiSave />}>
               Save
             </Button>
           </CardFooter>
