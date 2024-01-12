@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useForm, FormProvider, SubmitHandler } from "react-hook-form";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import {
   Modal,
   ModalOverlay,
@@ -9,28 +9,25 @@ import {
   ModalBody,
   Stack,
   Text,
-  Link,
   FormControl,
   FormLabel,
   Input,
   FormErrorMessage,
-  Checkbox,
   Button,
-  HStack,
-  Divider,
   Box,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { OAuthButtonGroup } from "./components/OAuthButtonGroup";
+import { sendPasswordResetEmail } from "@firebase/auth";
+import { auth} from "../../firebase"
 
-interface IRegister {
+interface IForgot {
   email: string;
 }
 
 const ForgotPassword: React.FC = () => {
-  const [error, setError] = useState("");
+  const [error, setError] = useState('')
 
-  const { handleSubmit, register, formState } = useForm<IRegister>({
+  const methods = useForm<IForgot>({
     defaultValues: {
       email: "",
     },
@@ -41,13 +38,32 @@ const ForgotPassword: React.FC = () => {
     navigate("/");
   };
 
-  const onSubmit: SubmitHandler<IRegister> = (data) => {
-    //LOGIC THAT WHEN USER SUBMITS FORM
+  const handleSubmit = methods.handleSubmit(async (data: IForgot) => {
+    const { email } = data
     console.log(data);
-  };
+    try {
+      await sendPasswordResetEmail(auth, email);
+    
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000); 
+
+      alert('Email sent successfully. Redirecting to login page.');
+
+    } catch (error: any) {
+      if (error?.code?.includes('auth/invalid-email')) {
+        setError('Invalid email address.');
+      } else if (error?.code?.includes('auth/user-not-found')) {
+        setError('User not found. Please check your email address.');
+      } else {
+        setError('Unable to reset password. Please try again later.');
+      }
+    }
+
+  })
 
   return (
-    <FormProvider {...useForm<IRegister>({ defaultValues: { email: "" } })}>
+    <FormProvider {...methods}>
       <Modal
         isCentered
         closeOnOverlayClick={false}
@@ -69,52 +85,36 @@ const ForgotPassword: React.FC = () => {
             <Stack spacing="8">
               <Stack spacing="6">
                 <Stack spacing={{ base: "2", md: "3" }} textAlign="center">
-                  <Text color="fg.muted">
-                    Don't have an account? <Link href="/register">Sign up</Link>
-                  </Text>
-                  <FormControl isInvalid={!!formState.errors.email}>
-                    <FormLabel htmlFor="email">Email</FormLabel>
-                    <Input
-                      id="email"
-                      type="email"
-                      {...register("email", {
-                        required: "Email is required",
-                        pattern: {
-                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                          message: "Invalid email address",
-                        },
-                      })}
+
+                  <FormControl isInvalid={!!methods.formState.errors.email}>
+                    <Controller
+                      control={methods.control}
+                      name='email'
+                      rules={{
+                        required: 'This field is required'
+                      }}
+                      render={({ field }) => (
+                        <>
+                          <FormLabel htmlFor="email">Email</FormLabel>
+                          <Input {...field} id="email" type="email" value={field.value} />
+                        </>
+                      )}
                     />
+
                     <FormErrorMessage>
-                      {formState.errors.email?.message}
+                      {methods.formState.errors.email?.message}
                     </FormErrorMessage>
                   </FormControl>
                 </Stack>
               </Stack>
               <Box>
                 <Stack spacing="6">
-                  <Stack spacing="5"></Stack>
-                  <HStack justify="space-between">
-                    <Checkbox defaultChecked>Remember me</Checkbox>
-                    <Button variant="text" size="sm">
-                      Reset your password
-                    </Button>
-                  </HStack>
                   <Stack spacing="6">
-                    <Button type="submit" onClick={handleSubmit(onSubmit)}>
-                      Sign in
+                    <Button type="submit" onClick={handleSubmit}>
+                      Get a link
                     </Button>
-                    <Text fontSize="14" color="red">
-                      {error}
+                    <Text fontSize="14" color="red">{error}
                     </Text>
-                    <HStack>
-                      <Divider />
-                      <Text textStyle="sm" whiteSpace="nowrap" color="fg.muted">
-                        or continue with
-                      </Text>
-                      <Divider />
-                    </HStack>
-                    <OAuthButtonGroup />
                   </Stack>
                 </Stack>
               </Box>
