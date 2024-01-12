@@ -93,6 +93,8 @@ function CardPost() {
     <>
       {posts?.map((post: IPost) => {
         const { id, phone, publish_date, likes, comments, type, description, city, bloodGroup, fullName, photoURL, } = post
+        console.log(publish_date);
+        
         return (
           <Flex justifyContent="center" my='2' key={id}>
             <Card w="xl" >
