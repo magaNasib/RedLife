@@ -6,22 +6,28 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  CircularProgress,
   Divider,
   Flex,
+  FormControl,
+  FormErrorMessage,
   Heading,
   IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
   SkeletonCircle,
   SkeletonText,
   Text,
 } from "@chakra-ui/react";
 import { BiLike, BiChat, BiBookmark } from "react-icons/bi";
+import { FaArrowUp } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../../firebase";
 import { IPost } from "../AddPost";
-
+import { Controller, useForm } from "react-hook-form";
+import { db } from "../../../../firebase";
+import CommentSection from "../Comments/CommentsSection";
 
 // interface IDonors {
 //   bloodGroup: string;
@@ -40,6 +46,8 @@ function CardPost() {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true)
   const donorCollectionRef = collection(db, 'donors');
+
+  const [showComment, setShowComment] = useState(false);
 
   useEffect(() => {
     const getPosts = async () => {
@@ -92,9 +100,9 @@ function CardPost() {
   return (
     <>
       {posts?.map((post: IPost) => {
-        const { id, phone, publish_date, likes, comments, type, description, city, bloodGroup, fullName, photoURL, } = post
+        const { id, phone, publish_date, likes, comments, type, description, city, bloodGroup, fullName, photoURL } = post
         console.log(publish_date);
-        
+
         return (
           <Flex justifyContent="center" my='2' key={id}>
             <Card w="xl" >
@@ -149,13 +157,21 @@ function CardPost() {
                 <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiLike />}>
                   {likes?.length || '0'}
                 </Button>
-                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiChat />}>
+                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiChat />} onClick={() => setShowComment(!showComment)}>
                   {comments ? Object.keys(comments).length : 0}
                 </Button>
                 <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiBookmark />}>
                   Save
                 </Button>
+
               </CardFooter>
+              {showComment && (
+                <CommentSection fullName={post.fullName} photoURL={post.photoURL} type={post.type} bloodGroup={post.bloodGroup} description={post.description} city={post.city} phone={post.phone} likes={[]} uid={""} id={post.id} publish_date={""} comments={{
+                  uid: "",
+                  message: "",
+                  date: ""
+                }} comment={""} />
+              )}
             </Card>
           </Flex>
         )

@@ -36,7 +36,8 @@ export interface IPost {
     uid: string
     message: string
     date: string
-  }
+  },
+  comment:string
 }
 const AddPost = () => {
   const [show, setShow] = useState(false);
