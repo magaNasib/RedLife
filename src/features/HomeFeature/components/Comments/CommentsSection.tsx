@@ -58,7 +58,7 @@ const CommentSection: React.FC<IPost> = ({ id, fullName, photoURL, bloodGroup, t
 
     return (
         <>
-            <CardHeader>
+            <CardHeader bg='#FAFAFA'>
                 <Flex gap="4" mb={'40px'}>
                     <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
                         <Avatar
@@ -71,7 +71,7 @@ const CommentSection: React.FC<IPost> = ({ id, fullName, photoURL, bloodGroup, t
                         <Box>
                             <Heading size="sm">{fullName}</Heading>
                             <Flex>
-                                <Text pl={'10px'}>Comment</Text>
+                                <Text>Comment</Text>
                             </Flex>
                         </Box>
                     </Flex>
