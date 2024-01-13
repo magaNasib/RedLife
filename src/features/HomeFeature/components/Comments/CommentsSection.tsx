@@ -18,6 +18,10 @@ import {
     SkeletonCircle,
     SkeletonText,
     Text,
+    Popover,
+    PopoverTrigger,
+    PopoverContent,
+    PopoverHeader,
 } from "@chakra-ui/react";
 import { BiLike, BiChat, BiBookmark } from "react-icons/bi";
 import { FaArrowUp } from "react-icons/fa";
@@ -28,6 +32,8 @@ import { IPost } from "../AddPost";
 import { Controller, useForm } from "react-hook-form";
 import { db } from "../../../../firebase";
 import { Form } from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 
 const CommentSection: React.FC<IPost> = ({ id, fullName, photoURL, bloodGroup, type, description, city, phone }) => {
     // const comment = useRef('');
@@ -75,12 +81,26 @@ const CommentSection: React.FC<IPost> = ({ id, fullName, photoURL, bloodGroup, t
                             </Flex>
                         </Box>
                     </Flex>
-                    <IconButton
-                        variant="ghost"
-                        colorScheme="gray"
-                        aria-label="See menu"
-                        icon={<BsThreeDotsVertical />}
-                    />
+                    <Popover>
+                        <PopoverTrigger>
+                            <IconButton
+                                variant="ghost"
+                                colorScheme="gray"
+                                aria-label="See menu"
+                                icon={<BsThreeDotsVertical />}
+                            />
+                        </PopoverTrigger>
+                        <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'120px'}>
+                            <PopoverHeader>
+                            <Flex alignItems={'center'}>
+                          <FaEdit /><Text ml={'10px'} fontSize={'18px'}>Edit</Text>
+                        </Flex>
+                            </PopoverHeader>
+                            <PopoverHeader><Flex alignItems={'center'}>
+                      <MdDelete /><Text ml={'10px'} fontSize={'18px'}>Delete</Text>
+                      </Flex></PopoverHeader>
+                        </PopoverContent>
+                    </Popover>
                 </Flex>
                 <InputGroup>
                     <Input type="text" placeholder="Add Comment" />
