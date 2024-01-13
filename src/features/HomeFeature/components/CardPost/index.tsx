@@ -82,7 +82,8 @@ function CardPost() {
                   borderWidth="2px"
                 />
                 <Box>
-                  <Heading size="sm">Mahmud Mahmudlu</Heading>
+                  <Heading size="sm">Mahmud Mahmud</Heading>
+
                   <Flex>
                     <Text marginRight="2">Donor ,</Text>
                     <Text>A+</Text>
