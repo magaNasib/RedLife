@@ -6,22 +6,27 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  CircularProgress,
   Divider,
   Flex,
+  FormControl,
+  FormErrorMessage,
   Heading,
   IconButton,
+  Input,
+  InputGroup,
+  InputRightElement,
   SkeletonCircle,
   SkeletonText,
   Text,
 } from "@chakra-ui/react";
-import { BiLike, BiChat, BiBookmark } from "react-icons/bi";
+import { BiLike, BiChat, BiShare, BiSave, BiBookmark } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../../../firebase";
 import { IPost } from "../AddPost";
-
+import { Controller, useForm } from "react-hook-form";
+import { db } from "../../../../firebase";
+import CommentSection from "../Comments/CommentsSection";
 
 // interface IDonors {
 //   bloodGroup: string;
@@ -40,6 +45,8 @@ function CardPost() {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true)
   const donorCollectionRef = collection(db, 'donors');
+
+  const [showComment, setShowComment] = useState(false);
 
   useEffect(() => {
     const getPosts = async () => {
@@ -63,17 +70,64 @@ function CardPost() {
 
   if (loading) return (
     <>
-      <Flex justifyContent="center" my='2'>
-        <Box padding='6' boxShadow='lg' bg='white' w={'xl'}>
-          <SkeletonCircle size='10' />
-          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-        </Box>
-      </Flex>
-      <Flex justifyContent="center" my='2'>
-        <Box padding='6' boxShadow='lg' bg='white' w={'xl'}>
-          <SkeletonCircle size='10' />
-          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-        </Box>
+      <Flex justifyContent="center" my="2">
+        <Card maxW="xl">
+          <CardHeader>
+            <Flex gap="4">
+              <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
+                <Avatar
+                  name="Mammed Mahmud"
+                  src="https://bit.ly/sage-adebayo"
+                  borderColor="green.500"
+                  borderWidth="2px"
+                />
+                <Box>
+                  <Heading size="sm">Mahmud Mahmudlu</Heading>
+                  <Flex>
+                    <Text marginRight="2">Donor ,</Text>
+                    <Text>A+</Text>
+                  </Flex>
+                  <Flex>
+                    <Text marginRight="2">Bakı ,</Text>
+                    <Text>+9940555555555</Text>
+                  </Flex>
+                </Box>
+              </Flex>
+              <IconButton
+                variant="ghost"
+                colorScheme="gray"
+                aria-label="See menu"
+                icon={<BsThreeDotsVertical />}
+              />
+            </Flex>
+          </CardHeader>
+          <CardBody>
+            <Text>
+              Salam , mən kömək məqsədi ilə qan bağışlamaq istəyirəm . Həqiqətən
+              ehtiyacı olan və bunu həkim sənədi ilə sübut edəcək insanlar əlaqə
+              saxlasın.
+            </Text>
+          </CardBody>
+          <CardFooter
+            justify="space-between"
+            flexWrap="wrap"
+            sx={{
+              "& > button": {
+                minW: "136px",
+              },
+            }}
+          >
+            <Button flex="1" variant="ghost" leftIcon={<BiLike />}>
+              Like
+            </Button>
+            <Button flex="1" variant="ghost" leftIcon={<BiChat />}>
+              Comment
+            </Button>
+            <Button flex="1" variant="ghost" leftIcon={<BiSave />}>
+              Save
+            </Button>
+          </CardFooter>
+        </Card>
       </Flex>
     </>
   )
@@ -92,9 +146,9 @@ function CardPost() {
   return (
     <>
       {posts?.map((post: IPost) => {
-        const { id, phone, publish_date, likes, comments, type, description, city, bloodGroup, fullName, photoURL, } = post
+        const { id, phone, publish_date, likes, comments, type, description, city, bloodGroup, fullName, photoURL } = post
         console.log(publish_date);
-        
+
         return (
           <Flex justifyContent="center" my='2' key={id}>
             <Card w="xl" >
@@ -149,13 +203,21 @@ function CardPost() {
                 <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiLike />}>
                   {likes?.length || '0'}
                 </Button>
-                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiChat />}>
+                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiChat />} onClick={() => setShowComment(!showComment)}>
                   {comments ? Object.keys(comments).length : 0}
                 </Button>
                 <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiBookmark />}>
                   Save
                 </Button>
+
               </CardFooter>
+              {showComment && (
+                <CommentSection fullName={post.fullName} photoURL={post.photoURL} type={post.type} bloodGroup={post.bloodGroup} description={post.description} city={post.city} phone={post.phone} likes={[]} uid={""} id={post.id} publish_date={""} comments={{
+                  uid: "",
+                  message: "",
+                  date: ""
+                }} comment={""} />
+              )}
             </Card>
           </Flex>
         )

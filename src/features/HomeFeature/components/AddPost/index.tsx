@@ -21,37 +21,38 @@ import { auth, db } from "../../../../firebase";
 import { useNavigate } from "react-router-dom";
 
 export interface IPost {
-  bloodGroup: 'B+' | 'A+' | 'AB+' | 'O+' | 'B-' | 'A-' | 'AB-' | 'O-'
-  type: 'Donor' | 'Acceptor'
-  city: string
-  phone: string
-  description?: string
-  fullName: string
-  photoURL: string
-  likes: string[]
-  uid:string
-  id:string
-  publish_date:string
+  bloodGroup: "B+" | "A+" | "AB+" | "O+" | "B-" | "A-" | "AB-" | "O-";
+  type: "Donor" | "Acceptor";
+  city: string;
+  phone: string;
+  description?: string;
+  fullName: string;
+  photoURL: string;
+  likes: string[];
+  uid: string;
+  id: string;
+  publish_date: string;
   comments: {
-    uid: string
-    message: string
-    date: string
-  }
+    uid: string;
+    message: string;
+    date: string;
+  };
+  comment: string;
 }
 const AddPost = () => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const toast = useToast()
+  const toast = useToast();
   const methods = useForm<IPost>({
     defaultValues: {
-      phone: ''
-    }
-  })
-  const donorCollectionRef = collection(db, 'donors')
+      phone: "",
+    },
+  });
+  const donorCollectionRef = collection(db, "donors");
   const handleSubmit = methods.handleSubmit(async (data: IPost) => {
-    setLoading(true)
+    setLoading(true);
     try {
       const sendingData = {
         ...data,
@@ -59,29 +60,27 @@ const AddPost = () => {
         uid: auth.currentUser?.uid,
         fullName: auth.currentUser?.displayName,
         avatar: auth.currentUser?.photoURL,
-        likes:[],
-        comments:{}
-      }
-      await addDoc(donorCollectionRef, sendingData)
-      setShow(false)
-      methods.reset()
+        likes: [],
+        comments: {},
+      };
+      await addDoc(donorCollectionRef, sendingData);
+      setShow(false);
+      methods.reset();
       toast({
-        title: 'Post created successfully',
+        title: "Post created successfully",
         description: "Refresh the page to see latest posts",
-        status: 'success',
+        status: "success",
         duration: 2000,
         isClosable: true,
-      })
+      });
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
-    finally {
-      setLoading(false)
-    }
-  })
+  });
   return (
-    <FormProvider {...methods}>
-      <Box my={'2'} maxW={'xl'} mx={'auto'}>
+      <Box my={"2"} maxW={"xl"} mx={"auto"} mt="0">
         <Flex
           justifyContent="space-between"
           bg={"white"}
@@ -100,25 +99,47 @@ const AddPost = () => {
             <Stack spacing={4} w={"100%"}>
               {show && (
                 <>
+                  <Select name="bloodGrp" placeholder="Blood Group">
+                    <option>B+</option>
+                    <option>A+</option>
+                    <option>AB+</option>
+                    <option>O+</option>
+                    <option>O-</option>
+                    <option>AB-</option>
+                    <option>B-</option>
+                    <option>A-</option>
+                  </Select>
+                  <Select name="typeOfUser" placeholder="Who are you">
+                    <option>Donor</option>
+                    <option>Acceptor</option>
+                  </Select>
 
-                  <FormControl isInvalid={!!methods.formState.errors.bloodGroup}>
+                  <FormControl
+                    isInvalid={!!methods.formState.errors.bloodGroup}
+                  >
                     <Controller
                       control={methods.control}
-                      name='bloodGroup'
+                      name="bloodGroup"
                       rules={{
-                        required: 'This field is required'
+                        required: "This field is required",
                       }}
                       render={({ field }) => (
                         <>
-                          <Select {...field} name="bloodGrp" placeholder="Blood Group" onChange={field.onChange} value={field.value}>
-                            <option value='B+'>B+</option>
-                            <option value='A+'>A+</option>
-                            <option value='AB+'>AB+</option>
-                            <option value='O+'>O+</option>
-                            <option value='O-'>O-</option>
-                            <option value='AB-'>AB-</option>
-                            <option value='B-'>B-</option>
-                            <option value='A-'>A-</option>
+                          <Select
+                            {...field}
+                            name="bloodGrp"
+                            placeholder="Blood Group"
+                            onChange={field.onChange}
+                            value={field.value}
+                          >
+                            <option value="B+">B+</option>
+                            <option value="A+">A+</option>
+                            <option value="AB+">AB+</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="AB-">AB-</option>
+                            <option value="B-">B-</option>
+                            <option value="A-">A-</option>
                           </Select>
                         </>
                       )}
@@ -131,14 +152,18 @@ const AddPost = () => {
                   <FormControl isInvalid={!!methods.formState.errors.type}>
                     <Controller
                       control={methods.control}
-                      name='type'
+                      name="type"
                       rules={{
-                        required: 'This field is required'
+                        required: "This field is required",
                       }}
                       render={({ field }) => (
-                        <Select {...field} name="typeOfUser" placeholder="Who are you">
-                          <option value='Donor'>Donor</option>
-                          <option value='Acceptor'>Acceptor</option>
+                        <Select
+                          {...field}
+                          name="typeOfUser"
+                          placeholder="Who are you"
+                        >
+                          <option value="Donor">Donor</option>
+                          <option value="Acceptor">Acceptor</option>
                         </Select>
                       )}
                     />
@@ -151,9 +176,9 @@ const AddPost = () => {
                   <FormControl isInvalid={!!methods.formState.errors.city}>
                     <Controller
                       control={methods.control}
-                      name='city'
+                      name="city"
                       rules={{
-                        required: 'This field is required'
+                        required: "This field is required",
                       }}
                       render={({ field }) => (
                         <Select {...field} placeholder="City">
@@ -171,9 +196,9 @@ const AddPost = () => {
                   <FormControl isInvalid={!!methods.formState.errors.phone}>
                     <Controller
                       control={methods.control}
-                      name='phone'
+                      name="phone"
                       rules={{
-                        required: 'This field is required'
+                        required: "This field is required",
                       }}
                       render={({ field }) => (
                         <InputGroup>
@@ -181,7 +206,14 @@ const AddPost = () => {
                             pointerEvents="none"
                             children={<PhoneIcon color="gray.300" />}
                           />
-                          <Input {...field} value={field.value} onChange={field.onChange} onBlur={field.onBlur} type="tel" placeholder="Phone number" />
+                          <Input
+                            {...field}
+                            value={field.value}
+                            onChange={field.onChange}
+                            onBlur={field.onBlur}
+                            type="tel"
+                            placeholder="Phone number"
+                          />
                         </InputGroup>
                       )}
                     />
@@ -190,11 +222,12 @@ const AddPost = () => {
                       {methods.formState.errors?.phone?.message}
                     </FormErrorMessage>
                   </FormControl>
-                  <FormControl isInvalid={!!methods.formState.errors.description}>
+                  <FormControl
+                    isInvalid={!!methods.formState.errors.description}
+                  >
                     <Controller
                       control={methods.control}
-                      name='description'
-
+                      name="description"
                       render={({ field }) => (
                         <Textarea
                           {...field}
@@ -209,12 +242,21 @@ const AddPost = () => {
                       {methods.formState.errors?.description?.message}
                     </FormErrorMessage>
                   </FormControl>
-                  <Button onClick={() => {
-                    methods.reset()
-                    setShow(false)
-                  }}>Cancel</Button>
-                  <Button bg={"green"} color={"white"} rounded={".5rem"} isLoading={loading}
-                    onClick={handleSubmit}>
+                  <Button
+                    onClick={() => {
+                      methods.reset();
+                      setShow(false);
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    bg={"green"}
+                    color={"white"}
+                    rounded={".5rem"}
+                    isLoading={loading}
+                    onClick={handleSubmit}
+                  >
                     Post
                   </Button>
                 </>
@@ -226,7 +268,7 @@ const AddPost = () => {
                   rounded={".5rem"}
                   onClick={() => {
                     auth.currentUser && setShow(true);
-                    !auth.currentUser && navigate('/login');
+                    !auth.currentUser && navigate("/login");
                   }}
                 >
                   Click here for Post
@@ -236,7 +278,6 @@ const AddPost = () => {
           </Stack>
         </Flex>
       </Box>
-    </FormProvider>
   );
 };
 

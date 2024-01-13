@@ -1,8 +1,11 @@
-import { Avatar, Box, Container, Flex, Heading, Link, Spinner, Text } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Flex, Link, Text, Image } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import logo from "../../assets/logo.png";
+import { GoPeople } from "react-icons/go";
+import { IoHomeOutline } from "react-icons/io5";
 
 function Header() {
   const [authChecked, setAuthChecked] = useState(false);
@@ -23,26 +26,19 @@ function Header() {
   if (!authChecked) {
   }
   return (
-    <Flex
-      w="100%"
-      h="100px"
-      bgGradient="linear(to-l, #af4a7d, #160f0f)"
-      align="center"
-      justify="space-between"
-      pr="150px"
-      pl="150px"
-    >
+    <Flex h="65px" bgColor="#FFFFF" align="center">
+      <Image src={logo} maxH="40px" maxW="100px" ml="20px" />
       <Link href="/">
         <Text
           fontSize="2xl"
           fontWeight="bold"
           letterSpacing="wide"
-          color="white"
+          color="green"
           textTransform="uppercase"
           fontFamily="monospace"
         >
           <Text
-            color="#790b18"
+            color="#e6010b"
             display="inline"
             fontSize="2xl"
             fontWeight="bold"
@@ -55,60 +51,14 @@ function Header() {
           LIFE
         </Text>
       </Link>
-      <Box fontSize="md" fontWeight="800" color="white" display={'flex'} alignItems={'center'}>
-        <NavLink
-          to="/"
-          style={({ isActive }) => ({
-            color: isActive ? "#490527" : "#fff",
-            paddingRight: "20px",
-          })}
-        >
-          HOME
-        </NavLink>
-        <NavLink
-          to="/donors"
-          style={({ isActive }) => ({
-            color: isActive ? "#790b18" : "#fff",
-            paddingRight: "20px",
-          })}
-        >
-          DONORS
-        </NavLink>
-        <NavLink
-          to="/blogs"
-          style={({ isActive }) => ({
-            color: isActive ? "#790b18" : "#fff",
-            paddingRight: "20px",
-          })}
-        >
-          BLOGS
-        </NavLink>
-        {
-          !authChecked && <Spinner size='xs' />
-        }
-        {authChecked && auth.currentUser && <NavLink
-          to="/profile"
-          style={({ isActive }) => ({
-            color: isActive ? "#790b18" : "#fff",
-            paddingRight: "15px",
-          })}
-        >
-          <Avatar
-            src="https://bit.ly/broken-link"
-            borderColor="green.500"
-            borderWidth="2px"
-          />
-        </NavLink>}
-        {authChecked && !auth.currentUser && <NavLink
-          to="/login"
-          style={({ isActive }) => ({
-            color: isActive ? "#790b18" : "#fff",
-            paddingRight: "15px",
-          })}
-        >
-          LOGIN
-        </NavLink>}
-      </Box>
+      <Flex justify="center">
+        <Link href="/donors">
+          <GoPeople size={30} style={{ marginRight: "10px" }} />
+        </Link>
+        <Link href="/">
+          <IoHomeOutline size={30} />
+        </Link>
+      </Flex>
     </Flex>
   );
 }
