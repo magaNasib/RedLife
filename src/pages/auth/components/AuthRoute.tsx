@@ -9,8 +9,8 @@ const AuthRoute: React.FunctionComponent<IAuthRouteProps> = props => {
     const { children } = props;
     const auth = getAuth();
     const [loading, setLoading] = useState(true);
-    const [authChecked, setAuthChecked] = useState(false);
     const navigate = useNavigate();
+    const [authChecked, setAuthChecked] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {

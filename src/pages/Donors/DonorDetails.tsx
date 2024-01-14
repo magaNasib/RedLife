@@ -1,72 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-
-interface Donor {
-  id: number;
-  imageUrl: string;
-  heading: string;
-  description: string;
-  quantityOfBlood: number;
-}
-
-const donors = [
-  {
-    id: 1,
-    imageUrl:
-      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-    heading: "Heading1",
-    description: "Some text1 .....",
-    quantityOfBlood: 3,
-  },
-  {
-    id: 2,
-    imageUrl:
-      "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-    heading: "Heading2",
-    description: "Some text2 .....",
-    quantityOfBlood: 5,
-  },
-];
+import { Container, VStack, Heading, Text, Image } from "@chakra-ui/react";
 
 const DonorDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [donor, setDonor] = useState<Donor | null>(null);
 
-  useEffect(() => {
-    const fetchDonorDetails = async () => {
-      try {
-        const response = await fetch(
-          `https://mocki.io/v1/c53fd2b2-fae4-4552-9ea2-8fe1b112b483/${id}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch donor details");
-        }
-
-        const donorDetails: Donor = await response.json();
-        setDonor(donorDetails);
-      } catch (error) {
-        console.error("Error fetching donor details:", error);
-      }
-    };
-
-    fetchDonorDetails();
-  }, [id]);
+  const donor = {
+    id: 1,
+    imageUrl:
+      "https://media.istockphoto.com/id/1352107081/photo/world-blood-donor-day-blood-donation-blood-donor-with-bandage-after-giving-blood.jpg?s=612x612&w=0&k=20&c=X0yE4G5ZOx11VEoZgVo4FFGdepWF-qekKqBdzKJoP8c=",
+    heading: "Heading 1",
+    description:
+      "Donor 1 description Donor 1 description Donor 1 description Donor 1 description Donor 1 description Donor 1 description",
+    createdAt: "Dec 29, 2023",
+    quantityOfBlood: 2,
+  };
 
   return (
-    <div>
-      {donor ? (
-        <>
-          <h2>Donor Details for ID: {id}</h2>
-          <img src={donor.imageUrl} alt="Donor Avatar" />
-          <h3>{donor.heading}</h3>
-          <p>{donor.description}</p>
-          <p>Quantity of Blood: {donor.quantityOfBlood}</p>
-        </>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
+    <VStack spacing={8} align="stretch">
+      <Container
+        mt={10}
+        maxW="container.sm"
+        color="white"
+        padding={8}
+        borderRadius="md"
+      >
+        <Heading as="h2" size="lg" color={"black"} mb={3}>
+          Donor Details for ID: {donor.id}
+        </Heading>
+        <Text color={"black"} mb={3} fontSize={22} textColor={"#6B6B6B"}>
+          {donor.description}
+        </Text>
+        <Image
+          src={donor.imageUrl}
+          alt="Donor Avatar"
+          borderRadius="sm"
+          height={400}
+          width={"100%"}
+        />
+        {/* <Heading as="h3" size="md" mt={4} color={"black"}>
+          {donor.heading}
+        </Heading> */}
+        <Text
+          color="black"
+          fontSize="xl"
+          mt={3}
+          display={"flex"}
+          justifyContent={"space-between"}
+        >
+          Quantity of Blood: {donor.quantityOfBlood}
+          <Text fontSize={16} textColor={"#6B6B6B"}>
+            {donor.createdAt}
+          </Text>
+        </Text>
+      </Container>
+    </VStack>
   );
 };
 

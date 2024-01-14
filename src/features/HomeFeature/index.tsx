@@ -1,15 +1,23 @@
-import { Container } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import React from "react";
 import AddPost from "./components/AddPost";
 import CardPost from "./components/CardPost";
+import Blogs from "../../pages/Blogs";
+import Navbar from "../../components/Navbar";
 function HomeFeature() {
   return (
     <>
-      <AddPost />
-      <CardPost />
-      <CardPost />
-      <CardPost />
-      <CardPost />
+      <Navbar />
+      <Flex justify="space-between" bgColor="#F1F2F5">
+        <Flex w="100%" direction="column" align="center" mt="75px" ml="220px">
+          <AddPost />
+          <CardPost />
+          <CardPost />
+          <CardPost />
+          <CardPost />
+        </Flex>
+        <Blogs />
+      </Flex>
     </>
   );
 }

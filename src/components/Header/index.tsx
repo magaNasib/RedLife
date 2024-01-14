@@ -1,79 +1,72 @@
-import { Box, Container, Flex, Heading, Link, Text } from "@chakra-ui/react";
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { Flex, Link, Text, Image } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
+import { onAuthStateChanged } from "firebase/auth";
+import logo from "../../assets/logo.png";
+import { GoPeople } from "react-icons/go";
+import { IoHomeOutline } from "react-icons/io5";
 
 function Header() {
+  const [authChecked, setAuthChecked] = useState(false);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoading(false);
+      }
+      setAuthChecked(true);
+    });
+
+    return () => unsubscribe();
+  }, [auth, navigate]);
+
+  if (!authChecked) {
+  }
   return (
-    <Flex
-      w="100%"
-      h="100px"
-      bgGradient="linear(to-l, #af4a7d, #160f0f)"
-      align="center"
-      justify="space-between"
-      pr="150px"
-      pl="150px"
-    >
+    <Flex h="65px" position="fixed" zIndex="10" w="100%" bgColor="#fff" p="0 20px" justify="space-between" align="center">
       <Link href="/">
-        <Text
-          fontSize="2xl"
-          fontWeight="bold"
-          letterSpacing="wide"
-          color="white"
-          textTransform="uppercase"
-          fontFamily="monospace"
-        >
+        <Flex align="center">
+          <Image src={logo} maxH="25px" maxW="100px" ml="20px" />
           <Text
-            color="#790b18"
-            display="inline"
             fontSize="2xl"
             fontWeight="bold"
             letterSpacing="wide"
+            color="green"
             textTransform="uppercase"
             fontFamily="monospace"
           >
-            RED
+            <Text
+              color="#e6010b"
+              display="inline"
+              fontSize="2xl"
+              fontWeight="bold"
+              letterSpacing="wide"
+              textTransform="uppercase"
+              fontFamily="monospace"
+            >
+              RED
+            </Text>
+            LIFE
           </Text>
-          LIFE
-        </Text>
+        </Flex>
+
       </Link>
-      <Box fontSize="md" fontWeight="800" color="white">
-        <NavLink
-          to="/"
-          style={({ isActive }) => ({
-            color: isActive ? "#490527" : "#fff",
-            paddingRight: "20px",
-          })}
-        >
-          HOME
+      <Flex justify="center">
+        <NavLink to="/donors" style={({ isActive }) => ({
+          color: isActive ? "#e6010b" : "#000",
+        })}>
+          <GoPeople size={25} style={{ marginRight: "20px" }} />
         </NavLink>
-        <NavLink
-          to="/donors"
-          style={({ isActive }) => ({
-            color: isActive ? "#790b18" : "#fff",
-            paddingRight: "20px",
-          })}
-        >
-          DONORS
+        <NavLink to="/" style={({ isActive }) => ({
+          color: isActive ? "#e6010b" : "#000",
+        })}>
+          <IoHomeOutline size={25} />
         </NavLink>
-        <NavLink
-          to="/blogs"
-          style={({ isActive }) => ({
-            color: isActive ? "#790b18" : "#fff",
-            paddingRight: "20px",
-          })}
-        >
-          BLOGS
-        </NavLink>
-        <NavLink
-          to="/login"
-          style={({ isActive }) => ({
-            color: isActive ? "#790b18" : "#fff",
-            paddingRight: "15px",
-          })}
-        >
-          LOGIN
-        </NavLink>
-      </Box>
+      </Flex>
+
     </Flex>
   );
 }
