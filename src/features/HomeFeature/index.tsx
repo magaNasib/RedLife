@@ -1,4 +1,4 @@
-import { Box, Container, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import React from "react";
 import AddPost from "./components/AddPost";
 import CardPost from "./components/CardPost";
@@ -7,15 +7,15 @@ import Navbar from "../../components/Navbar";
 function HomeFeature() {
   return (
     <>
+      <Navbar />
       <Flex justify="space-between" bgColor="#F1F2F5">
-        <Navbar/>
-        <Box  flex="1" overflowY="auto" height="100vh">
+        <Flex w="100%" direction="column" align="center" mt="75px" ml="220px">
           <AddPost />
           <CardPost />
           <CardPost />
           <CardPost />
           <CardPost />
-        </Box>
+        </Flex>
         <Blogs />
       </Flex>
     </>
