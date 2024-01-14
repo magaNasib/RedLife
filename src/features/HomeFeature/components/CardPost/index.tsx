@@ -19,8 +19,7 @@ import {
   SkeletonText,
   Text,
 } from "@chakra-ui/react";
-import { BiLike, BiChat, BiBookmark } from "react-icons/bi";
-import { FaArrowUp } from "react-icons/fa";
+import { BiLike, BiChat,  BiSave, BiBookmark } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import React, { useEffect, useState, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
@@ -71,17 +70,63 @@ function CardPost() {
 
   if (loading) return (
     <>
-      <Flex justifyContent="center" my='2'>
-        <Box padding='6' boxShadow='lg' bg='white' w={'xl'}>
-          <SkeletonCircle size='10' />
-          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-        </Box>
-      </Flex>
-      <Flex justifyContent="center" my='2'>
-        <Box padding='6' boxShadow='lg' bg='white' w={'xl'}>
-          <SkeletonCircle size='10' />
-          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-        </Box>
+      <Flex justifyContent="center" my="2">
+        <Card maxW="xl">
+          <CardHeader>
+            <Flex gap="4">
+              <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
+                <Avatar
+                  name="Mammed Mahmud"
+                  src="https://bit.ly/sage-adebayo"
+                  borderColor="green.500"
+                  borderWidth="2px"
+                />
+                <Box>
+                  <Heading size="sm">Mahmud Mahmud</Heading>
+
+                  <Flex>
+                    <Text marginRight="2">Donor ,</Text>
+                    <Text>A+</Text>
+                  </Flex>
+                  <Flex>
+                    <Text marginRight="2">Bakı ,</Text>
+                    <Text>+9940555555555</Text>
+                  </Flex>
+                </Box>
+              </Flex>
+              <IconButton
+                variant="ghost"
+                colorScheme="gray"
+                aria-label="See menu"
+                icon={<BsThreeDotsVertical />}
+              />
+            </Flex>
+          </CardHeader>
+          <CardBody>
+            <Text>
+              Salam , mən kömək məqsədi ilə qan bağışlamaq istəyirəm . Həqiqətən
+              ehtiyacı olan və bunu həkim sənədi ilə sübut edəcək insanlar əlaqə
+              saxlasın.
+            </Text>
+          </CardBody>
+          <CardFooter
+            justify="space-between"
+            flexWrap="wrap"
+            sx={{
+              "& > button": {
+                minW: "136px",
+              },
+            }}
+          >
+            <Button flex="1" variant="ghost" leftIcon={<BiLike size={20} />}>
+            </Button>
+            <Button flex="1" variant="ghost" leftIcon={<BiChat size={20} />}>
+            </Button>
+            <Button flex="1" variant="ghost" leftIcon={<BiSave size={20} />}>
+              Save
+            </Button>
+          </CardFooter>
+        </Card>
       </Flex>
     </>
   )
@@ -116,17 +161,15 @@ function CardPost() {
                       borderWidth="2px"
                       bg={'black'}
                     />
-
                     <Box>
-                      <Heading size="sm">{fullName}</Heading>
+                      <Heading size="md">{fullName}</Heading>
                       <Flex>
-                        <Text marginRight="2">{type}</Text>
-                        <Text>{bloodGroup}</Text>
+                        <Text>{type}:</Text>
+                        <Text ml="5px">{bloodGroup}</Text>
                       </Flex>
-                      <Flex alignSelf={'end'}>
-                        <Text marginRight="2">{city}</Text>
-                        <Text>{phone}</Text>
-
+                      <Flex>
+                        <Text>{city}:</Text>
+                        <Text ml="5px">{phone}</Text>
                       </Flex>
                     </Box>
                   </Flex>
@@ -143,8 +186,6 @@ function CardPost() {
                   {description}
                 </Text>
               </CardBody>
-              <Divider color={'lightgray'} />
-
               <CardFooter
                 justify="space-between"
                 flexWrap="wrap"
@@ -154,13 +195,13 @@ function CardPost() {
                   },
                 }}
               >
-                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiLike />}>
+                <Button flex="1" variant="ghost" leftIcon={<BiLike size={20} />}>
                   {likes?.length || '0'}
                 </Button>
-                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiChat />} onClick={() => setShowComment(!showComment)}>
+                <Button flex="1" variant="ghost" leftIcon={<BiChat size={20} />} onClick={() => setShowComment(!showComment)}>
                   {comments ? Object.keys(comments).length : 0}
                 </Button>
-                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiBookmark />}>
+                <Button flex="1" variant="ghost" leftIcon={<BiBookmark size={20} />}>
                   Save
                 </Button>
 
