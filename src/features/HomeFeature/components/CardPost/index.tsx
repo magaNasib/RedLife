@@ -6,7 +6,6 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
-  Divider,
   Flex,
   Heading,
   IconButton,
@@ -18,7 +17,7 @@ import {
   PopoverContent,
   PopoverHeader,
 } from "@chakra-ui/react";
-import { BiLike, BiChat,  BiSave, BiBookmark } from "react-icons/bi";
+import { BiLike, BiChat, BiSave, BiBookmark } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
@@ -42,7 +41,7 @@ import CardPostItem from "./CardPostItem";
 //   photoURL: string
 // }
 
-function CardPost() {
+function CardPost({ filteredPosts }: { filteredPosts?: IPost[] }) {
   const [posts, setPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true)
   const donorCollectionRef = collection(db, 'donors');
@@ -96,18 +95,16 @@ function CardPost() {
       </>
     )
   }
-  return (
-    <>
-      {posts?.map((post: IPost) => {
-        return (
-        
-          <CardPostItem {...post}/>
+return (
+  <>
+    {filteredPosts && filteredPosts.length > 0
+      ? filteredPosts.map((post: IPost) => (
+          <CardPostItem key={post.id} {...post} />
+        ))
+      : posts.map((post: IPost) => <CardPostItem key={post.id} {...post} />)}
+  </>
+);
 
-        )
-      })}
-
-    </>
-  )
 
 }
 

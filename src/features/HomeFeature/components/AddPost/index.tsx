@@ -208,9 +208,7 @@ const AddPost = () => {
                     {methods.formState.errors?.phone?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl
-                  isInvalid={!!methods.formState.errors.description}
-                >
+                <FormControl isInvalid={!!methods.formState.errors.description}>
                   <Controller
                     control={methods.control}
                     name="description"
@@ -249,9 +247,10 @@ const AddPost = () => {
             )}
             {!show && (
               <Button
-                bg={"#007FFF"}
+                bg={"#38454C"}
                 color={"white"}
                 rounded={".5rem"}
+                _hover={{ bg: "#D94B3C" }}
                 onClick={() => {
                   auth.currentUser && setShow(true);
                   !auth.currentUser && navigate("/login");
