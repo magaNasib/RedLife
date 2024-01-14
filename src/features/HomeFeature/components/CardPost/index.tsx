@@ -19,7 +19,7 @@ import {
   SkeletonText,
   Text,
 } from "@chakra-ui/react";
-import { BiLike, BiChat, BiShare, BiSave, BiBookmark } from "react-icons/bi";
+import { BiLike, BiChat,  BiSave, BiBookmark } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import React, { useEffect, useState, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
