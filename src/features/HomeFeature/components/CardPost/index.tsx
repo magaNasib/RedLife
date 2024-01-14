@@ -118,13 +118,11 @@ function CardPost() {
               },
             }}
           >
-            <Button flex="1" variant="ghost" leftIcon={<BiLike />}>
-              Like
+            <Button flex="1" variant="ghost" leftIcon={<BiLike size={20} />}>
             </Button>
-            <Button flex="1" variant="ghost" leftIcon={<BiChat />}>
-              Comment
+            <Button flex="1" variant="ghost" leftIcon={<BiChat size={20} />}>
             </Button>
-            <Button flex="1" variant="ghost" leftIcon={<BiSave />}>
+            <Button flex="1" variant="ghost" leftIcon={<BiSave size={20} />}>
               Save
             </Button>
           </CardFooter>
@@ -163,17 +161,15 @@ function CardPost() {
                       borderWidth="2px"
                       bg={'black'}
                     />
-
                     <Box>
-                      <Heading size="sm">{fullName}</Heading>
+                      <Heading size="md">{fullName}</Heading>
                       <Flex>
-                        <Text marginRight="2">{type}</Text>
-                        <Text>{bloodGroup}</Text>
+                        <Text>{type}:</Text>
+                        <Text ml="5px">{bloodGroup}</Text>
                       </Flex>
-                      <Flex alignSelf={'end'}>
-                        <Text marginRight="2">{city}</Text>
-                        <Text>{phone}</Text>
-
+                      <Flex>
+                        <Text>{city}:</Text>
+                        <Text ml="5px">{phone}</Text>
                       </Flex>
                     </Box>
                   </Flex>
@@ -190,8 +186,6 @@ function CardPost() {
                   {description}
                 </Text>
               </CardBody>
-              <Divider color={'lightgray'} />
-
               <CardFooter
                 justify="space-between"
                 flexWrap="wrap"
@@ -201,13 +195,13 @@ function CardPost() {
                   },
                 }}
               >
-                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiLike />}>
+                <Button flex="1" variant="ghost" leftIcon={<BiLike size={20} />}>
                   {likes?.length || '0'}
                 </Button>
-                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiChat />} onClick={() => setShowComment(!showComment)}>
+                <Button flex="1" variant="ghost" leftIcon={<BiChat size={20} />} onClick={() => setShowComment(!showComment)}>
                   {comments ? Object.keys(comments).length : 0}
                 </Button>
-                <Button flex="1" size={'sm'} variant="ghost" leftIcon={<BiBookmark />}>
+                <Button flex="1" variant="ghost" leftIcon={<BiBookmark size={20} />}>
                   Save
                 </Button>
 

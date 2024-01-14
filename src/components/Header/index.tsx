@@ -1,6 +1,6 @@
 import { Flex, Link, Text, Image } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import logo from "../../assets/logo.png";
@@ -26,39 +26,47 @@ function Header() {
   if (!authChecked) {
   }
   return (
-    <Flex h="65px" bgColor="#FFFFF" align="center">
-      <Image src={logo} maxH="40px" maxW="100px" ml="20px" />
+    <Flex h="65px" position="fixed" zIndex="10" w="100%" bgColor="#fff" p="0 20px" justify="space-between" align="center">
       <Link href="/">
-        <Text
-          fontSize="2xl"
-          fontWeight="bold"
-          letterSpacing="wide"
-          color="green"
-          textTransform="uppercase"
-          fontFamily="monospace"
-        >
+        <Flex align="center">
+          <Image src={logo} maxH="25px" maxW="100px" ml="20px" />
           <Text
-            color="#e6010b"
-            display="inline"
             fontSize="2xl"
             fontWeight="bold"
             letterSpacing="wide"
+            color="green"
             textTransform="uppercase"
             fontFamily="monospace"
           >
-            RED
+            <Text
+              color="#e6010b"
+              display="inline"
+              fontSize="2xl"
+              fontWeight="bold"
+              letterSpacing="wide"
+              textTransform="uppercase"
+              fontFamily="monospace"
+            >
+              RED
+            </Text>
+            LIFE
           </Text>
-          LIFE
-        </Text>
+        </Flex>
+
       </Link>
       <Flex justify="center">
-        <Link href="/donors">
-          <GoPeople size={30} style={{ marginRight: "10px" }} />
-        </Link>
-        <Link href="/">
-          <IoHomeOutline size={30} />
-        </Link>
+        <NavLink to="/donors" style={({ isActive }) => ({
+          color: isActive ? "#e6010b" : "#000",
+        })}>
+          <GoPeople size={25} style={{ marginRight: "20px" }} />
+        </NavLink>
+        <NavLink to="/" style={({ isActive }) => ({
+          color: isActive ? "#e6010b" : "#000",
+        })}>
+          <IoHomeOutline size={25} />
+        </NavLink>
       </Flex>
+
     </Flex>
   );
 }
