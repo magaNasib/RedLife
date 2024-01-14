@@ -80,7 +80,7 @@ const AddPost = () => {
     }
   });
   return (
-    <Box w="100%" my={"2"} maxW={"xl"} mx={"auto"} mt="0">
+    <Box w="100%" my={"2"} maxW={"2xl"} mx={"auto"} mt="0">
       <Flex
         justifyContent="space-between"
         bg={"white"}
@@ -99,21 +99,7 @@ const AddPost = () => {
           <Stack spacing={4} w={"100%"}>
             {show && (
               <>
-                <Select name="bloodGrp" placeholder="Blood Group">
-                  <option>B+</option>
-                  <option>A+</option>
-                  <option>AB+</option>
-                  <option>O+</option>
-                  <option>O-</option>
-                  <option>AB-</option>
-                  <option>B-</option>
-                  <option>A-</option>
-                </Select>
-                <Select name="typeOfUser" placeholder="Who are you">
-                  <option>Donor</option>
-                  <option>Acceptor</option>
-                </Select>
-
+                
                 <FormControl
                   isInvalid={!!methods.formState.errors.bloodGroup}
                 >
@@ -222,9 +208,7 @@ const AddPost = () => {
                     {methods.formState.errors?.phone?.message}
                   </FormErrorMessage>
                 </FormControl>
-                <FormControl
-                  isInvalid={!!methods.formState.errors.description}
-                >
+                <FormControl isInvalid={!!methods.formState.errors.description}>
                   <Controller
                     control={methods.control}
                     name="description"
@@ -263,9 +247,10 @@ const AddPost = () => {
             )}
             {!show && (
               <Button
-                bg={"#007FFF"}
+                bg={"#38454C"}
                 color={"white"}
                 rounded={".5rem"}
+                _hover={{ bg: "#D94B3C" }}
                 onClick={() => {
                   auth.currentUser && setShow(true);
                   !auth.currentUser && navigate("/login");
