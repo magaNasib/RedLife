@@ -12,9 +12,6 @@ function HomeFeature() {
         <Flex w="100%" direction="column" align="center" mt="75px" ml="220px">
           <AddPost />
           <CardPost />
-          <CardPost />
-          <CardPost />
-          <CardPost />
         </Flex>
         <Blogs />
       </Flex>

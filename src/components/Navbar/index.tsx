@@ -1,8 +1,27 @@
-import { Flex } from "@chakra-ui/react";
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { Avatar, Flex, Spinner } from "@chakra-ui/react";
+import { onAuthStateChanged } from "@firebase/auth";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { auth } from "../../firebase";
 
 const Navbar = () => {
+  const [authChecked, setAuthChecked] = useState(false);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoading(false);
+      }
+      setAuthChecked(true);
+    });
+
+    return () => unsubscribe();
+  }, [auth, navigate]);
+
+  if (!authChecked) {
+  }
   return (
     <Flex w="200px" h="100vh" position="fixed" bgColor="#027FFE" pl="50px">
       <Flex
@@ -31,14 +50,31 @@ const Navbar = () => {
         >
           DONORS
         </NavLink>
-        <NavLink
+        {
+          !authChecked && <Spinner size='xs' />
+        }
+        {authChecked && auth.currentUser && <NavLink
+          to="/profile"
+          style={({ isActive }) => ({
+            color: isActive ? "#790b18" : "#fff",
+            paddingRight: "15px",
+          })}
+        >Profile
+          {/* <Avatar
+            src="https://bit.ly/broken-link"
+            borderColor="green.500"
+            borderWidth="2px"
+          /> */}
+        </NavLink>}
+        {authChecked && !auth.currentUser && <NavLink
           to="/login"
           style={({ isActive }) => ({
-            color: isActive ? "#e6010b" : "#fff",
+            color: isActive ? "#790b18" : "#fff",
+            paddingRight: "15px",
           })}
         >
           LOGIN
-        </NavLink>
+        </NavLink>}
       </Flex>
     </Flex>
   )

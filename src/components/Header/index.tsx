@@ -26,9 +26,9 @@ function Header() {
   if (!authChecked) {
   }
   return (
-    <Flex h="65px" position="fixed" zIndex="10" w="100%" bgColor="#fff" p="0 20px" justify="space-between" align="center">
+    <Flex h="65px" position="fixed" zIndex="10" w="100%" bgColor="#fff" p="0 20px" justify="center" align="center">
       <Link href="/">
-        <Flex align="center">
+        <Flex align="center" >
           <Image src={logo} maxH="25px" maxW="100px" ml="20px" />
           <Text
             fontSize="2xl"
@@ -54,7 +54,7 @@ function Header() {
         </Flex>
 
       </Link>
-      <Flex justify="center">
+      {/* <Flex justify="center">
         <NavLink to="/donors" style={({ isActive }) => ({
           color: isActive ? "#e6010b" : "#000",
         })}>
@@ -65,7 +65,7 @@ function Header() {
         })}>
           <IoHomeOutline size={25} />
         </NavLink>
-      </Flex>
+      </Flex> */}
 
     </Flex>
   );
