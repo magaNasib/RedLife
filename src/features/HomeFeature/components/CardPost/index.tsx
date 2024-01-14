@@ -8,25 +8,25 @@ import {
   CardHeader,
   Divider,
   Flex,
-  FormControl,
-  FormErrorMessage,
   Heading,
   IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
   SkeletonCircle,
   SkeletonText,
   Text,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
 } from "@chakra-ui/react";
 import { BiLike, BiChat,  BiSave, BiBookmark } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { IPost } from "../AddPost";
-import { Controller, useForm } from "react-hook-form";
 import { db } from "../../../../firebase";
 import CommentSection from "../Comments/CommentsSection";
+import { FaEdit,FaCopy } from "react-icons/fa";
+import { MdDelete,MdReport } from "react-icons/md";
 
 // interface IDonors {
 //   bloodGroup: string;
@@ -173,12 +173,32 @@ function CardPost() {
                       </Flex>
                     </Box>
                   </Flex>
-                  <IconButton
-                    variant="ghost"
-                    colorScheme="gray"
-                    aria-label="See menu"
-                    icon={<BsThreeDotsVertical />}
-                  />
+                  <Popover>
+                    <PopoverTrigger>
+                      <IconButton
+                        variant="ghost"
+                        colorScheme="gray"
+                        aria-label="See menu"
+                        icon={<BsThreeDotsVertical />}
+                      />
+                    </PopoverTrigger>
+                    <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'140px'}>
+                      <PopoverHeader>
+                        <Flex alignItems={'center'}>
+                          <FaEdit /><Text ml={'10px'} fontSize={'18px'}>Edit</Text>
+                        </Flex>
+                      </PopoverHeader>
+                      <PopoverHeader><Flex alignItems={'center'}>
+                      <MdDelete /><Text ml={'10px'} fontSize={'18px'}>Delete</Text>
+                      </Flex></PopoverHeader>
+                      <PopoverHeader><Flex alignItems={'center'}>
+                      <MdReport /><Text ml={'10px'} fontSize={'18px'}>Report</Text>
+                      </Flex></PopoverHeader>
+                      <PopoverHeader><Flex alignItems={'center'}>
+                      <FaCopy /><Text ml={'10px'} fontSize={'18px'}>Copy URL</Text>
+                      </Flex></PopoverHeader>
+                    </PopoverContent>
+                  </Popover>
                 </Flex>
               </CardHeader>
               <CardBody>
@@ -215,6 +235,8 @@ function CardPost() {
               )}
             </Card>
           </Flex>
+
+
         )
       })}
 
