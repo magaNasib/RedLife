@@ -14,11 +14,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/textarea";
-import { addDoc, collection } from "firebase/firestore";
-import { useState } from "react";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { useEffect, useReducer, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { auth, db } from "../../../../firebase";
+import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import { useNavigate } from "react-router-dom";
+import { PostsReducer, postActions, postsStates } from "../../../../context/PostReducer";
 
 export interface IPost {
   bloodGroup: "B+" | "A+" | "AB+" | "O+" | "B-" | "A-" | "AB-" | "O-";
@@ -39,7 +40,7 @@ export interface IPost {
   };
   comment: string;
 }
-const AddPost = () => {
+const AddPost = ({ setTrigger }: any) => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -48,9 +49,23 @@ const AddPost = () => {
   const methods = useForm<IPost>({
     defaultValues: {
       phone: "",
+      description: ''
     },
   });
-  const donorCollectionRef = collection(db, "donors");
+
+  const [authChecked, setAuthChecked] = useState(false);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoading(false);
+      }
+      setAuthChecked(true);
+    });
+
+    return () => unsubscribe();
+  }, [auth, navigate]);
+
+  const donorCollectionRef = doc(collection(db, "donors"));
   const handleSubmit = methods.handleSubmit(async (data: IPost) => {
     setLoading(true);
     try {
@@ -63,17 +78,21 @@ const AddPost = () => {
         likes: [],
         comments: {},
       };
-      await addDoc(donorCollectionRef, sendingData);
+      await setDoc(donorCollectionRef, sendingData);
       setShow(false);
       methods.reset();
       toast({
         title: "Post created successfully",
-        description: "Refresh the page to see latest posts",
+        // description: "Refresh the page to see latest posts",
         status: "success",
         duration: 2000,
         isClosable: true,
+        position: 'top-right'
+
       });
+      setTrigger((curr: boolean) => !curr)
     } catch (error) {
+
       console.log(error);
     } finally {
       setLoading(false);
@@ -99,7 +118,7 @@ const AddPost = () => {
           <Stack spacing={4} w={"100%"}>
             {show && (
               <>
-                
+
                 <FormControl
                   isInvalid={!!methods.formState.errors.bloodGroup}
                 >
@@ -238,7 +257,7 @@ const AddPost = () => {
                   bg={"green"}
                   color={"white"}
                   rounded={".5rem"}
-                  isLoading={loading}
+                  isLoading={loading && !authChecked}
                   onClick={handleSubmit}
                 >
                   Post
@@ -250,6 +269,7 @@ const AddPost = () => {
                 bg={"#38454C"}
                 color={"white"}
                 rounded={".5rem"}
+                isLoading={!authChecked}
                 _hover={{ bg: "#D94B3C" }}
                 onClick={() => {
                   auth.currentUser && setShow(true);

@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   Card,
@@ -7,26 +6,20 @@ import {
   CardFooter,
   CardHeader,
   Flex,
-  Heading,
-  IconButton,
   SkeletonCircle,
   SkeletonText,
   Text,
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
 } from "@chakra-ui/react";
 import { BiLike, BiChat, BiSave, BiBookmark } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
+import React, { useEffect, useReducer, useState } from "react";
+import { collection, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
 import { IPost } from "../AddPost";
 import { db } from "../../../../firebase";
-import CommentSection from "../Comments/CommentsSection";
-import { FaEdit,FaCopy } from "react-icons/fa";
-import { MdDelete,MdReport } from "react-icons/md";
 import CardPostItem from "./CardPostItem";
+import { postActions, PostsReducer, postsStates } from "../../../../context/PostReducer";
 
 // interface IDonors {
 //   bloodGroup: string;
@@ -40,51 +33,57 @@ import CardPostItem from "./CardPostItem";
 //   fullName: string
 //   photoURL: string
 // }
-
-function CardPost({ filteredPosts }: { filteredPosts?: IPost[] }) {
-  const [posts, setPosts] = useState<IPost[]>([]);
+interface IProps{
+  trigger:boolean
+} 
+function CardPost(props:IProps) {
+  
   const [loading, setLoading] = useState(true)
   const donorCollectionRef = collection(db, 'donors');
+  const { SUBMIT_POST } = postActions;
+  const [state, dispatch] = useReducer(PostsReducer, postsStates);
 
 
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const data = await getDocs(donorCollectionRef);
-
+        const data = await getDocs(query(donorCollectionRef, orderBy('publish_date', 'desc')));
+  
         if (data.docs.length > 0) {
           const donorData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }) as IPost);
-          setPosts(donorData);
+          dispatch({
+            type: SUBMIT_POST,
+            posts: donorData,
+          });
         }
       } catch (error) {
         console.error('Error fetching posts:', error);
-      }
-      finally {
-        setLoading(false)
+      } finally {
+        setLoading(false);
       }
     };
-
+  
     getPosts();
-  }, []);
+  }, [props.trigger]);
 
   if (loading) return (
     <>
-    <Flex justifyContent="center" my='2'>
-      <Box padding='6' boxShadow='lg' bg='white' w={'2xl'}>
-        <SkeletonCircle size='10' />
-        <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-      </Box>
-    </Flex>
-    <Flex justifyContent="center" my='2'>
-      <Box padding='6' boxShadow='lg' bg='white' w={'2xl'}>
-        <SkeletonCircle size='10' />
-        <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-      </Box>
-    </Flex>
-  </>
+      <Flex justifyContent="center" my='2'>
+        <Box padding='6' boxShadow='lg' bg='white' w={'2xl'}>
+          <SkeletonCircle size='10' />
+          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
+        </Box>
+      </Flex>
+      <Flex justifyContent="center" my='2'>
+        <Box padding='6' boxShadow='lg' bg='white' w={'2xl'}>
+          <SkeletonCircle size='10' />
+          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
+        </Box>
+      </Flex>
+    </>
   )
 
-  if (posts.length === 0) {
+  if (state?.posts.length === 0) {
     return (
       <>
         <Flex justifyContent="center" my='2'>
@@ -108,4 +107,5 @@ return (
 
 }
 
-export default CardPost;
+
+export default CardPost

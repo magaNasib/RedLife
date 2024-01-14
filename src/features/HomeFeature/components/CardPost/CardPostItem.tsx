@@ -41,7 +41,7 @@ import { MdDelete, MdReport } from "react-icons/md";
 //   photoURL: string
 // }
 
-function CardPostItem(props: IPost) {
+function CardPostItem(props: IPost,key:number) {
 
     const [showComment, setShowComment] = useState(false);
 
@@ -49,7 +49,7 @@ function CardPostItem(props: IPost) {
 
     return (
     
-                    <Flex justifyContent="center" my='2' key={id}>
+                    <Flex justifyContent="center" my='2' key={key}>
                         <Card w="2xl" >
                             <CardHeader>
                                 <Flex gap="4">
