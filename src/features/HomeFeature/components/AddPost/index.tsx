@@ -15,9 +15,9 @@ import {
 } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/textarea";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { useReducer, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
-import { auth, db } from "../../../../firebase";
+import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import { useNavigate } from "react-router-dom";
 import { PostsReducer, postActions, postsStates } from "../../../../context/PostReducer";
 
@@ -52,6 +52,19 @@ const AddPost = ({ setTrigger }: any) => {
       description: ''
     },
   });
+
+  const [authChecked, setAuthChecked] = useState(false);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoading(false);
+      }
+      setAuthChecked(true);
+    });
+
+    return () => unsubscribe();
+  }, [auth, navigate]);
+
   const donorCollectionRef = doc(collection(db, "donors"));
   const handleSubmit = methods.handleSubmit(async (data: IPost) => {
     setLoading(true);
@@ -246,7 +259,7 @@ const AddPost = ({ setTrigger }: any) => {
                   bg={"green"}
                   color={"white"}
                   rounded={".5rem"}
-                  isLoading={loading}
+                  isLoading={loading && !authChecked}
                   onClick={handleSubmit}
                 >
                   Post
@@ -258,6 +271,7 @@ const AddPost = ({ setTrigger }: any) => {
                 bg={"#007FFF"}
                 color={"white"}
                 rounded={".5rem"}
+                isLoading={!authChecked}
                 onClick={() => {
                   auth.currentUser && setShow(true);
                   !auth.currentUser && navigate("/login");
