@@ -1,10 +1,19 @@
 import {
   Box,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
   Flex,
   SkeletonCircle,
   SkeletonText,
   Text,
 } from "@chakra-ui/react";
+import { BiLike, BiChat, BiSave, BiBookmark } from "react-icons/bi";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import React, { useEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
 import React, { useEffect, useReducer, useState } from "react";
 import { collection, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
 import { IPost } from "../AddPost";
@@ -85,18 +94,16 @@ function CardPost(props:IProps) {
       </>
     )
   }
-  return (
-    <>
-      {state?.posts?.map((post: IPost, key: number) => {
-        return (
+return (
+  <>
+    {filteredPosts && filteredPosts.length > 0
+      ? filteredPosts.map((post: IPost) => (
+          <CardPostItem key={post.id} {...post} />
+        ))
+      : posts.map((post: IPost) => <CardPostItem key={post.id} {...post} />)}
+  </>
+);
 
-          <CardPostItem {...post} key={key} />
-
-        )
-      })}
-
-    </>
-  )
 
 }
 
