@@ -1,10 +1,17 @@
 import {
   Box,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
   Flex,
   SkeletonCircle,
   SkeletonText,
   Text,
 } from "@chakra-ui/react";
+import { BiLike, BiChat, BiSave, BiBookmark } from "react-icons/bi";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import React, { useEffect, useReducer, useState } from "react";
 import { collection, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
 import { IPost } from "../AddPost";
@@ -24,22 +31,23 @@ import { postActions, PostsReducer, postsStates } from "../../../../context/Post
 //   fullName: string
 //   photoURL: string
 // }
-interface IProps{
-  trigger:boolean
-} 
-function CardPost(props:IProps) {
-  
+interface IProps {
+  trigger?: boolean
+  filteredPosts?: IPost[]
+}
+function CardPost(props: IProps) {
+
   const [loading, setLoading] = useState(true)
   const donorCollectionRef = collection(db, 'donors');
   const { SUBMIT_POST } = postActions;
   const [state, dispatch] = useReducer(PostsReducer, postsStates);
-
+  const { filteredPosts } = props
 
   useEffect(() => {
     const getPosts = async () => {
       try {
         const data = await getDocs(query(donorCollectionRef, orderBy('publish_date', 'desc')));
-  
+
         if (data.docs.length > 0) {
           const donorData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }) as IPost);
           dispatch({
@@ -53,7 +61,7 @@ function CardPost(props:IProps) {
         setLoading(false);
       }
     };
-  
+
     getPosts();
   }, [props.trigger]);
 
@@ -87,16 +95,14 @@ function CardPost(props:IProps) {
   }
   return (
     <>
-      {state?.posts?.map((post: IPost, key: number) => {
-        return (
-
-          <CardPostItem {...post} key={key} />
-
-        )
-      })}
-
+      {filteredPosts && filteredPosts.length > 0
+        ? filteredPosts.map((post: IPost) => (
+          <CardPostItem key={post.id} {...post} />
+        ))
+        : state?.posts.map((post: IPost) => <CardPostItem key={post.id} {...post} />)}
     </>
-  )
+  );
+
 
 }
 
