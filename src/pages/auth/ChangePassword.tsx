@@ -10,6 +10,7 @@ import { auth } from "../../firebase"
 import { useState } from "react"
 import { Navigate } from "react-router-dom"
 import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth"
+import { useToast } from "@chakra-ui/toast"
 
 interface IProps {
 }
@@ -23,6 +24,7 @@ const ChangePassword: React.FC<IProps> = () => {
     const [changing, setChanging] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
 
+    const toast = useToast();
     const methods = useForm<IChange>({
         defaultValues: {
             oldPassword: "",
@@ -35,7 +37,7 @@ const ChangePassword: React.FC<IProps> = () => {
 
 
     const onClickClose = () => {
-        navigate(-1)
+        navigate('/profile')
     }
 
     const handleSubmit = methods.handleSubmit(async (data: IChange) => {
@@ -51,8 +53,15 @@ const ChangePassword: React.FC<IProps> = () => {
             await promptForCredentials(oldPassword);
             setChanging(true);
             await updatePassword(auth.currentUser!, newPassword);
-
-            navigate('/login')
+            toast({
+                title: "Password changed successfully",
+                // description: "Refresh the page to see latest posts",
+                status: "success",
+                duration: 2000,
+                isClosable: true,
+                position: 'top-right'   
+              });
+            navigate('/profile')
         } catch (error: any) {
             console.log(error);
 
