@@ -50,7 +50,7 @@ const Login: React.FC<IProps> = () => {
 
         try {
             const { user } = await signInWithEmailAndPassword(auth, email, password)
-            user && user.email && navigate(-1) 
+            user && user.email && navigate('/') 
             console.log(user);
         } catch (error: any) {
             console.log(error);

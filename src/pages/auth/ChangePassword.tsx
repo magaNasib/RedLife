@@ -8,13 +8,15 @@ import { Controller, FormProvider, useForm } from "react-hook-form"
 import { updatePassword } from "@firebase/auth"
 import { auth } from "../../firebase"
 import { useState } from "react"
+import { Navigate } from "react-router-dom"
+import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth"
 
 interface IProps {
 }
 interface IChange {
     oldPassword: string,
     newPassword: string,
-    confirmPassword:string
+    confirmPassword: string
 }
 const ChangePassword: React.FC<IProps> = () => {
 
@@ -25,7 +27,7 @@ const ChangePassword: React.FC<IProps> = () => {
         defaultValues: {
             oldPassword: "",
             newPassword: "",
-            confirmPassword:''
+            confirmPassword: ''
         }
     })
 
@@ -37,7 +39,7 @@ const ChangePassword: React.FC<IProps> = () => {
     }
 
     const handleSubmit = methods.handleSubmit(async (data: IChange) => {
-        const { newPassword,confirmPassword } = data
+        const { newPassword, confirmPassword,oldPassword } = data
         if (newPassword !== confirmPassword) {
             setError('Make sure your passwords are matching');
             return;
@@ -45,14 +47,15 @@ const ChangePassword: React.FC<IProps> = () => {
 
         if (error !== '') setError('');
 
-        setChanging(true);
-
         try {
+            await promptForCredentials(oldPassword);
+            setChanging(true);
             await updatePassword(auth.currentUser!, newPassword);
+
             navigate('/login')
         } catch (error: any) {
             console.log(error);
-                        
+
             if (error?.code?.includes('auth/wrong-password')) {
                 setError('Invalid current password.');
             } else {
@@ -61,6 +64,16 @@ const ChangePassword: React.FC<IProps> = () => {
         }
 
     })
+    const promptForCredentials = async (currentPassword: string) => {
+        const user = auth.currentUser;
+        const credentials = EmailAuthProvider.credential(user?.email!, currentPassword);
+
+        await reauthenticateWithCredential(user!, credentials);
+    };
+
+    if (auth.currentUser?.providerData[0]?.providerId !== 'password')
+        return <Navigate to="/" />;
+
     return (
         <FormProvider {...methods}>
             <Modal isCentered closeOnOverlayClick={false} isOpen={true} onClose={onClickClose}>
@@ -158,3 +171,7 @@ const ChangePassword: React.FC<IProps> = () => {
     )
 }
 export default ChangePassword;
+
+function promptForCredentials() {
+    throw new Error("Function not implemented.")
+}
