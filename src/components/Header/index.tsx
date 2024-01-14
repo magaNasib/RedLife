@@ -8,23 +8,7 @@ import { GoPeople } from "react-icons/go";
 import { IoHomeOutline } from "react-icons/io5";
 
 function Header() {
-  const [authChecked, setAuthChecked] = useState(false);
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setLoading(false);
-      }
-      setAuthChecked(true);
-    });
-
-    return () => unsubscribe();
-  }, [auth, navigate]);
-
-  if (!authChecked) {
-  }
+ 
   return (
     <Flex h="65px" position="fixed" zIndex="10" w="100%" bgColor="#fff" p="0 20px" justify="center" align="center">
       <Link href="/">
