@@ -3,7 +3,9 @@ import { onAuthStateChanged } from "@firebase/auth";
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
-
+import { GoPeople } from "react-icons/go";
+import { IoHomeOutline } from "react-icons/io5";
+import { CgProfile } from "react-icons/cg";
 const Sidebar = () => {
   const [authChecked, setAuthChecked] = useState(false);
   const navigate = useNavigate();
@@ -22,13 +24,15 @@ const Sidebar = () => {
 
   if (!authChecked) {
   }
+
   return (
     <Flex
       w="200px"
       h="100vh"
       position="fixed"
       bgColor="#38454C"
-      pl="50px"
+      align="center"
+      pl="30px"
       mt="90px"
     >
       <Flex
@@ -38,25 +42,31 @@ const Sidebar = () => {
         direction="column"
         h="100vh"
         mt="80px"
+        pt="150px"
       >
         <NavLink
           to="/"
           style={({ isActive }) => ({
             color: isActive ? "#e6010b" : "#fff",
-            marginBottom: "40px",
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "30px",
           })}
         >
-          HOME
+          <IoHomeOutline size={25} style={{ marginRight: "10px" }} /> HOME
         </NavLink>
         <NavLink
           to="/donors"
           style={({ isActive }) => ({
             color: isActive ? "#e6010b" : "#fff",
-            marginBottom: "40px",
+            marginBottom: "30px",
+            display: "flex",
+            alignItems: "center",
           })}
         >
-          DONORS
+          <GoPeople size={25} style={{ marginRight: "10px" }} /> DONORS
         </NavLink>
+
         {!authChecked && <Spinner size="xs" />}
         {authChecked && auth.currentUser && (
           <NavLink
@@ -64,14 +74,12 @@ const Sidebar = () => {
             style={({ isActive }) => ({
               color: isActive ? "#790b18" : "#fff",
               paddingRight: "15px",
+              display: "flex",
+              alignItems: "center",
             })}
           >
+            <CgProfile size={25} style={{ marginRight: "10px" }} />
             Profile
-            {/* <Avatar
-            src="https://bit.ly/broken-link"
-            borderColor="green.500"
-            borderWidth="2px"
-          /> */}
           </NavLink>
         )}
         {authChecked && !auth.currentUser && (
