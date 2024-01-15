@@ -18,26 +18,28 @@ import {
     PopoverContent,
     PopoverHeader,
 } from "@chakra-ui/react";
-import { BiLike, BiChat, BiSave, BiBookmark } from "react-icons/bi";
+import { BiLike, BiChat, BiSave, BiBookmark, BiSolidLike } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import React, { useEffect, useState } from "react";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import { arrayRemove, arrayUnion, collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { IPost } from "../AddPost";
 import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import CommentSection from "../Comments/CommentsSection";
 import { FaEdit, FaCopy } from "react-icons/fa";
 import { MdDelete, MdReport } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import { FaBookmark } from "react-icons/fa";
+import { AuthContext } from "../../../../context/AppContext";
 import CardPostItemDetails from "./CardPostItemDetails";
 
 function CardPostItem(props: IPost, key: number) {
-
     const [showComment, setShowComment] = useState(false);
     const [showPost, setShowPost] = useState(false);
 
 
     const { id, phone, likes, comments, saved, type, description, city, bloodGroup, fullName, photoURL, uid } = props
     const navigate = useNavigate();
+    const triggerContext = useContext<any>(AuthContext)
 
     const [authChecked, setAuthChecked] = useState(false);
     useEffect(() => {
@@ -47,16 +49,42 @@ function CardPostItem(props: IPost, key: number) {
 
         return () => unsubscribe();
     }, [auth, navigate]);
+    let actions = {
+        isILiked: false,
+        isISaved: false
+    };
 
-    const actionClickHandler = (action: string) => {
+    if (auth.currentUser) {
+        actions.isILiked = likes.includes(auth.currentUser.uid);
+        actions.isISaved = saved.includes(auth.currentUser.uid);
+    } else {
+        actions.isILiked = false;
+        actions.isISaved = false;
+    }
+    const addLikeHandler = () => {
         if (!auth.currentUser) return navigate('/login')
-
         const userDocRef = doc(db, 'donors', id);
 
         const updateData = {
-            [action]: likes.push(auth.currentUser?.uid),
+            ['likes']: actions.isILiked ? arrayRemove(auth.currentUser.uid) : arrayUnion(auth.currentUser.uid)
         };
-        console.log(likes);
+        triggerContext.setTrigger((curr: boolean) => !curr)
+        updateDoc(userDocRef, updateData)
+            .then(() => {
+                console.log('Document successfully updated!');
+            })
+            .catch((error) => {
+                console.error('Error updating document:', error);
+            });
+    }
+
+    const saveClickHandler = () => {
+        if (!auth.currentUser) return navigate('/login')
+        const userDocRef = doc(db, 'donors', id);
+        const updateData = {
+            ['saved']: actions.isISaved ? arrayRemove(auth.currentUser.uid) : arrayUnion(auth.currentUser.uid)
+        };
+        triggerContext.setTrigger((curr: boolean) => !curr)
 
         updateDoc(userDocRef, updateData)
             .then(() => {
@@ -66,6 +94,7 @@ function CardPostItem(props: IPost, key: number) {
                 console.error('Error updating document:', error);
             });
     }
+
 
     return (
 
@@ -83,18 +112,29 @@ function CardPostItem(props: IPost, key: number) {
                             />
                             <Box>
                                 <Heading size="md">{fullName}</Heading>
+                             
                                 <Flex>
-                                    <Text>{type}:</Text>
-                                    <Text ml="5px">{bloodGroup}</Text>
-                                </Flex>
-                                <Flex>
-                                    <Text>{city}:</Text>
-                                    <Text ml="5px">{phone}</Text>
+                                    <Text color={'gray'} fontWeight={'bold'}>{city}</Text>
+                                    <Text ml="5px" display={'block'}>{phone}</Text>
                                 </Flex>
                             </Box>
                         </Flex>
                         <Button onClick={() => setShowPost(!showPost)}>Show Post</Button>
                         <Popover>
+                        <Flex>
+                                    <Text
+                                        bg={type === "Acceptor" ? "green.500" : "red.500"}
+                                        color="white"
+                                        p="1"
+                                        borderRadius="md"
+                                        h="35px"
+                                        w="110px"
+                                        display="flex"
+                                        alignItems="center"
+                                        justifyContent="center"
+                                    >{type} {bloodGroup}</Text>
+                                    <Text ml="5px"></Text>
+                                </Flex>
                             <PopoverTrigger>
                                 <IconButton
                                     variant="ghost"
@@ -128,6 +168,7 @@ function CardPostItem(props: IPost, key: number) {
                         {description}
                     </Text>
                 </CardBody>
+                <Divider color={'lightgray'}/>
                 <CardFooter
                     justify="space-between"
                     flexWrap="wrap"
@@ -137,14 +178,17 @@ function CardPostItem(props: IPost, key: number) {
                         },
                     }}
                 >
-                    <Button flex="1" variant="ghost" leftIcon={<BiLike size={20} />} isDisabled={!authChecked} onClick={() => actionClickHandler('likes')}>
+                    <Button flex="1" variant="ghost" leftIcon={actions.isILiked ? <BiSolidLike size={20} color='#166fe5' /> : <BiLike size={20} />} isDisabled={!authChecked} onClick={() => addLikeHandler()}>
                         {likes?.length || '0'}
                     </Button>
-                    <Button flex="1" variant="ghost" leftIcon={<BiChat size={20} />} isDisabled={!authChecked} onClick={() => setShowComment(!showComment)}>
-                        {comments ? Object.keys(comments).length : 0}
+                    <Button flex="1" variant="ghost" leftIcon={<BiChat size={20} />} isDisabled={!authChecked} onClick={() => {
+                        setShowComment(!showComment)
+
+                    }}>
+                        {comments?.length || '0'}
                     </Button>
-                    <Button flex="1" variant="ghost" leftIcon={<BiBookmark size={20} />} isDisabled={!authChecked}>
-                        Save
+                    <Button flex="1" variant="ghost" leftIcon={actions.isISaved ? <FaBookmark size={20} color='#166fe5' /> : <BiBookmark size={20} />} isDisabled={!authChecked} onClick={() => { saveClickHandler() }}>
+                        {actions.isISaved ? 'Saved' : 'Save'}
                     </Button>
 
                 </CardFooter>

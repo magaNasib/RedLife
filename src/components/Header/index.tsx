@@ -7,7 +7,8 @@ import logo from "../../assets/logo.png";
 
 
 function Header() {
- 
+  const navigate = useNavigate()
+
   return (
     <Box position="fixed" zIndex="10" w="100%" top={'0'}>
       <Flex
@@ -30,33 +31,31 @@ function Header() {
         justify="space-between"
         align="center"
       >
-        <Link href="/">
-          <Flex align="center">
-            <Image src={logo} maxH="25px" maxW="100px" ml="20px" />
+        <Flex align="center" onClick={() => navigate('/')} cursor={'pointer'}>
+          <Image src={logo} maxH="25px" maxW="100px" ml="20px" />
+          <Text
+            fontSize="2xl"
+            fontWeight="bold"
+            letterSpacing="wide"
+            color="#D94B3C"
+            textTransform="uppercase"
+            fontFamily="monospace"
+          >
             <Text
+              display="inline"
               fontSize="2xl"
               fontWeight="bold"
               letterSpacing="wide"
-              color="#D94B3C"
               textTransform="uppercase"
               fontFamily="monospace"
             >
-              <Text
-                display="inline"
-                fontSize="2xl"
-                fontWeight="bold"
-                letterSpacing="wide"
-                textTransform="uppercase"
-                fontFamily="monospace"
-              >
-                RED
-              </Text>
-              LIFE
+              RED
             </Text>
-          </Flex>
-        </Link>
+            LIFE
+          </Text>
+        </Flex>
         <Flex justify="center">
-         
+
         </Flex>
       </Flex>
     </Box>

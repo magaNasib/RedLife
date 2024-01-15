@@ -32,8 +32,8 @@ const Sidebar = () => {
       w="200px"
       h="100vh"
       position="fixed"
-      bgColor="#38454C"
-      alignItems={'center'}
+      bgColor="#445760"
+      align="center"
       pl="30px"
     >
       <Flex
@@ -42,7 +42,7 @@ const Sidebar = () => {
         color="white"
         direction="column"
         h="100vh"
-        justifyContent={'center'}
+        justifyContent={"center"}
       >
         <NavLink
           to="/"
@@ -104,7 +104,6 @@ const Sidebar = () => {
             })}
           >
             <CiLogin size={25} style={{ marginRight: "10px" }} />
-
             LOGIN
           </NavLink>
         )}

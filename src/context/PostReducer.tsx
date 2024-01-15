@@ -15,8 +15,6 @@ export const postsStates = {
 };
 
 export const PostsReducer = (state: any, action: any): any => {
-    console.log(action);
-  console.log(state);
     switch (action.type) {
         case postActions.SUBMIT_POST:
             return {
