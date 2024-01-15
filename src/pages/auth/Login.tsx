@@ -21,7 +21,8 @@ import { PasswordField } from "./components/PasswordField"
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { auth } from "../../firebase"
 import { signInWithEmailAndPassword } from "@firebase/auth"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import AppContext from "../../context/AppContext"
 
 interface IProps {
 }
@@ -65,6 +66,7 @@ const Login: React.FC<IProps> = () => {
         }
 
     })
+
     return (
         <FormProvider {...methods}>
             <Modal isCentered closeOnOverlayClick={false} isOpen={true} onClose={onClickClose} >
@@ -144,7 +146,7 @@ const Login: React.FC<IProps> = () => {
                                             </Text>
                                             <Divider />
                                         </HStack>
-                                        <OAuthButtonGroup />
+                                        <OAuthButtonGroup/>
                                     </Stack>
                                 </Stack>
                             </Box>
