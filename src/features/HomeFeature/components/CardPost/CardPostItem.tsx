@@ -69,7 +69,7 @@ function CardPostItem(props: IPost, key: number) {
 
     return (
 
-        <Flex justifyContent="center" my='2' key={key} onClick={() => setShowPost(!showPost)}>
+        <Flex justifyContent="center" my='2' key={key}>
             <Card w="2xl" >
                 <CardHeader>
                     <Flex gap="4">
