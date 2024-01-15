@@ -38,9 +38,9 @@ const AppContext: React.FC<AppContextProps> = ({ children }) => {
     const provider = new GoogleAuthProvider();
     const [user, setUser] = useState<User | null>(null);
     const [userData, setUserData] = useState<UserData>();
-
+    const [trigger, setTrigger] = useState(false)
     const navigate = useNavigate();
-
+    
     const signInWithGoogle = async () => {
         try {
             const popup = await signInWithPopup(auth, provider);
@@ -140,6 +140,8 @@ const AppContext: React.FC<AppContextProps> = ({ children }) => {
         registerWithEmailAndPassword: registerWithEmailAndPassword,
         sendPasswordToUser: sendPasswordToUser,
         signOutUser: signOutUser,
+        setTrigger:setTrigger,
+        trigger:trigger,
         user: user,
         userData: userData,
     };

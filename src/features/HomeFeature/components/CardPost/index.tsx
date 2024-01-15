@@ -13,13 +13,14 @@ import {
 } from "@chakra-ui/react";
 import { BiLike, BiChat, BiSave, BiBookmark } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import React, { Dispatch, SetStateAction, useEffect, useReducer, useState } from "react";
+import React, { Dispatch, SetStateAction, useContext, useEffect, useReducer, useState } from "react";
 import { collection, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
 import { IPost } from "../AddPost";
 import { db } from "../../../../firebase";
 import CardPostItem from "./CardPostItem";
 import { postActions, PostsReducer, postsStates } from "../../../../context/PostReducer";
 import { TbMoodAnnoyed } from "react-icons/tb";
+import { AuthContext } from "../../../../context/AppContext";
 // interface IDonors {
 //   bloodGroup: string;
 //   city: string;
@@ -42,6 +43,9 @@ function CardPost(props: IProps) {
   const donorCollectionRef = collection(db, 'donors');
   const { SUBMIT_POST } = postActions;
   const [state, dispatch] = useReducer(PostsReducer, postsStates);
+  const triggerContext = useContext<any>(AuthContext)
+  console.log(triggerContext);
+  
   useEffect(() => {
     const getPosts = async () => {
       try {
@@ -62,7 +66,7 @@ function CardPost(props: IProps) {
     };
 
     getPosts();
-  }, [props.trigger]);
+  }, [triggerContext.trigger]);
 
   const POSTS = props.filteredPosts ? props.filteredPosts : state?.posts
 

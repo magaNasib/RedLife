@@ -18,16 +18,18 @@ import {
     PopoverContent,
     PopoverHeader,
 } from "@chakra-ui/react";
-import { BiLike, BiChat, BiSave, BiBookmark,BiSolidLike  } from "react-icons/bi";
+import { BiLike, BiChat, BiSave, BiBookmark, BiSolidLike } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { arrayUnion, collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import { arrayRemove, arrayUnion, collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { IPost } from "../AddPost";
 import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import CommentSection from "../Comments/CommentsSection";
 import { FaEdit, FaCopy } from "react-icons/fa";
 import { MdDelete, MdReport } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { FaBookmark } from "react-icons/fa";
+import { AuthContext } from "../../../../context/AppContext";
 
 
 
@@ -37,6 +39,7 @@ function CardPostItem(props: IPost, key: number) {
 
     const { id, phone, likes, comments, saved, type, description, city, bloodGroup, fullName, photoURL, uid } = props
     const navigate = useNavigate();
+    const triggerContext = useContext<any>(AuthContext)
 
     const [authChecked, setAuthChecked] = useState(false);
     useEffect(() => {
@@ -46,15 +49,42 @@ function CardPostItem(props: IPost, key: number) {
 
         return () => unsubscribe();
     }, [auth, navigate]);
+    let actions = {
+        isILiked: false,
+        isISaved: false
+    };
 
+    if (auth.currentUser) {
+        actions.isILiked = likes.includes(auth.currentUser.uid);
+        actions.isISaved = saved.includes(auth.currentUser.uid);
+    } else {
+        actions.isILiked = false;
+        actions.isISaved = false;
+    }
     const addLikeHandler = () => {
         if (!auth.currentUser) return navigate('/login')
-
         const userDocRef = doc(db, 'donors', id);
 
         const updateData = {
-            ['likes']: arrayUnion(auth.currentUser.uid)
+            ['likes']: actions.isILiked ? arrayRemove(auth.currentUser.uid) : arrayUnion(auth.currentUser.uid)
         };
+        triggerContext.setTrigger((curr: boolean) => !curr)
+        updateDoc(userDocRef, updateData)
+            .then(() => {
+                console.log('Document successfully updated!');
+            })
+            .catch((error) => {
+                console.error('Error updating document:', error);
+            });
+    }
+
+    const saveClickHandler = () => {
+        if (!auth.currentUser) return navigate('/login')
+        const userDocRef = doc(db, 'donors', id);
+        const updateData = {
+            ['saved']: actions.isISaved ? arrayRemove(auth.currentUser.uid) : arrayUnion(auth.currentUser.uid)
+        };
+        triggerContext.setTrigger((curr: boolean) => !curr)
 
         updateDoc(userDocRef, updateData)
             .then(() => {
@@ -63,15 +93,9 @@ function CardPostItem(props: IPost, key: number) {
             .catch((error) => {
                 console.error('Error updating document:', error);
             });
-        console.log(likes);
     }
-    let isILiked = false;
 
-    if (auth.currentUser) {
-        isILiked = likes.includes(auth.currentUser.uid);
-    } else {
-        isILiked = false;
-    }
+
     return (
 
         <Flex justifyContent="center" my='2' key={key}>
@@ -140,7 +164,7 @@ function CardPostItem(props: IPost, key: number) {
                         },
                     }}
                 >
-                    <Button flex="1" variant="ghost" leftIcon={isILiked ? <BiSolidLike size={20} color='#166fe5'/> : <BiLike size={20} />} isDisabled={!authChecked} onClick={() => addLikeHandler()}>
+                    <Button flex="1" variant="ghost" leftIcon={actions.isILiked ? <BiSolidLike size={20} color='#166fe5' /> : <BiLike size={20} />} isDisabled={!authChecked} onClick={() => addLikeHandler()}>
                         {likes?.length || '0'}
                     </Button>
                     <Button flex="1" variant="ghost" leftIcon={<BiChat size={20} />} isDisabled={!authChecked} onClick={() => {
@@ -149,8 +173,8 @@ function CardPostItem(props: IPost, key: number) {
                     }}>
                         {comments?.length || '0'}
                     </Button>
-                    <Button flex="1" variant="ghost" leftIcon={<BiBookmark size={20} />} isDisabled={!authChecked} onClick={() => { }}>
-                        Save
+                    <Button flex="1" variant="ghost" leftIcon={actions.isISaved ? <FaBookmark size={20} color='#166fe5' /> : <BiBookmark size={20} />} isDisabled={!authChecked} onClick={() => { saveClickHandler() }}>
+                        {actions.isISaved ? 'Saved' : 'Save'}
                     </Button>
 
                 </CardFooter>

@@ -14,8 +14,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { AtSignIcon, EditIcon, LockIcon, StarIcon } from "@chakra-ui/icons";
-import { MyPostsCards } from "./Cards/MyPostCard";
-import { SavedPostsCards } from "./Cards/SavedPostCards";
 import { EditProfileModal } from "./EditProfileModal";
 import { useNavigate } from "react-router";
 import profilImg from "../../assets/worldBlood.jpg";
@@ -27,7 +25,7 @@ import CardPost from "../../features/HomeFeature/components/CardPost";
 export const Banner = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
-  
+
   const user = auth?.currentUser
 
   const handleEditModalClose = () => {
@@ -140,11 +138,37 @@ export function MainTabs() {
   );
   const [tabIndex, setTabIndex] = useState(0);
   const bg = colors[tabIndex];
+
+  const [myPosts, setMyPost] = useState<IPost[]>([]);
+  const [savedPosts, setSavedPosts] = useState<IPost[]>([]);
+  const donorCollectionRef = collection(db, "donors");
+  const user = auth?.currentUser
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const data = await getDocs(query(donorCollectionRef, orderBy('publish_date', 'desc')));
+
+        if (data.docs.length > 0) {
+          const donorData = data.docs.map(
+            (doc) => ({ ...doc.data(), id: doc.id } as IPost)
+          );
+          setMyPost(donorData.filter((data) => user?.uid === data.uid));
+          setSavedPosts(donorData.filter((data) => data.saved.includes(user?.uid || '')));
+          console.log(savedPosts);
+          
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    getPosts();
+  }, []);
   return (
     <Tabs onChange={(index) => setTabIndex(index)} bg={bg}>
       <TabList>
         <Tab>
-          <AtSignIcon mr={'1'}/>
+          <AtSignIcon mr={'1'} />
           My posts
         </Tab>
         <Tab>
@@ -154,53 +178,17 @@ export function MainTabs() {
       </TabList>
       <TabPanels p="2rem">
         <TabPanel>
-          <MyPostsContent />
+          <div>
+            <CardPost filteredPosts={myPosts} />
+          </div>
         </TabPanel>
         <TabPanel>
-          <SavedPostsContent />
+          <div>
+            <CardPost filteredPosts={savedPosts} />
+          </div>
         </TabPanel>
       </TabPanels>
     </Tabs>
   );
 }
 
-function MyPostsContent() {
-
-  const [filteredPosts, setFilteredPosts] = useState<IPost[]>([]);
-  const donorCollectionRef = collection(db, "donors");
-  const user = auth?.currentUser
-  useEffect(() => {
-    const getPosts = async () => {
-      try {
-        const data = await getDocs(query(donorCollectionRef, orderBy('publish_date', 'desc')));
-     
-        if (data.docs.length > 0) {
-          const donorData = data.docs.map(
-            (doc) => ({ ...doc.data(), id: doc.id } as IPost)
-          );
-          setFilteredPosts(donorData.filter((data) => user?.uid === data.uid));
-        }
-      } catch (error) {
-        console.error("Error fetching posts:", error);
-      } 
-    };
-
-    getPosts();
-  }, []);
-  
-  return (
-    <div>
-      <CardPost filteredPosts={filteredPosts} />
-    </div>
-  );
-}
-
-function SavedPostsContent() {
-  return (
-    <div>
-      <SavedPostsCards />
-      <SavedPostsCards />
-      <SavedPostsCards />
-    </div>
-  );
-}

@@ -35,9 +35,13 @@ export interface IPost {
   id: string;
   publish_date: string;
   comments: {
+    id:string
     displayName?: string;
-    message: string;
+    comment: string;
     date?: string;
+    publish_date:string
+    uid:string
+    photo_url:string
   }[]
   comment: string;
   setTrigger?: Dispatch<SetStateAction<boolean>>
