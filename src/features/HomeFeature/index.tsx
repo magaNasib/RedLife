@@ -11,7 +11,7 @@ function HomeFeature() {
     <>
       <Sidebar />
       <Flex justify="space-between" bgColor="#F1F2F5">
-        <Flex w="100%" direction="column" align="center" mt="75px" ml="220px">
+        <Flex w="100%" direction="column" align="center" mt="110px" ml="220px">
           <AddPost setTrigger={setTrigger}/>
           <CardPost trigger={trigger}/>
         </Flex>

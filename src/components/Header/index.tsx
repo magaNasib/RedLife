@@ -4,8 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import logo from "../../assets/logo.png";
-import { GoPeople } from "react-icons/go";
-import { IoHomeOutline } from "react-icons/io5";
+
 
 function Header() {
  
@@ -57,22 +56,7 @@ function Header() {
           </Flex>
         </Link>
         <Flex justify="center">
-          <NavLink
-            to="/donors"
-            style={({ isActive }) => ({
-              color: isActive ? "#e6010b" : "#000",
-            })}
-          >
-            <GoPeople size={25} style={{ marginRight: "20px" }} />
-          </NavLink>
-          <NavLink
-            to="/"
-            style={({ isActive }) => ({
-              color: isActive ? "#e6010b" : "#000",
-            })}
-          >
-            <IoHomeOutline size={25} />
-          </NavLink>
+         
         </Flex>
       </Flex>
     </Box>
