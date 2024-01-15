@@ -23,10 +23,8 @@ function Router() {
             <Route element={<AuthRoute />}>
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/logout" element={<Logout />} />
-              <Route
-                path="/profile/changepassword"
-                element={<ChangePassword />}
-              />
+              <Route path="/profile/changepassword" element={<ChangePassword />} />
+
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />

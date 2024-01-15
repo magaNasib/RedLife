@@ -11,11 +11,9 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  useColorModeValue,
 } from "@chakra-ui/react";
-import { AtSignIcon, EditIcon, LockIcon, StarIcon } from "@chakra-ui/icons";
-import { MyPostsCards } from "./Cards/MyPostCard";
-import { SavedPostsCards } from "./Cards/SavedPostCards";
+import { AtSignIcon, EditIcon, LockIcon } from "@chakra-ui/icons";
+import { BiBookmark } from "react-icons/bi";
 import { EditProfileModal } from "./EditProfileModal";
 import { useNavigate } from "react-router";
 import profilImg from "../../assets/worldBlood.jpg";
@@ -27,7 +25,7 @@ import CardPost from "../../features/HomeFeature/components/CardPost";
 export const Banner = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
-  
+
   const user = auth?.currentUser
 
   const handleEditModalClose = () => {
@@ -134,73 +132,59 @@ export const Banner = () => {
 };
 
 export function MainTabs() {
-  const colors = useColorModeValue(
-    ["red.50", "teal.50", "blue.50"],
-    ["red.900", "teal.900", "blue.900"]
-  );
+ 
   const [tabIndex, setTabIndex] = useState(0);
-  const bg = colors[tabIndex];
-  return (
-    <Tabs onChange={(index) => setTabIndex(index)} bg={bg} h="50%"> 
-      <TabList>
-        <Tab>
-          <AtSignIcon mr={'1'}/>
-          My posts
-        </Tab>
-        <Tab>
-          <StarIcon mr={'1'} />
-          Saved posts
-        </Tab>
-      </TabList>
-      <TabPanels p="2rem">
-        <TabPanel>
-          <MyPostsContent />
-        </TabPanel>
-        <TabPanel>
-          <SavedPostsContent />
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
-  );
-}
 
-function MyPostsContent() {
-
-  const [filteredPosts, setFilteredPosts] = useState<IPost[]>([]);
+  const [myPosts, setMyPost] = useState<IPost[]>([]);
+  const [savedPosts, setSavedPosts] = useState<IPost[]>([]);
   const donorCollectionRef = collection(db, "donors");
   const user = auth?.currentUser
   useEffect(() => {
     const getPosts = async () => {
       try {
         const data = await getDocs(query(donorCollectionRef, orderBy('publish_date', 'desc')));
-     
+
         if (data.docs.length > 0) {
           const donorData = data.docs.map(
             (doc) => ({ ...doc.data(), id: doc.id } as IPost)
           );
-          setFilteredPosts(donorData.filter((data) => user?.uid === data.uid));
+          setMyPost(donorData.filter((data) => user?.uid === data.uid));
+          setSavedPosts(donorData.filter((data) => data.saved.includes(user?.uid || '')));
+          console.log(savedPosts);
+          
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
-      } 
+      }
     };
 
     getPosts();
   }, []);
-  
   return (
-    <div>
-      <CardPost filteredPosts={filteredPosts} />
-    </div>
+    <Tabs onChange={(index) => setTabIndex(index)}>
+      <TabList>
+        <Tab>
+          <AtSignIcon mr={'1'} />
+          My posts
+        </Tab>
+        <Tab>
+        {<BiBookmark />} 
+          Saved posts
+        </Tab>
+      </TabList>
+      <TabPanels p="2rem">
+        <TabPanel>
+          <div>
+            <CardPost filteredPosts={myPosts} />
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <div>
+            <CardPost filteredPosts={savedPosts} />
+          </div>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   );
 }
 
-function SavedPostsContent() {
-  return (
-    <div>
-      <SavedPostsCards />
-      <SavedPostsCards />
-      <SavedPostsCards />
-    </div>
-  );
-}
