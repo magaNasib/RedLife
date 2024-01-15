@@ -141,7 +141,7 @@ export function MainTabs() {
   const [tabIndex, setTabIndex] = useState(0);
   const bg = colors[tabIndex];
   return (
-    <Tabs onChange={(index) => setTabIndex(index)} bg={bg}>
+    <Tabs onChange={(index) => setTabIndex(index)} bg={bg} h="50%"> 
       <TabList>
         <Tab>
           <AtSignIcon mr={'1'}/>

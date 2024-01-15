@@ -27,7 +27,7 @@ function BlogsFeature() {
     <>
       <Sidebar />
 
-      <Box m="0 auto" w="65%" pr={"10"} pt={"100px"}>
+      <Box m="0 auto" w="65%" pr={"10"} mt={"95px"}>
         <Card
           direction={{ base: "column", sm: "row" }}
           overflow="hidden"

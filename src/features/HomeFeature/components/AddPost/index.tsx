@@ -34,7 +34,7 @@ export interface IPost {
   fullName: string;
   photoURL: string;
   likes: string[];
-  saved:string[]
+  saved: string[];
   uid: string;
   id: string;
   publish_date: string;
@@ -82,14 +82,13 @@ const AddPost = ({ setTrigger }: any) => {
         avatar: auth.currentUser?.photoURL,
         likes: [],
         comments: {},
-        saved:[]
+        saved: [],
       };
       await setDoc(donorCollectionRef, sendingData);
       setShow(false);
       methods.reset();
       toast({
         title: "Post created successfully",
-        // description: "Refresh the page to see latest posts",
         status: "success",
         duration: 2000,
         isClosable: true,
@@ -103,7 +102,7 @@ const AddPost = ({ setTrigger }: any) => {
     }
   });
   return (
-    <Box w="100%" my={"2"} maxW={"xl"} mx={"auto"} mt="0">
+    <Box w="100%" my={"2"} maxW={"2xl"} mx={"auto"} mt="0">
       <Flex
         justifyContent="space-between"
         bg={"white"}
@@ -265,7 +264,7 @@ const AddPost = ({ setTrigger }: any) => {
                   borderRadius="35px"
                   bgColor="#0C67C3"
                   color="#FFFF"
-                  _hover={{ bg: "#0C67C3"}}
+                  _hover={{ bg: "#0C67C3" }}
                   isLoading={loading && !authChecked}
                   onClick={handleSubmit}
                 >
@@ -284,7 +283,7 @@ const AddPost = ({ setTrigger }: any) => {
                 justifyContent="flex-start"
                 pl="25px"
                 isLoading={!authChecked}
-                _hover={{ bg: "#D94B3C", borderColor: "#D94B3C" }}
+                _hover={{ bg: "#E8E9EB", borderColor: "#E8E9EB" }}
                 onClick={() => {
                   auth.currentUser ? setShow(true) : navigate("/login");
                 }}

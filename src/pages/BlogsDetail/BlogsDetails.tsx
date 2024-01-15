@@ -1,6 +1,7 @@
 import React from "react";
 import { useParams } from "react-router-dom";
 import { Container, VStack, Heading, Text, Image } from "@chakra-ui/react";
+import Sidebar from "../../components/Sidebar";
 
 const BlogsDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -17,44 +18,47 @@ const BlogsDetails: React.FC = () => {
   };
 
   return (
-    <VStack spacing={8} align="stretch" bg="#F1F2F5">
-      <Container
-        mt={10}
-        maxW="container.sm"
-        color="white"
-        padding={8}
-        borderRadius="md"
-      >
-        <Heading as="h2" size="lg" color={"black"} mt="90px">
-          Donor Details for ID: {donor.id}
-        </Heading>
-        <Text color={"black"} mb={3} fontSize={22} textColor={"#6B6B6B"}>
-          {donor.description}
-        </Text>
-        <Image
-          src={donor.imageUrl}
-          alt="Donor Avatar"
-          borderRadius="sm"
-          height={400}
-          width={"100%"}
-        />
-        {/* <Heading as="h3" size="md" mt={4} color={"black"}>
+    <>
+      <Sidebar />
+      <VStack spacing={8} align="stretch" bg="#F1F2F5" h="100vh">
+        <Container
+          mt={10}
+          maxW="container.sm"
+          color="white"
+          padding={8}
+          borderRadius="md"
+        >
+          <Heading as="h2" size="lg" color={"black"} mt="90px">
+            Donor Details for ID: {donor.id}
+          </Heading>
+          <Text color={"black"} mb={3} fontSize={22} textColor={"#6B6B6B"}>
+            {donor.description}
+          </Text>
+          <Image
+            src={donor.imageUrl}
+            alt="Donor Avatar"
+            borderRadius="sm"
+            height={400}
+            width={"100%"}
+          />
+          {/* <Heading as="h3" size="md" mt={4} color={"black"}>
           {donor.heading}
         </Heading> */}
-        <Text
-          color="black"
-          fontSize="xl"
-          mt={3}
-          display={"flex"}
-          justifyContent={"space-between"}
-        >
-          Quantity of Blood: {donor.quantityOfBlood}
-          <Text fontSize={16} textColor={"#6B6B6B"}>
-            {donor.createdAt}
+          <Text
+            color="black"
+            fontSize="xl"
+            mt={3}
+            display={"flex"}
+            justifyContent={"space-between"}
+          >
+            Quantity of Blood: {donor.quantityOfBlood}
+            <Text fontSize={16} textColor={"#6B6B6B"}>
+              {donor.createdAt}
+            </Text>
           </Text>
-        </Text>
-      </Container>
-    </VStack>
+        </Container>
+      </VStack>
+    </>
   );
 };
 
