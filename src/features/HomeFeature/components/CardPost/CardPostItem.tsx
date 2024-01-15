@@ -50,7 +50,7 @@ function CardPostItem(props: IPost,key:number) {
     return (
     
                     <Flex justifyContent="center" my='2' key={key}>
-                        <Card w="2xl" >
+                        <Card w="xl" >
                             <CardHeader>
                                 <Flex gap="4">
                                     <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">

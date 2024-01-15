@@ -19,7 +19,11 @@ import { useEffect, useReducer, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import { useNavigate } from "react-router-dom";
-import { PostsReducer, postActions, postsStates } from "../../../../context/PostReducer";
+import {
+  PostsReducer,
+  postActions,
+  postsStates,
+} from "../../../../context/PostReducer";
 
 export interface IPost {
   bloodGroup: "B+" | "A+" | "AB+" | "O+" | "B-" | "A-" | "AB-" | "O-";
@@ -49,7 +53,7 @@ const AddPost = ({ setTrigger }: any) => {
   const methods = useForm<IPost>({
     defaultValues: {
       phone: "",
-      description: ''
+      description: "",
     },
   });
 
@@ -87,19 +91,17 @@ const AddPost = ({ setTrigger }: any) => {
         status: "success",
         duration: 2000,
         isClosable: true,
-        position: 'top-right'
-
+        position: "top-right",
       });
-      setTrigger((curr: boolean) => !curr)
+      setTrigger((curr: boolean) => !curr);
     } catch (error) {
-
       console.log(error);
     } finally {
       setLoading(false);
     }
   });
   return (
-    <Box w="100%" my={"2"} maxW={"2xl"} mx={"auto"} mt="0">
+    <Box w="100%" my={"2"} maxW={"xl"} mx={"auto"} mt="0">
       <Flex
         justifyContent="space-between"
         bg={"white"}
@@ -243,6 +245,12 @@ const AddPost = ({ setTrigger }: any) => {
                   </FormErrorMessage>
                 </FormControl>
                 <Button
+                  border="1px solid"
+                  borderRadius="35px"
+                  borderColor="#0C67C3"
+                  backgroundColor="#FFFF"
+                  color="#0C67C3"
+                  _hover={{ bg: "#FFFF", borderColor: "#0C67C3" }}
                   onClick={() => {
                     methods.reset();
                     setShow(false);
@@ -251,9 +259,11 @@ const AddPost = ({ setTrigger }: any) => {
                   Cancel
                 </Button>
                 <Button
-                  bg={"green"}
-                  color={"white"}
-                  rounded={".5rem"}
+                  border="1px solid"
+                  borderRadius="35px"
+                  bgColor="#0C67C3"
+                  color="#FFFF"
+                  _hover={{ bg: "#0C67C3"}}
                   isLoading={loading && !authChecked}
                   onClick={handleSubmit}
                 >
@@ -263,17 +273,21 @@ const AddPost = ({ setTrigger }: any) => {
             )}
             {!show && (
               <Button
-                bg={"#445760"}
-                color={"white"}
-                rounded={".5rem"}
+                border="1px solid"
+                borderRadius="35px"
+                borderColor="#445760"
+                backgroundColor="#FFFFFF"
+                color="#445760"
+                display="flex"
+                justifyContent="flex-start"
+                pl="25px"
                 isLoading={!authChecked}
-                _hover={{ bg: "#D94B3C" }}
+                _hover={{ bg: "#D94B3C", borderColor: "#D94B3C" }}
                 onClick={() => {
-                  auth.currentUser && setShow(true);
-                  !auth.currentUser && navigate("/login");
+                  auth.currentUser ? setShow(true) : navigate("/login");
                 }}
               >
-                Click here for Post
+                Start a post
               </Button>
             )}
           </Stack>
