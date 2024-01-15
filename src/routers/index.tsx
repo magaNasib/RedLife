@@ -12,7 +12,9 @@ import Blogs from "../features/BlogsFeature";
 import AuthRoute from "../pages/auth/components/AuthRoute";
 import ChangePassword from "../pages/auth/ChangePassword";
 import Logout from "../pages/auth/Logout";
+
 function Router() {
+  
   return (
     <>
       <ChakraProvider>
@@ -30,6 +32,7 @@ function Router() {
             <Route path="/register" element={<Register />} />
             <Route path="/donors" element={<Donors />} />
             <Route path="/blogs" element={<Blogs />} />
+            
           </Route>
         </Routes>
       </ChakraProvider>

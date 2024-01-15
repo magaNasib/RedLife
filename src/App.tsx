@@ -1,8 +1,7 @@
-
 import Router from "./routers/index";
 
 function App() {
-  return <Router />;
+  return <Router/>;
 }
 
 export default App;

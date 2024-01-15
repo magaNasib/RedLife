@@ -42,6 +42,7 @@ function CardPost(props: IProps) {
   const donorCollectionRef = collection(db, 'donors');
   const { SUBMIT_POST } = postActions;
   const [state, dispatch] = useReducer(PostsReducer, postsStates);
+
   useEffect(() => {
     const getPosts = async () => {
       try {
@@ -100,7 +101,7 @@ function CardPost(props: IProps) {
     <>
       {
         POSTS.map((post: IPost) => (
-          <CardPostItem key={post.id} {...post} />
+          <CardPostItem key={post.id} {...post}/>
         ))
       }
       {/* {filteredPosts

@@ -27,13 +27,14 @@ import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import CommentSection from "../Comments/CommentsSection";
 import { FaEdit, FaCopy } from "react-icons/fa";
 import { MdDelete, MdReport } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-
-
+import { Link, useNavigate } from "react-router-dom";
+import CardPostItemDetails from "./CardPostItemDetails";
 
 function CardPostItem(props: IPost, key: number) {
 
     const [showComment, setShowComment] = useState(false);
+    const [showPost, setShowPost] = useState(false);
+
 
     const { id, phone, likes, comments, saved, type, description, city, bloodGroup, fullName, photoURL, uid } = props
     const navigate = useNavigate();
@@ -49,9 +50,9 @@ function CardPostItem(props: IPost, key: number) {
 
     const actionClickHandler = (action: string) => {
         if (!auth.currentUser) return navigate('/login')
-        
+
         const userDocRef = doc(db, 'donors', id);
-        
+
         const updateData = {
             [action]: likes.push(auth.currentUser?.uid),
         };
@@ -68,7 +69,7 @@ function CardPostItem(props: IPost, key: number) {
 
     return (
 
-        <Flex justifyContent="center" my='2' key={key}>
+        <Flex justifyContent="center" my='2' key={key} onClick={() => setShowPost(!showPost)}>
             <Card w="2xl" >
                 <CardHeader>
                     <Flex gap="4">
@@ -92,6 +93,7 @@ function CardPostItem(props: IPost, key: number) {
                                 </Flex>
                             </Box>
                         </Flex>
+                        <Button onClick={() => setShowPost(!showPost)}>Show Post</Button>
                         <Popover>
                             <PopoverTrigger>
                                 <IconButton
@@ -118,6 +120,7 @@ function CardPostItem(props: IPost, key: number) {
                                 </Flex></PopoverHeader>
                             </PopoverContent>
                         </Popover>
+
                     </Flex>
                 </CardHeader>
                 <CardBody>
@@ -147,6 +150,10 @@ function CardPostItem(props: IPost, key: number) {
                 </CardFooter>
                 {showComment && (
                     <CommentSection  {...props} />
+                )}
+                
+                {showPost && (
+                    <CardPostItemDetails {...props}/>
                 )}
             </Card>
         </Flex>
