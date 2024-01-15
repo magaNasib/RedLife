@@ -30,7 +30,7 @@ const Sidebar = () => {
       w="200px"
       h="100vh"
       position="fixed"
-      bgColor="#38454C"
+      bgColor="#445760"
       align="center"
       pl="30px"
       mt="90px"

@@ -106,8 +106,8 @@ const AddPost = ({ setTrigger }: any) => {
         p="4"
         rounded={"lg"}
         flexDirection={"column"}
-        border="1px solid #e2e8f0" 
-        boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
+        border="1px solid #e2e8f0"
+        boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
       >
         <Stack isInline spacing={4} alignItems={`${!show && "center"}`}>
           <Avatar
@@ -118,10 +118,7 @@ const AddPost = ({ setTrigger }: any) => {
           <Stack spacing={4} w={"100%"}>
             {show && (
               <>
-
-                <FormControl
-                  isInvalid={!!methods.formState.errors.bloodGroup}
-                >
+                <FormControl isInvalid={!!methods.formState.errors.bloodGroup}>
                   <Controller
                     control={methods.control}
                     name="bloodGroup"
@@ -266,7 +263,7 @@ const AddPost = ({ setTrigger }: any) => {
             )}
             {!show && (
               <Button
-                bg={"#38454C"}
+                bg={"#445760"}
                 color={"white"}
                 rounded={".5rem"}
                 isLoading={!authChecked}
