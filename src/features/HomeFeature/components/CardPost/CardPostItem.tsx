@@ -1,22 +1,22 @@
 import {
-    Avatar,
-    Box,
-    Button,
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    Divider,
-    Flex,
-    Heading,
-    IconButton,
-    SkeletonCircle,
-    SkeletonText,
-    Text,
-    Popover,
-    PopoverTrigger,
-    PopoverContent,
-    PopoverHeader,
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Divider,
+  Flex,
+  Heading,
+  IconButton,
+  SkeletonCircle,
+  SkeletonText,
+  Text,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
 } from "@chakra-ui/react";
 import { BiLike, BiChat, BiSave, BiBookmark, BiSolidLike } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
@@ -34,18 +34,17 @@ import { AuthContext } from "../../../../context/AppContext";
 
 
 function CardPostItem(props: IPost, key: number) {
-
-    const [showComment, setShowComment] = useState(false);
+  const [showComment, setShowComment] = useState(false);
 
     const { id, phone, likes, comments, saved, type, description, city, bloodGroup, fullName, photoURL, uid } = props
     const navigate = useNavigate();
     const triggerContext = useContext<any>(AuthContext)
 
-    const [authChecked, setAuthChecked] = useState(false);
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, () => {
-            setAuthChecked(true);
-        });
+  const [authChecked, setAuthChecked] = useState(false);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, () => {
+      setAuthChecked(true);
+    });
 
         return () => unsubscribe();
     }, [auth, navigate]);
