@@ -67,6 +67,7 @@ function CardPostItem(props: IPost, key: number) {
     }
 
     return (
+<<<<<<< HEAD
 
         <Flex justifyContent="center" my='2' key={key}>
             <Card w="2xl" >
@@ -85,6 +86,59 @@ function CardPostItem(props: IPost, key: number) {
                                 <Flex>
                                     <Text>{type}:</Text>
                                     <Text ml="5px">{bloodGroup}</Text>
+=======
+    
+                    <Flex justifyContent="center" my='2' key={key}>
+                        <Card w="xl" >
+                            <CardHeader>
+                                <Flex gap="4">
+                                    <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
+                                        <Avatar
+                                            name={fullName}
+                                            src={photoURL}
+                                            borderColor="green.500"
+                                            borderWidth="2px"
+                                            bg={'black'}
+                                        />
+                                        <Box>
+                                            <Heading size="md">{fullName}</Heading>
+                                            <Flex>
+                                                <Text>{type}:</Text>
+                                                <Text ml="5px">{bloodGroup}</Text>
+                                            </Flex>
+                                            <Flex>
+                                                <Text>{city}:</Text>
+                                                <Text ml="5px">{phone}</Text>
+                                            </Flex>
+                                        </Box>
+                                    </Flex>
+                                    <Popover>
+                                        <PopoverTrigger>
+                                            <IconButton
+                                                variant="ghost"
+                                                colorScheme="gray"
+                                                aria-label="See menu"
+                                                icon={<BsThreeDotsVertical />}
+                                            />
+                                        </PopoverTrigger>
+                                        <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'140px'}>
+                                            <PopoverHeader>
+                                                <Flex alignItems={'center'}>
+                                                    <FaEdit /><Text ml={'10px'} fontSize={'18px'}>Edit</Text>
+                                                </Flex>
+                                            </PopoverHeader>
+                                            <PopoverHeader><Flex alignItems={'center'}>
+                                                <MdDelete /><Text ml={'10px'} fontSize={'18px'}>Delete</Text>
+                                            </Flex></PopoverHeader>
+                                            <PopoverHeader><Flex alignItems={'center'}>
+                                                <MdReport /><Text ml={'10px'} fontSize={'18px'}>Report</Text>
+                                            </Flex></PopoverHeader>
+                                            <PopoverHeader><Flex alignItems={'center'}>
+                                                <FaCopy /><Text ml={'10px'} fontSize={'18px'}>Copy URL</Text>
+                                            </Flex></PopoverHeader>
+                                        </PopoverContent>
+                                    </Popover>
+>>>>>>> de97936 (change add post  buttons style)
                                 </Flex>
                                 <Flex>
                                     <Text>{city}:</Text>
