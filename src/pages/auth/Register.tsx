@@ -17,6 +17,8 @@ interface IProps {
 }
 interface IRegister {
     fullname: string
+    savedPosts:string
+
     email: string
     password: string
     repassword: string
@@ -45,7 +47,7 @@ const Register: React.FC<IProps> = () => {
         try {
             const { user } = await createUserWithEmailAndPassword(auth, email, password);
             await updateProfile(user, {
-                displayName: fullname,
+                displayName: fullname
             });
             await setDoc(doc(db, 'users', user.uid), { email })
 

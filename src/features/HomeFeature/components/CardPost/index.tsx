@@ -6,6 +6,7 @@ import {
   CardFooter,
   CardHeader,
   Flex,
+  Image,
   SkeletonCircle,
   SkeletonText,
   Text,
@@ -18,7 +19,7 @@ import { IPost } from "../AddPost";
 import { db } from "../../../../firebase";
 import CardPostItem from "./CardPostItem";
 import { postActions, PostsReducer, postsStates } from "../../../../context/PostReducer";
-
+import { TbMoodAnnoyed } from "react-icons/tb";
 // interface IDonors {
 //   bloodGroup: string;
 //   city: string;
@@ -41,8 +42,6 @@ function CardPost(props: IProps) {
   const donorCollectionRef = collection(db, 'donors');
   const { SUBMIT_POST } = postActions;
   const [state, dispatch] = useReducer(PostsReducer, postsStates);
-  const { filteredPosts } = props
-
   useEffect(() => {
     const getPosts = async () => {
       try {
@@ -65,6 +64,8 @@ function CardPost(props: IProps) {
     getPosts();
   }, [props.trigger]);
 
+  const POSTS = props.filteredPosts ? props.filteredPosts : state?.posts
+
   if (loading) return (
     <>
       <Flex justifyContent="center" my='2'>
@@ -82,11 +83,13 @@ function CardPost(props: IProps) {
     </>
   )
 
-  if (state?.posts.length === 0) {
+  if (POSTS.length === 0) {
     return (
       <>
-        <Flex justifyContent="center" my='2'>
-          <Text>
+        <Flex justifyContent="center" alignItems={'center'} fontSize={'25'} my='2'>
+        <TbMoodAnnoyed />
+
+          <Text size={'lg'}>
             No posts present...
           </Text>
         </Flex>
@@ -95,11 +98,16 @@ function CardPost(props: IProps) {
   }
   return (
     <>
-      {filteredPosts && filteredPosts.length > 0
+      {
+        POSTS.map((post: IPost) => (
+          <CardPostItem key={post.id} {...post} />
+        ))
+      }
+      {/* {filteredPosts
         ? filteredPosts.map((post: IPost) => (
           <CardPostItem key={post.id} {...post} />
         ))
-        : state?.posts.map((post: IPost) => <CardPostItem key={post.id} {...post} />)}
+        : state?.posts.map((post: IPost) => <CardPostItem key={post.id} {...post} />)} */}
     </>
   );
 

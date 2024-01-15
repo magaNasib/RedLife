@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -19,10 +19,17 @@ import { SavedPostsCards } from "./Cards/SavedPostCards";
 import { EditProfileModal } from "./EditProfileModal";
 import { useNavigate } from "react-router";
 import profilImg from "../../assets/worldBlood.jpg";
+import { auth, db } from "../../firebase";
+import { collection, doc, getDocs, orderBy, query, where } from "@firebase/firestore";
+import { IPost } from "../../features/HomeFeature/components/AddPost";
+import CardPost from "../../features/HomeFeature/components/CardPost";
 
 export const Banner = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
+  
+  const user = auth?.currentUser
+
   const handleEditModalClose = () => {
     setIsEditModalOpen(false);
   };
@@ -52,8 +59,8 @@ export const Banner = () => {
         <GridItem display="flex" alignItems="center">
           <Avatar
             size="2xl"
-            name="Ali Veliyev"
-            src="path_to_image"
+            name={user?.displayName || ''}
+            src={user?.photoURL || "path_to_image"}
             marginLeft="50px"
           />
         </GridItem>
@@ -65,13 +72,10 @@ export const Banner = () => {
           alignItems="start"
         >
           <Text fontSize="xl" color="white">
-            Name: Ali Veliyev
+            Name: {user?.displayName}
           </Text>
           <Text fontSize="lg" color="white">
-            Age: 32
-          </Text>
-          <Text fontSize="lg" color="white">
-            Email: example@mail.com
+            Email: {user?.email}
           </Text>
         </GridItem>
         <GridItem
@@ -137,14 +141,14 @@ export function MainTabs() {
   const [tabIndex, setTabIndex] = useState(0);
   const bg = colors[tabIndex];
   return (
-    <Tabs onChange={(index) => setTabIndex(index)} bg={bg}>
+    <Tabs onChange={(index) => setTabIndex(index)} bg={bg} h="50%"> 
       <TabList>
         <Tab>
-          <AtSignIcon />
+          <AtSignIcon mr={'1'}/>
           My posts
         </Tab>
         <Tab>
-          <StarIcon />
+          <StarIcon mr={'1'} />
           Saved posts
         </Tab>
       </TabList>
@@ -161,11 +165,32 @@ export function MainTabs() {
 }
 
 function MyPostsContent() {
+
+  const [filteredPosts, setFilteredPosts] = useState<IPost[]>([]);
+  const donorCollectionRef = collection(db, "donors");
+  const user = auth?.currentUser
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const data = await getDocs(query(donorCollectionRef, orderBy('publish_date', 'desc')));
+     
+        if (data.docs.length > 0) {
+          const donorData = data.docs.map(
+            (doc) => ({ ...doc.data(), id: doc.id } as IPost)
+          );
+          setFilteredPosts(donorData.filter((data) => user?.uid === data.uid));
+        }
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      } 
+    };
+
+    getPosts();
+  }, []);
+  
   return (
     <div>
-      <MyPostsCards />
-      <MyPostsCards />
-      <MyPostsCards />
+      <CardPost filteredPosts={filteredPosts} />
     </div>
   );
 }
