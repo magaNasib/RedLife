@@ -27,7 +27,7 @@ import CardPost from "../../features/HomeFeature/components/CardPost";
 export const Banner = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
-  
+
   const user = auth?.currentUser
 
   const handleEditModalClose = () => {
@@ -134,64 +134,63 @@ export const Banner = () => {
 };
 
 export function MainTabs() {
-  return (
-    <Tabs>
-      <TabList>
-        <Tab>
-          <AtSignIcon mr={'1'}/>
-          My posts
-        </Tab>
-        <Tab>
-          {<BiBookmark />} Saved posts
-        </Tab>
-      </TabList>
-      <TabPanels p="2rem">
-        <TabPanel>
-          <MyPostsContent />
-        </TabPanel>
-        <TabPanel>
-          <SavedPostsContent />
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
+  const colors = useColorModeValue(
+    ["red.50", "teal.50", "blue.50"],
+    ["red.900", "teal.900", "blue.900"]
   );
-}
+  const [tabIndex, setTabIndex] = useState(0);
+  const bg = colors[tabIndex];
 
-function MyPostsContent() {
-
-  const [filteredPosts, setFilteredPosts] = useState<IPost[]>([]);
+  const [myPosts, setMyPost] = useState<IPost[]>([]);
+  const [savedPosts, setSavedPosts] = useState<IPost[]>([]);
   const donorCollectionRef = collection(db, "donors");
   const user = auth?.currentUser
   useEffect(() => {
     const getPosts = async () => {
       try {
         const data = await getDocs(query(donorCollectionRef, orderBy('publish_date', 'desc')));
-     
+
         if (data.docs.length > 0) {
           const donorData = data.docs.map(
             (doc) => ({ ...doc.data(), id: doc.id } as IPost)
           );
-          setFilteredPosts(donorData.filter((data) => user?.uid === data.uid));
+          setMyPost(donorData.filter((data) => user?.uid === data.uid));
+          setSavedPosts(donorData.filter((data) => data.saved.includes(user?.uid || '')));
+          console.log(savedPosts);
+          
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
-      } 
+      }
     };
 
     getPosts();
   }, []);
-  
   return (
-    <div>
-      <CardPost filteredPosts={filteredPosts} />
-    </div>
+    <Tabs onChange={(index) => setTabIndex(index)} bg={bg}>
+      <TabList>
+        <Tab>
+          <AtSignIcon mr={'1'} />
+          My posts
+        </Tab>
+        <Tab>
+          <StarIcon mr={'1'} />
+          Saved posts
+        </Tab>
+      </TabList>
+      <TabPanels p="2rem">
+        <TabPanel>
+          <div>
+            <CardPost filteredPosts={myPosts} />
+          </div>
+        </TabPanel>
+        <TabPanel>
+          <div>
+            <CardPost filteredPosts={savedPosts} />
+          </div>
+        </TabPanel>
+      </TabPanels>
+    </Tabs>
   );
 }
 
-function SavedPostsContent() {
-  return (
-    <div>
-      <SavedPostsCards />
-    </div>
-  );
-}
