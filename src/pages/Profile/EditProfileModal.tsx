@@ -61,7 +61,6 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onCl
                                 <option value="B (III) Rh−">B (III) Rh−</option>
                                 <option value="AB (IV) Rh+">AB (IV) Rh+</option>
                                 <option value="AB (IV) Rh">AB (IV) Rh</option>
-                                {/* Добавьте другие опции для группы крови */}
                             </Select>
                         </FormControl>
                     </VStack>

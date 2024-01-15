@@ -11,9 +11,9 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  useColorModeValue,
 } from "@chakra-ui/react";
-import { AtSignIcon, EditIcon, LockIcon, StarIcon } from "@chakra-ui/icons";
+import { AtSignIcon, EditIcon, LockIcon } from "@chakra-ui/icons";
+import { BiBookmark } from "react-icons/bi";
 import { MyPostsCards } from "./Cards/MyPostCard";
 import { SavedPostsCards } from "./Cards/SavedPostCards";
 import { EditProfileModal } from "./EditProfileModal";
@@ -134,22 +134,15 @@ export const Banner = () => {
 };
 
 export function MainTabs() {
-  const colors = useColorModeValue(
-    ["red.50", "teal.50", "blue.50"],
-    ["red.900", "teal.900", "blue.900"]
-  );
-  const [tabIndex, setTabIndex] = useState(0);
-  const bg = colors[tabIndex];
   return (
-    <Tabs onChange={(index) => setTabIndex(index)} bg={bg}>
+    <Tabs>
       <TabList>
         <Tab>
           <AtSignIcon mr={'1'}/>
           My posts
         </Tab>
         <Tab>
-          <StarIcon mr={'1'} />
-          Saved posts
+          {<BiBookmark />} Saved posts
         </Tab>
       </TabList>
       <TabPanels p="2rem">
@@ -198,8 +191,6 @@ function MyPostsContent() {
 function SavedPostsContent() {
   return (
     <div>
-      <SavedPostsCards />
-      <SavedPostsCards />
       <SavedPostsCards />
     </div>
   );
