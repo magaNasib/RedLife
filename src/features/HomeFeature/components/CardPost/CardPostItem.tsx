@@ -113,8 +113,8 @@ function CardPostItem(props: IPost, key: number) {
                                 <Heading size="md">{fullName}</Heading>
                              
                                 <Flex>
-                                    <Text>{city}:</Text>
-                                    <Text ml="5px">{phone}</Text>
+                                    <Text color={'gray'} fontWeight={'bold'}>{city}</Text>
+                                    <Text ml="5px" display={'block'}>{phone}</Text>
                                 </Flex>
                             </Box>
                         </Flex>
@@ -165,6 +165,7 @@ function CardPostItem(props: IPost, key: number) {
                         {description}
                     </Text>
                 </CardBody>
+                <Divider color={'lightgray'}/>
                 <CardFooter
                     justify="space-between"
                     flexWrap="wrap"

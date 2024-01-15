@@ -107,7 +107,7 @@ const AddPost = ({ setTrigger }: any) => {
     }
   });
   return (
-    <Box w="100%" my={"2"} maxW={"xl"} mx={"auto"} mt="0">
+    <Box w="100%" my={"2"} maxW={"2xl"} mx={"auto"} mt="0">
       <Flex
         justifyContent="space-between"
         bg={"white"}
