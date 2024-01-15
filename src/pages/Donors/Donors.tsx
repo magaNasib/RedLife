@@ -10,12 +10,12 @@ import {
 } from "@chakra-ui/react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import Bg from "./../../assets/donorBg.jpg";
-import { useEffect, useState } from 'react';
-import { IPost } from '../../features/HomeFeature/components/AddPost';
-import CardPost from '../../features/HomeFeature/components/CardPost';
-import { collection, getDocs } from 'firebase/firestore';
-import { db } from '../../firebase';
-interface IDonors { }
+import { useEffect, useState } from "react";
+import { IPost } from "../../features/HomeFeature/components/AddPost";
+import CardPost from "../../features/HomeFeature/components/CardPost";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase";
+interface IDonors {}
 interface IFDonars {
   bloodGroups: string;
   locations: string;
@@ -27,7 +27,6 @@ const Donors: React.FC<IDonors> = () => {
   const [filteredPosts, setFilteredPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
   const donorCollectionRef = collection(db, "donors");
-
 
   useEffect(() => {
     const getPosts = async () => {
@@ -58,7 +57,7 @@ const Donors: React.FC<IDonors> = () => {
     },
   });
   const handleSearch = (data: IFDonars) => {
-    console.log("Search data:", data); // Log the search data
+    console.log("Search data:", data);
     const filtered = posts.filter((post) => {
       return (
         (data.bloodGroups === "" || post.bloodGroup === data.bloodGroups) &&
@@ -71,30 +70,41 @@ const Donors: React.FC<IDonors> = () => {
   };
 
   return (
-    <Box pt="90px">
+    <Box
+      pt="90px"
+      backgroundImage={Bg}
+      w={"100%"}
+      backgroundSize="cover"
+    >
       <FormProvider {...methods}>
-        <Box
-          w={"100%"}
-          h="100vh"
-          pt="90px"
-          backgroundImage={Bg}
-          backgroundPosition="center"
-          backgroundRepeat="no-repeat"
-          backgroundSize="cover"
-        >
+        <Box>
           <Grid
             templateColumns="repeat(3,1fr)"
             gap="24px"
             width={"60%"}
             margin={"0px auto"}
+            mb="60px"
           >
             <GridItem colSpan={4}>
-              <Heading color={"#ff4d4d"} as="h1" size="lg" textAlign={"center"}>
+              <Heading
+                color={"#FFFF"}
+                as="h1"
+                size="lg"
+                textAlign={"center"}
+                pt="50px"
+                pb="20px"
+              >
                 Search a Donor
               </Heading>
             </GridItem>
             <GridItem colSpan={4}>
-              <Heading color={"white"} as="p" size="lg" textAlign={"center"}>
+              <Heading
+                color={"white"}
+                as="p"
+                size="lg"
+                textAlign={"center"}
+                pb="30px"
+              >
                 Your Donation Can Make Someone’s Life Better
               </Heading>
             </GridItem>
@@ -396,8 +406,6 @@ const Donors: React.FC<IDonors> = () => {
                 <FormErrorMessage color={"red"} fontSize={"14px"}>
                   {methods.formState.errors.locations?.message}
                 </FormErrorMessage>
-
-
               </FormControl>
             </GridItem>
             <GridItem colSpan={1}>

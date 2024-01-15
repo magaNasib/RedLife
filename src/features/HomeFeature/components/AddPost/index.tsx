@@ -106,8 +106,8 @@ const AddPost = ({ setTrigger }: any) => {
         p="4"
         rounded={"lg"}
         flexDirection={"column"}
-        border="1px solid #e2e8f0" // Border color
-        boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" // Box shadow
+        border="1px solid #e2e8f0" 
+        boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)" 
       >
         <Stack isInline spacing={4} alignItems={`${!show && "center"}`}>
           <Avatar
