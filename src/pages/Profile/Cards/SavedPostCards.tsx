@@ -19,7 +19,7 @@ export function SavedPostsCards() {
   return (
     <>
       <Flex justifyContent="center" my='2'>
-        <Card maxW="xl">
+        <Card maxW="2xl">
           <CardHeader>
             <Flex gap="4">
               <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
