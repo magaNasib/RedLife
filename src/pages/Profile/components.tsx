@@ -11,9 +11,11 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  useColorModeValue,
 } from "@chakra-ui/react";
-import { AtSignIcon, EditIcon, LockIcon, StarIcon } from "@chakra-ui/icons";
+import { AtSignIcon, EditIcon, LockIcon } from "@chakra-ui/icons";
+import { BiBookmark } from "react-icons/bi";
+import { MyPostsCards } from "./Cards/MyPostCard";
+import { SavedPostsCards } from "./Cards/SavedPostCards";
 import { EditProfileModal } from "./EditProfileModal";
 import { useNavigate } from "react-router";
 import profilImg from "../../assets/worldBlood.jpg";
