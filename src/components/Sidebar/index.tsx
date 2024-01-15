@@ -32,8 +32,8 @@ const Sidebar = () => {
       w="200px"
       h="100vh"
       position="fixed"
-      bgColor="#38454C"
-      alignItems={'center'}
+      bgColor="#445760"
+      align="center"
       pl="30px"
     >
       <Flex
@@ -42,7 +42,7 @@ const Sidebar = () => {
         color="white"
         direction="column"
         h="100vh"
-        justifyContent={'center'}
+        justifyContent={"center"}
       >
         <NavLink
           to="/"
@@ -67,7 +67,7 @@ const Sidebar = () => {
           <GoPeople size={25} style={{ marginRight: "10px" }} /> DONORS
         </NavLink>
         <NavLink
-          to="/blogs"
+          to="/blogsDetails"
           style={({ isActive }) => ({
             color: isActive ? "#e6010b" : "#fff",
             marginBottom: "30px",
@@ -104,7 +104,6 @@ const Sidebar = () => {
             })}
           >
             <CiLogin size={25} style={{ marginRight: "10px" }} />
-
             LOGIN
           </NavLink>
         )}

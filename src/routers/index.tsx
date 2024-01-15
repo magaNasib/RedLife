@@ -12,6 +12,7 @@ import Blogs from "../features/BlogsFeature";
 import AuthRoute from "../pages/auth/components/AuthRoute";
 import ChangePassword from "../pages/auth/ChangePassword";
 import Logout from "../pages/auth/Logout";
+import BlogsDetails from "../pages/BlogsDetail/BlogsDetails";
 function Router() {
   return (
     <>
@@ -22,13 +23,16 @@ function Router() {
             <Route element={<AuthRoute />}>
               <Route path="/profile" element={<ProfilePage />} />
               <Route path="/logout" element={<Logout />} />
-              <Route path="/profile/changepassword" element={<ChangePassword/>}/>
-              
+              <Route
+                path="/profile/changepassword"
+                element={<ChangePassword />}
+              />
             </Route>
             <Route path="/login" element={<Login />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/donors" element={<Donors />} />
+            <Route path="/blogsDetails" element={<BlogsDetails />} />
             <Route path="/blogs" element={<Blogs />} />
           </Route>
         </Routes>
