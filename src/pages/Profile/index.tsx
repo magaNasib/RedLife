@@ -4,10 +4,12 @@ import { Box } from "@chakra-ui/react";
 
 const ProfilePage = () => {
   return (
-    <Box p="4" textAlign="center" bgColor="#F2F2F5">
-      <Banner/>
-      <MainTabs />
-    </Box>
+    <>
+      <Box p="4" bgColor="#F2F2F5">
+        <Banner />
+        <MainTabs />
+      </Box>
+    </>
   );
 };
 

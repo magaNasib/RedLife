@@ -6,6 +6,8 @@ import { auth } from "../../firebase";
 import { GoPeople } from "react-icons/go";
 import { IoHomeOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
+import { CiLogin } from "react-icons/ci";
+import { LiaBlogSolid } from "react-icons/lia";
 const Sidebar = () => {
   const [authChecked, setAuthChecked] = useState(false);
   const navigate = useNavigate();
@@ -31,9 +33,8 @@ const Sidebar = () => {
       h="100vh"
       position="fixed"
       bgColor="#38454C"
-      align="center"
+      alignItems={'center'}
       pl="30px"
-      mt="90px"
     >
       <Flex
         fontSize="md"
@@ -41,8 +42,7 @@ const Sidebar = () => {
         color="white"
         direction="column"
         h="100vh"
-        mt="80px"
-        pt="150px"
+        justifyContent={'center'}
       >
         <NavLink
           to="/"
@@ -66,6 +66,17 @@ const Sidebar = () => {
         >
           <GoPeople size={25} style={{ marginRight: "10px" }} /> DONORS
         </NavLink>
+        <NavLink
+          to="/blogs"
+          style={({ isActive }) => ({
+            color: isActive ? "#e6010b" : "#fff",
+            marginBottom: "30px",
+            display: "flex",
+            alignItems: "center",
+          })}
+        >
+          <LiaBlogSolid size={25} style={{ marginRight: "10px" }} /> BLOGS
+        </NavLink>
 
         {!authChecked && <Spinner size="xs" />}
         {authChecked && auth.currentUser && (
@@ -88,8 +99,12 @@ const Sidebar = () => {
             style={({ isActive }) => ({
               color: isActive ? "#790b18" : "#fff",
               paddingRight: "15px",
+              display: "flex",
+              alignItems: "center",
             })}
           >
+            <CiLogin size={25} style={{ marginRight: "10px" }} />
+
             LOGIN
           </NavLink>
         )}
