@@ -9,7 +9,7 @@ import logo from "../../assets/logo.png";
 function Header() {
  
   return (
-    <Box position="fixed" zIndex="10" w="100%">
+    <Box position="fixed" zIndex="10" w="100%" top={'0'}>
       <Flex
         bgColor="#D94B3C"
         color="#FFFF"

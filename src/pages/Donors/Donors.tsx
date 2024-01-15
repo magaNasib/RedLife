@@ -15,6 +15,7 @@ import { IPost } from "../../features/HomeFeature/components/AddPost";
 import CardPost from "../../features/HomeFeature/components/CardPost";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
+import Sidebar from "../../components/Sidebar";
 interface IDonors {}
 interface IFDonars {
   bloodGroups: string;
@@ -70,10 +71,13 @@ const Donors: React.FC<IDonors> = () => {
   };
 
   return (
+    <>
+    <Sidebar/>
     <Box
-      pt="90px"
+      py="90px"
       backgroundImage={Bg}
       w={"100%"}
+      minH={'100vh'}
       backgroundSize="cover"
     >
       <FormProvider {...methods}>
@@ -423,6 +427,7 @@ const Donors: React.FC<IDonors> = () => {
       </FormProvider>
       <CardPost filteredPosts={filteredPosts} />
     </Box>
+    </>
   );
 };
 

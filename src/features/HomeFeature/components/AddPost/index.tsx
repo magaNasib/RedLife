@@ -30,6 +30,7 @@ export interface IPost {
   fullName: string;
   photoURL: string;
   likes: string[];
+  saved:string[]
   uid: string;
   id: string;
   publish_date: string;
@@ -77,6 +78,7 @@ const AddPost = ({ setTrigger }: any) => {
         avatar: auth.currentUser?.photoURL,
         likes: [],
         comments: {},
+        saved:[]
       };
       await setDoc(donorCollectionRef, sendingData);
       setShow(false);
