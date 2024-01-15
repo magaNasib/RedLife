@@ -14,8 +14,6 @@ import {
 } from "@chakra-ui/react";
 import { AtSignIcon, EditIcon, LockIcon } from "@chakra-ui/icons";
 import { BiBookmark } from "react-icons/bi";
-import { MyPostsCards } from "./Cards/MyPostCard";
-import { SavedPostsCards } from "./Cards/SavedPostCards";
 import { EditProfileModal } from "./EditProfileModal";
 import { useNavigate } from "react-router";
 import profilImg from "../../assets/worldBlood.jpg";
@@ -134,12 +132,8 @@ export const Banner = () => {
 };
 
 export function MainTabs() {
-  const colors = useColorModeValue(
-    ["red.50", "teal.50", "blue.50"],
-    ["red.900", "teal.900", "blue.900"]
-  );
+ 
   const [tabIndex, setTabIndex] = useState(0);
-  const bg = colors[tabIndex];
 
   const [myPosts, setMyPost] = useState<IPost[]>([]);
   const [savedPosts, setSavedPosts] = useState<IPost[]>([]);
@@ -167,14 +161,14 @@ export function MainTabs() {
     getPosts();
   }, []);
   return (
-    <Tabs onChange={(index) => setTabIndex(index)} bg={bg}>
+    <Tabs onChange={(index) => setTabIndex(index)}>
       <TabList>
         <Tab>
           <AtSignIcon mr={'1'} />
           My posts
         </Tab>
         <Tab>
-          <StarIcon mr={'1'} />
+        {<BiBookmark />} 
           Saved posts
         </Tab>
       </TabList>
