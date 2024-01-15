@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/textarea";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { useEffect, useReducer, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useReducer, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import { useNavigate } from "react-router-dom";
@@ -35,11 +35,12 @@ export interface IPost {
   id: string;
   publish_date: string;
   comments: {
-    uid: string;
+    displayName?: string;
     message: string;
-    date: string;
-  };
+    date?: string;
+  }[]
   comment: string;
+  setTrigger?: Dispatch<SetStateAction<boolean>>
 }
 const AddPost = ({ setTrigger }: any) => {
   const [show, setShow] = useState(false);
@@ -77,7 +78,7 @@ const AddPost = ({ setTrigger }: any) => {
         fullName: auth.currentUser?.displayName,
         avatar: auth.currentUser?.photoURL,
         likes: [],
-        comments: {},
+        comments: [],
         saved:[]
       };
       await setDoc(donorCollectionRef, sendingData);
