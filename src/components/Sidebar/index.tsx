@@ -67,7 +67,7 @@ const Sidebar = () => {
           <GoPeople size={25} style={{ marginRight: "10px" }} /> DONORS
         </NavLink>
         <NavLink
-          to="/blogsDetails"
+          to="/blogs"
           style={({ isActive }) => ({
             color: isActive ? "#e6010b" : "#fff",
             marginBottom: "30px",

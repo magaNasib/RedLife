@@ -51,7 +51,7 @@ export const Banner = () => {
         templateColumns="1fr 2fr 2fr"
         gap={3}
         w="65vw"
-        h="25vh"
+        minH="25vh"
         margin="0 auto"
       >
         <GridItem display="flex" alignItems="center">
