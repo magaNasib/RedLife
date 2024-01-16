@@ -15,15 +15,12 @@ import {
 } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/textarea";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { Dispatch, SetStateAction, useEffect, useReducer, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useEffect, useReducer, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import { useNavigate } from "react-router-dom";
-import {
-  PostsReducer,
-  postActions,
-  postsStates,
-} from "../../../../context/PostReducer";
+
+import { AuthContext } from "../../../../context/AppContext";
 
 export interface IPost {
   bloodGroup: "B+" | "A+" | "AB+" | "O+" | "B-" | "A-" | "AB-" | "O-";
@@ -54,6 +51,7 @@ const AddPost = ({ setTrigger }: any) => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const triggerContext = useContext<any>(AuthContext)
 
   const toast = useToast();
   const methods = useForm<IPost>({
@@ -92,6 +90,8 @@ const AddPost = ({ setTrigger }: any) => {
       await setDoc(donorCollectionRef, sendingData);
       setShow(false);
       methods.reset();
+      triggerContext.setTrigger((curr: boolean) => !curr)
+
       toast({
         title: "Post created successfully",
         status: "success",
