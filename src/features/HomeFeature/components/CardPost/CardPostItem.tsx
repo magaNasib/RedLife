@@ -30,6 +30,7 @@ import { MdDelete, MdReport } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import { FaBookmark } from "react-icons/fa";
 import { AuthContext } from "../../../../context/AppContext";
+import MyLocationPicker from "../../../../components/LocationPicker";
 import CardPostItemDetails from "./CardPostItemDetails";
 
 function CardPostItem(props: IPost, key: number) {
@@ -49,6 +50,7 @@ function CardPostItem(props: IPost, key: number) {
 
         return () => unsubscribe();
     }, [auth, navigate]);
+
     let actions = {
         isILiked: false,
         isISaved: false
@@ -61,6 +63,8 @@ function CardPostItem(props: IPost, key: number) {
         actions.isILiked = false;
         actions.isISaved = false;
     }
+
+
     const addLikeHandler = () => {
         if (!auth.currentUser) return navigate('/login')
         const userDocRef = doc(db, 'donors', id);
@@ -68,7 +72,6 @@ function CardPostItem(props: IPost, key: number) {
         const updateData = {
             ['likes']: actions.isILiked ? arrayRemove(auth.currentUser.uid) : arrayUnion(auth.currentUser.uid)
         };
-        triggerContext.setTrigger((curr: boolean) => !curr)
         updateDoc(userDocRef, updateData)
             .then(() => {
                 console.log('Document successfully updated!');
@@ -76,6 +79,7 @@ function CardPostItem(props: IPost, key: number) {
             .catch((error) => {
                 console.error('Error updating document:', error);
             });
+        triggerContext.setTrigger((curr: boolean) => !curr)
     }
 
     const saveClickHandler = () => {
@@ -112,7 +116,7 @@ function CardPostItem(props: IPost, key: number) {
                             />
                             <Box>
                                 <Heading size="md">{fullName}</Heading>
-                             
+                                <MyLocationPicker/>
                                 <Flex>
                                     <Text color={'gray'} fontWeight={'bold'}>{city}</Text>
                                     <Text ml="5px" display={'block'}>{phone}</Text>
@@ -121,20 +125,20 @@ function CardPostItem(props: IPost, key: number) {
                         </Flex>
                         <Button onClick={() => setShowPost(!showPost)}>Show Post</Button>
                         <Popover>
-                        <Flex>
-                                    <Text
-                                        bg={type === "Acceptor" ? "green.500" : "red.500"}
-                                        color="white"
-                                        p="1"
-                                        borderRadius="md"
-                                        h="35px"
-                                        w="110px"
-                                        display="flex"
-                                        alignItems="center"
-                                        justifyContent="center"
-                                    >{type} {bloodGroup}</Text>
-                                    <Text ml="5px"></Text>
-                                </Flex>
+                            <Flex>
+                                <Text
+                                    bg={type === "Acceptor" ? "green.500" : "red.500"}
+                                    color="white"
+                                    p="1"
+                                    borderRadius="md"
+                                    h="35px"
+                                    w="110px"
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                >{type} {bloodGroup}</Text>
+                                <Text ml="5px"></Text>
+                            </Flex>
                             <PopoverTrigger>
                                 <IconButton
                                     variant="ghost"
@@ -168,7 +172,7 @@ function CardPostItem(props: IPost, key: number) {
                         {description}
                     </Text>
                 </CardBody>
-                <Divider color={'lightgray'}/>
+                <Divider color={'lightgray'} />
                 <CardFooter
                     justify="space-between"
                     flexWrap="wrap"

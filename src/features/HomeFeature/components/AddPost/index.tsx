@@ -9,21 +9,19 @@ import {
   FormErrorMessage,
   Input,
   InputGroup,
+  InputLeftAddon,
   InputLeftElement,
   Select,
   useToast,
 } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/textarea";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { Dispatch, SetStateAction, useEffect, useReducer, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useEffect, useReducer, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import { useNavigate } from "react-router-dom";
-import {
-  PostsReducer,
-  postActions,
-  postsStates,
-} from "../../../../context/PostReducer";
+
+import { AuthContext } from "../../../../context/AppContext";
 
 export interface IPost {
   bloodGroup: "B+" | "A+" | "AB+" | "O+" | "B-" | "A-" | "AB-" | "O-";
@@ -39,13 +37,13 @@ export interface IPost {
   id: string;
   publish_date: string;
   comments: {
-    id:string
+    id: string
     displayName?: string;
     comment: string;
     date?: string;
-    publish_date:string
-    uid:string
-    photo_url:string
+    publish_date: string
+    uid: string
+    photo_url: string
   }[]
   comment: string;
   setTrigger?: Dispatch<SetStateAction<boolean>>
@@ -54,6 +52,7 @@ const AddPost = ({ setTrigger }: any) => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const triggerContext = useContext<any>(AuthContext)
 
   const toast = useToast();
   const methods = useForm<IPost>({
@@ -77,6 +76,7 @@ const AddPost = ({ setTrigger }: any) => {
 
   const donorCollectionRef = doc(collection(db, "donors"));
   const handleSubmit = methods.handleSubmit(async (data: IPost) => {
+    data.phone = '+994' + data.phone
     setLoading(true);
     try {
       const sendingData = {
@@ -87,11 +87,13 @@ const AddPost = ({ setTrigger }: any) => {
         avatar: auth.currentUser?.photoURL,
         likes: [],
         comments: [],
-        saved:[]
+        saved: []
       };
       await setDoc(donorCollectionRef, sendingData);
       setShow(false);
       methods.reset();
+      triggerContext.setTrigger((curr: boolean) => !curr)
+
       toast({
         title: "Post created successfully",
         status: "success",
@@ -209,13 +211,17 @@ const AddPost = ({ setTrigger }: any) => {
                     name="phone"
                     rules={{
                       required: "This field is required",
+                      validate: value => {
+                        const isNineDigits = /^\d{9}$/.test(value);
+                        if (!isNineDigits) {
+                          return "Phone number must be 9 digits";
+                        }
+                        return true; 
+                      },
                     }}
                     render={({ field }) => (
                       <InputGroup>
-                        <InputLeftElement
-                          pointerEvents="none"
-                          children={<PhoneIcon color="gray.300" />}
-                        />
+                        <InputLeftAddon>+994</InputLeftAddon>
                         <Input
                           {...field}
                           value={field.value}

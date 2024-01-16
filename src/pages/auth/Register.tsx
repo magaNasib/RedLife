@@ -50,7 +50,7 @@ const Register: React.FC<IProps> = () => {
                 displayName: fullname
             });
             await setDoc(doc(db, 'users', user.uid), { email })
-
+            navigate('/login')
         } catch (error: any) {
             if (error?.code?.includes('auth/weak-password')) {
                 setError('Please enter a stronger password.');

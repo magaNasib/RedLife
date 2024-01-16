@@ -44,7 +44,6 @@ function CardPost(props: IProps) {
   const { SUBMIT_POST } = postActions;
   const [state, dispatch] = useReducer(PostsReducer, postsStates);
   const triggerContext = useContext<any>(AuthContext)
-  console.log(triggerContext);
   
   useEffect(() => {
     const getPosts = async () => {
