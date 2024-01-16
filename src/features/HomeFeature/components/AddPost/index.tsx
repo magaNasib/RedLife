@@ -9,6 +9,7 @@ import {
   FormErrorMessage,
   Input,
   InputGroup,
+  InputLeftAddon,
   InputLeftElement,
   Select,
   useToast,
@@ -36,13 +37,13 @@ export interface IPost {
   id: string;
   publish_date: string;
   comments: {
-    id:string
+    id: string
     displayName?: string;
     comment: string;
     date?: string;
-    publish_date:string
-    uid:string
-    photo_url:string
+    publish_date: string
+    uid: string
+    photo_url: string
   }[]
   comment: string;
   setTrigger?: Dispatch<SetStateAction<boolean>>
@@ -75,6 +76,7 @@ const AddPost = ({ setTrigger }: any) => {
 
   const donorCollectionRef = doc(collection(db, "donors"));
   const handleSubmit = methods.handleSubmit(async (data: IPost) => {
+    data.phone = '+994' + data.phone
     setLoading(true);
     try {
       const sendingData = {
@@ -85,7 +87,7 @@ const AddPost = ({ setTrigger }: any) => {
         avatar: auth.currentUser?.photoURL,
         likes: [],
         comments: [],
-        saved:[]
+        saved: []
       };
       await setDoc(donorCollectionRef, sendingData);
       setShow(false);
@@ -209,13 +211,17 @@ const AddPost = ({ setTrigger }: any) => {
                     name="phone"
                     rules={{
                       required: "This field is required",
+                      validate: value => {
+                        const isNineDigits = /^\d{9}$/.test(value);
+                        if (!isNineDigits) {
+                          return "Phone number must be 9 digits";
+                        }
+                        return true; 
+                      },
                     }}
                     render={({ field }) => (
                       <InputGroup>
-                        <InputLeftElement
-                          pointerEvents="none"
-                          children={<PhoneIcon color="gray.300" />}
-                        />
+                        <InputLeftAddon>+994</InputLeftAddon>
                         <Input
                           {...field}
                           value={field.value}
