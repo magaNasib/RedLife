@@ -11,6 +11,9 @@ import {
   TabList,
   TabPanel,
   TabPanels,
+  FormLabel,
+  Input,
+  Flex,
 } from "@chakra-ui/react";
 import { AtSignIcon, EditIcon, LockIcon } from "@chakra-ui/icons";
 import { BiBookmark } from "react-icons/bi";
@@ -22,9 +25,17 @@ import { collection, doc, getDocs, orderBy, query, where } from "@firebase/fires
 import { IPost } from "../../features/HomeFeature/components/AddPost";
 import CardPost from "../../features/HomeFeature/components/CardPost";
 import { AuthContext } from "../../context/AppContext";
+import { MdOutlineDriveFolderUpload } from "react-icons/md";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { storage } from "../../firebase";
 
 export const Banner = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [file, setFile] = useState("");
+  // const [data, setData] = useState({});
+  const [myPosts, setMyPost] = useState<IPost[]>([]);
+
+
   const navigate = useNavigate();
 
   const user = auth?.currentUser
@@ -32,6 +43,55 @@ export const Banner = () => {
   const handleEditModalClose = () => {
     setIsEditModalOpen(false);
   };
+
+  useEffect(() => {
+    const uploadFile = () => {
+      const name = new Date().getTime() + file.name;
+      const storageRef = ref(storage, 'images/' + file.name);
+
+      const uploadTask = uploadBytesResumable(storageRef, file);
+
+      // Listen for state changes, errors, and completion of the upload.
+      uploadTask.on('state_changed',
+        (snapshot) => {
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused');
+              break;
+            case 'running':
+              console.log('Upload is running');
+              break;
+            default:
+              break;
+          }
+        },
+        (error) => {
+          switch (error.code) {
+            case 'storage/unauthorized':
+              alert("User doesn't have permission to access the object")
+              break;
+            case 'storage/canceled':
+              alert("User canceled the upload")
+              break;
+            case 'storage/unknown':
+              alert("Unknown error occurred, inspect error.serverResponse")
+              break;
+          }
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            // console.log('File available at', downloadURL);
+            setMyPost((prev) => ({ ...prev, img: downloadURL }));
+          });
+        }
+      );
+
+    }
+    file && uploadFile();
+  }, [file])
 
   return (
     <Box
@@ -59,7 +119,8 @@ export const Banner = () => {
           <Avatar
             size="2xl"
             name={user?.displayName || ''}
-            src={user?.photoURL || "path_to_image"}
+            // src={user?.photoURL || "path_to_image"}
+            src={file ? URL.createObjectURL(file) : 'path_to_image'}
             marginLeft="50px"
           />
         </GridItem>
@@ -97,6 +158,19 @@ export const Banner = () => {
             <EditIcon />
             Edit
           </Button>
+          {/* Upload image button */}
+          <Flex justifyContent={'center'} alignItems={'center'} border={'2px solid white'} borderRadius={'5px'} width={'180px'} height={'40px'}>
+            <MdOutlineDriveFolderUpload color={'white'} />
+            <FormLabel htmlFor="file" color={'white'} pt={'8px'}>
+              Image
+            </FormLabel>
+            <Input
+              type="file"
+              id="file"
+              onChange={(e) => setFile(e.target.files[0])}
+              display={'none'}
+            />
+          </Flex>
 
           <Button
             colorScheme="whiteAlpha"
@@ -133,7 +207,7 @@ export const Banner = () => {
 };
 
 export function MainTabs() {
- 
+
   const [tabIndex, setTabIndex] = useState(0);
 
   const [myPosts, setMyPost] = useState<IPost[]>([]);
@@ -153,7 +227,7 @@ export function MainTabs() {
           );
           setMyPost(donorData.filter((data) => user?.uid === data.uid));
           setSavedPosts(donorData.filter((data) => data.saved.includes(user?.uid || '')));
-          
+
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -170,7 +244,7 @@ export function MainTabs() {
           My posts
         </Tab>
         <Tab>
-        {<BiBookmark />} 
+          {<BiBookmark />}
           Saved posts
         </Tab>
       </TabList>
