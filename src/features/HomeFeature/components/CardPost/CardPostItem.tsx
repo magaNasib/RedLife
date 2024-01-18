@@ -31,6 +31,8 @@ import { useNavigate } from "react-router-dom";
 import { FaBookmark } from "react-icons/fa";
 import { AuthContext } from "../../../../context/AppContext";
 import MyLocationPicker from "../../../../components/LocationPicker";
+import { useJsApiLoader } from "@react-google-maps/api";
+import { mapOptions } from "../../../../MapConfig";
 
 
 
@@ -42,6 +44,12 @@ function CardPostItem(props: IPost, key: number) {
     const triggerContext = useContext<any>(AuthContext)
 
     const [authChecked, setAuthChecked] = useState(false);
+
+    const { isLoaded } = useJsApiLoader({
+        id: mapOptions.googleMapApiKey,
+        googleMapsApiKey: mapOptions.googleMapApiKey
+    })
+
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, () => {
             setAuthChecked(true);
@@ -115,7 +123,7 @@ function CardPostItem(props: IPost, key: number) {
                             />
                             <Box>
                                 <Heading size="md">{fullName}</Heading>
-                                <MyLocationPicker/>
+                                <MyLocationPicker isLoaded={isLoaded}/>
                                 <Flex>
                                     <Text color={'gray'} fontWeight={'bold'}>{city}</Text>
                                     <Text ml="5px" display={'block'}>{phone}</Text>

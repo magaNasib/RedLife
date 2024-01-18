@@ -1,52 +1,39 @@
+import { GoogleMap } from '@react-google-maps/api';
 import React, { Component, useState } from 'react';
 import LocationPicker from 'react-location-picker';
 
 
-interface ILocation{
-    address:string
-    position:{
-        lat:number
-        lng:number
+interface ILocation {
+    address: string
+    position: {
+        lat: number
+        lng: number
     }
 }
 
-/* Default position */
-const defaultPosition = {
-    lat: 27.9878,
-    lng: 86.9250
+const containerStyle = {
+    width: '400px',
+    height: '400px'
 };
 
+const center = {
+    lat: 40.4093,
+    lng: 49.8671
+};
 
-function MyLocationPicker() {
-    const [address, setAddress] = useState<ILocation>({
-        address: "Kala Pattar Ascent Trail, Khumjung 56000, Nepal",
-        position: {
-            lat: 0,
-            lng: 0
-        }
-    })
+function MyLocationPicker(props: { isLoaded: any }) {
+    const { isLoaded } = props
 
-
-
-function handleLocationChange({ position, address }:ILocation) {
-
-    // Set new location
-    setAddress({ position, address });
-}
-
-    return (
-        <div>
-            <h1>{address.address}</h1>
-            <div>
-                <LocationPicker
-                    containerElement={<div style={{ height: '100%',width:'100%' }} />}
-                    mapElement={<div style={{ height: '300px' }} />}
-                    defaultPosition={defaultPosition}
-                    onChange={handleLocationChange}
-                />
-            </div>
-        </div>
+    return isLoaded && (
+        <>
+            <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={center}
+                zoom={10}
+            >
+            </GoogleMap>
+        </>
     )
 }
 
-export default MyLocationPicker
+export default React.memo(MyLocationPicker)
