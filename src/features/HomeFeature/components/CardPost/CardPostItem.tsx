@@ -158,25 +158,25 @@ function CardPostItem(props: IPost, key: number) {
                                             icon={<BsThreeDotsVertical />}
                                         />
                                     </PopoverTrigger>
-                                    <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'140px'}>
+                                    <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'240px'}>
                                         {
                                             auth?.currentUser?.uid === uid &&
                                             <>
                                                 <PopoverHeader cursor={'pointer'}>
                                                     <Flex alignItems={'center'}>
-                                                        <FaEdit /><Text ml={'10px'} fontSize={'18px'}>Edit</Text>
+                                                        <FaEdit /><Text ml={'10px'} fontSize={'18px'}>{t("CardEdit")}</Text>
                                                     </Flex>
                                                 </PopoverHeader>
                                                 <PopoverHeader cursor={'pointer'}>
                                                     <Flex alignItems={'center'}>
-                                                        <MdDelete /><Text ml={'10px'} fontSize={'18px'}>Delete</Text>
+                                                        <MdDelete /><Text ml={'10px'} fontSize={'18px'}>{t("CardDelete")}</Text>
                                                     </Flex>
                                                 </PopoverHeader>
                                             </>
                                         }
                                         <PopoverHeader cursor={'pointer'}>
                                             <Flex alignItems={'center'}>
-                                                <MdReport /><Text ml={'10px'} fontSize={'18px'}>Report</Text>
+                                                <MdReport /><Text ml={'10px'} fontSize={'18px'}>{t("CardReport")}</Text>
                                             </Flex></PopoverHeader>
                                         <PopoverHeader cursor={'pointer'}>
                                             <Flex alignItems={'center'}>
@@ -189,7 +189,7 @@ function CardPostItem(props: IPost, key: number) {
                                                         position: "top-right",
                                                     });
                                                 }}>
-                                                    <Flex gap={'10px'} alignItems={'center'} fontSize={'18px'}><FaCopy />Copy URL</Flex>
+                                                    <Flex gap={'10px'} alignItems={'center'} fontSize={'18px'}><FaCopy />{t("CardShare")}</Flex>
                                                 </CopyToClipboard>
                                             </Flex>
                                         </PopoverHeader>
