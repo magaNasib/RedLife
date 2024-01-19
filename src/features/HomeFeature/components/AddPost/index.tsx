@@ -99,7 +99,7 @@ const AddPost = ({ setTrigger }: any) => {
       methods.setValue('coordinates', coordinates)
 
     } else {
-      alert("Please enter text");
+      alert(t("MessageEnterText"));
     }
   }
 
@@ -177,7 +177,7 @@ const AddPost = ({ setTrigger }: any) => {
                     control={methods.control}
                     name="bloodGroup"
                     rules={{
-                      required: "This field is required",
+                      required: t("ValidationMessage"),
                     }}
                     render={({ field }) => (
                       <>
@@ -210,7 +210,7 @@ const AddPost = ({ setTrigger }: any) => {
                     control={methods.control}
                     name="type"
                     rules={{
-                      required: "This field is required",
+                      required: t("ValidationMessage"),
                     }}
                     render={({ field }) => (
                       <Select
@@ -234,13 +234,13 @@ const AddPost = ({ setTrigger }: any) => {
                     control={methods.control}
                     name="city"
                     rules={{
-                      required: "This field is required",
+                      required: t("ValidationMessage"),
                     }}
                     render={({ field }) => (
                       <Autocomplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>
                           <Input
                             type="text"
-                            placeholder="Search for location Information"
+                            placeholder={t("AddPostCitySearch")}
                             onChange={field.onChange}
                             value={field.value}
                           />
@@ -257,11 +257,11 @@ const AddPost = ({ setTrigger }: any) => {
                     control={methods.control}
                     name="phone"
                     rules={{
-                      required: "This field is required",
+                      required: t("ValidationMessage"),
                       validate: value => {
                         const isNineDigits = /^\d{9}$/.test(value);
                         if (!isNineDigits) {
-                          return "Phone number must be 9 digits";
+                          return t("PhoneValidationMessage");
                         }
                         return true;
                       },
