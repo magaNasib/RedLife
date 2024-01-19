@@ -44,7 +44,10 @@ export interface IPost {
   saved: string[];
   uid: string;
   id: string;
-  publish_date: string;
+  publish_date: {
+    seconds:number
+    nanoseconds:number
+  };
   comments: {
     id: string
     displayName?: string;

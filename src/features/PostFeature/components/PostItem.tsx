@@ -16,8 +16,9 @@ import {
     PopoverContent,
     PopoverHeader,
     useToast,
+    Link,
 } from "@chakra-ui/react";
-import { BiLike,   BiBookmark, BiSolidLike, BiShare } from "react-icons/bi";
+import { BiLike, BiBookmark, BiSolidLike, BiShare } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import { arrayRemove, arrayUnion, collection, doc, getDocs, updateDoc } from "firebase/firestore";
@@ -36,12 +37,15 @@ import { AuthContext } from "../../../context/AppContext";
 import CommentSection from "../../HomeFeature/components/Comments/CommentsSection";
 import { IPost } from "../../HomeFeature/components/AddPost";
 import MyLocationPicker from "../../../components/LocationPicker";
+import { CiLock } from "react-icons/ci";
 
 
 
 function PostItem(props: IPost, key: number) {
 
-    const { id, phone, likes, comments, saved, type, description, city, bloodGroup, fullName, photoURL, coordinates, uid } = props
+    const { id, phone, likes, publish_date, comments, saved, type, description, city, bloodGroup, fullName, photoURL, coordinates, uid } = props
+    const date = new Date(publish_date?.seconds * 1000 + publish_date?.nanoseconds / 1e6);
+
     const navigate = useNavigate();
     const triggerContext = useContext<any>(AuthContext)
     const toast = useToast()
@@ -108,6 +112,7 @@ function PostItem(props: IPost, key: number) {
                 console.error('Error updating document:', error);
             });
     }
+
 
     return (
 
@@ -192,11 +197,18 @@ function PostItem(props: IPost, key: number) {
                                     </PopoverContent>
                                 </Popover>
                             </Flex>
-                            <Box w={'full'} onClick={() => { navigate('/' + id) }} cursor={'pointer'}>
+                            <Box w={'full'}>
                                 <div>
-                                    <Text fontWeight={'500'} color={'gray'} display={'block'}>{<PhoneIcon />} {phone}</Text>
-                                    <Text color={'gray'} fontWeight={'bold'} display={'flex'} alignItems={'center'} gap={'1'} mt={'2'}>{<GoLocation />} {city}</Text>
+                                    <Flex justifyContent={'space-between'}>
+                                        <Link href={"tel:"+phone} fontWeight={'500'} color={'gray'} display={'block'}>{<PhoneIcon />} {phone}</Link>
 
+                                        <Text color={'gray'} display={'flex'} alignItems={'center'} gap={'1'} mt={'2'}>
+                                            {String(date)}
+                                        </Text>
+                                    </Flex>
+                                    <Text color={'gray'} fontWeight={'bold'} display={'flex'} alignItems={'center'} gap={'1'} mt={'2'}>
+                                        {<GoLocation />} {city}
+                                    </Text>
                                 </div>
                                 <MyLocationPicker isLoaded={isLoaded} coordinates={coordinates} />
                             </Box>
@@ -204,7 +216,7 @@ function PostItem(props: IPost, key: number) {
                         </Flex>
                     </Flex>
                 </CardHeader>
-                <CardBody onClick={() => { navigate('/' + id) }} cursor={'pointer'}>
+                <CardBody>
                     <Text>
                         {description}
                     </Text>
