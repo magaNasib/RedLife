@@ -15,6 +15,7 @@ import {
     Select,
 } from '@chakra-ui/react';
 import { EditIcon, PhoneIcon } from '@chakra-ui/icons';
+import { useTranslation } from "react-i18next";
 
 interface EditProfileModalProps {
     isOpen: boolean;
@@ -22,37 +23,38 @@ interface EditProfileModalProps {
 }
 
 export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onClose }) => {
+    const {t} = useTranslation();
     return (
         <Modal isOpen={isOpen} onClose={onClose} size="md">
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader>Edit Profile</ModalHeader>
+                <ModalHeader>{t("EditProfileModal")}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     <VStack spacing="4">
                         <FormControl>
-                            <FormLabel>Name</FormLabel>
-                            <Input type="text" placeholder="Enter your name" />
+                            <FormLabel>{t("NameProfileModal")}</FormLabel>
+                            <Input type="text" placeholder={t("NamePlaceholderModal")} />
                         </FormControl>
 
                         <FormControl>
-                            <FormLabel>Country</FormLabel>
-                            <Input type="text" placeholder="Enter your country" />
+                            <FormLabel>{t("CountryModal")}</FormLabel>
+                            <Input type="text" placeholder={t("CountryPlaceholderModal")} />
                         </FormControl>
 
                         <FormControl>
-                            <FormLabel>Phone Number</FormLabel>
+                            <FormLabel>{t("PhoneNumberModal")}</FormLabel>
                             <InputGroup>
                                 <InputLeftElement pointerEvents='none'>
                                     <PhoneIcon color='gray.300' />
                                 </InputLeftElement>
-                                <Input type='tel' placeholder='Enter your phone number' />
+                                <Input type='tel' placeholder={t("PhonePlaceholderModal")}/>
                             </InputGroup>
                         </FormControl>
 
                         <FormControl>
-                            <FormLabel>Blood Group</FormLabel>
-                            <Select placeholder="Select blood group">
+                            <FormLabel>{t("BloodGroupModal")}</FormLabel>
+                            <Select placeholder={t("BloodPlaceholderModal")}>
                                 <option value="O(I) Rh+">O(I) Rh+</option>
                                 <option value="O(I) Rh">O(I) Rh</option>
                                 <option value="A(II) Rh+">A(II) Rh+</option>
@@ -67,10 +69,10 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onCl
                 </ModalBody>
                 <ModalFooter>
                     <Button colorScheme="teal" mr={3} onClick={onClose}>
-                        Close
+                    {t("CloseModal")}
                     </Button>
                     <Button variant="outline" onClick={onClose}>
-                        <EditIcon /> Save Changes
+                        <EditIcon /> {t("SaveChangesModal")}
                     </Button>
                 </ModalFooter>
             </ModalContent>

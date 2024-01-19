@@ -11,6 +11,7 @@ import { createUserWithEmailAndPassword } from "@firebase/auth"
 import { auth, db } from "../../firebase"
 import { doc, setDoc } from "@firebase/firestore"
 import { useState } from "react"
+import { useTranslation } from "react-i18next";
 import { updateProfile } from "firebase/auth"
 
 interface IProps {
@@ -24,7 +25,7 @@ interface IRegister {
     repassword: string
 }
 const Register: React.FC<IProps> = () => {
-
+    const {t} = useTranslation();
     const [error, setError] = useState('')
     const methods = useForm<IRegister>({
         defaultValues: {
@@ -53,11 +54,11 @@ const Register: React.FC<IProps> = () => {
             navigate('/login')
         } catch (error: any) {
             if (error?.code?.includes('auth/weak-password')) {
-                setError('Please enter a stronger password.');
+                setError(t("RegisterErrMessage1"));
             } else if (error.code.includes('auth/email-already-in-use')) {
-                setError('Email already in use.');      
-            } else {    
-                setError('Unable to register. Please try again later.');
+                setError(t("RegisterErrMessage2"));
+            } else {
+                setError(t("RegisterErrMessage3"));
             }
         }
     })
@@ -69,15 +70,15 @@ const Register: React.FC<IProps> = () => {
                     backdropFilter='blur(10px) hue-rotate(90deg)'
                 />
                 <ModalContent>
-                    <ModalHeader>Register</ModalHeader>
+                    <ModalHeader>{t("RegisterHeader")}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody >
                         <Stack spacing="8">
                             <Stack spacing="6">
                                 <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
-                                    <Heading size={{ base: 'xs', md: 'sm' }}>Create your account</Heading>
+                                    <Heading size={{ base: 'xs', md: 'sm' }}>{t("RegisterHeading")}</Heading>
                                     <Text color="fg.muted">
-                                        Already have an account? <Link href="/login">Sign in</Link>
+                                    {t("RegisterText")} <Link href="/login">{t("RegisterTextLink")}</Link>
                                     </Text>
                                 </Stack>
                             </Stack>
@@ -94,7 +95,7 @@ const Register: React.FC<IProps> = () => {
                                                 }}
                                                 render={({ field }) => (
                                                     <>
-                                                        <FormLabel htmlFor="fullname">Fullname</FormLabel>
+                                                        <FormLabel htmlFor="fullname">{t("RegisterName")}</FormLabel>
                                                         <Input {...field} id="fullname" type="fullname" value={field.value} />
                                                     </>
                                                 )}
@@ -112,7 +113,7 @@ const Register: React.FC<IProps> = () => {
                                                 }}
                                                 render={({ field }) => (
                                                     <>
-                                                        <FormLabel htmlFor="email">Email</FormLabel>
+                                                        <FormLabel htmlFor="email">{t("RegisterEmail")}</FormLabel>
                                                         <Input {...field} id="email" type="email" value={field.value} />
                                                     </>
                                                 )}
@@ -129,7 +130,7 @@ const Register: React.FC<IProps> = () => {
                                                     required: 'This field is required'
                                                 }}
                                                 render={({ field }) => (
-                                                    <PasswordField label='Password' {...field} />
+                                                    <PasswordField label={t("RegisterPassword1")} {...field} />
                                                 )}
                                             />
 
@@ -145,7 +146,7 @@ const Register: React.FC<IProps> = () => {
                                                     required: 'This field is required'
                                                 }}
                                                 render={({ field }) => (
-                                                    <PasswordField label='Confirm the Password' {...field} />
+                                                    <PasswordField label={t("RegisterPassword2")} {...field} />
                                                 )}
                                             />
 
@@ -155,12 +156,12 @@ const Register: React.FC<IProps> = () => {
                                         </FormControl>
                                     </Stack>
                                     <Stack spacing="6">
-                                        <Button type="submit" onClick={handleSubmit}>Sign up</Button>
+                                        <Button type="submit" onClick={handleSubmit}>{t("RegisterButton")}</Button>
                                         <Text fontSize='14' color='red'>{error}</Text>
                                         <HStack>
                                             <Divider />
                                             <Text textStyle="sm" whiteSpace="nowrap" color="fg.muted">
-                                                or continue with
+                                            {t("RegisterBottomText")}
                                             </Text>
                                             <Divider />
                                         </HStack>

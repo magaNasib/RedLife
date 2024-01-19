@@ -29,6 +29,7 @@ import CommentSection from "../Comments/CommentsSection";
 import { FaEdit, FaCopy } from "react-icons/fa";
 import { MdDelete, MdReport } from "react-icons/md";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { FaBookmark } from "react-icons/fa";
 import { AuthContext } from "../../../../context/AppContext";
 import MyLocationPicker from "../../../../components/LocationPicker";
@@ -43,7 +44,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 function CardPostItem(props: IPost, key: number) {
     const [showComment, setShowComment] = useState(false);
-
+    const {t} = useTranslation();
     const { id, phone, likes, comments, saved, type, description, city, bloodGroup, fullName, photoURL, coordinates, uid } = props
     const navigate = useNavigate();
     const triggerContext = useContext<any>(AuthContext)
@@ -230,8 +231,8 @@ function CardPostItem(props: IPost, key: number) {
                     }}>
                         {comments?.length || '0'}
                     </Button>
-                    <Button flex="2" variant="ghost" leftIcon={actions.isISaved ? <FaBookmark size={20} color='#166fe5' /> : <BiBookmark size={20} />} isDisabled={!authChecked} onClick={() => { saveClickHandler() }}>
-                        {actions.isISaved ? 'Saved' : 'Save'}
+                    <Button flex="1" variant="ghost" leftIcon={actions.isISaved ? <FaBookmark size={20} color='#166fe5' /> : <BiBookmark size={20} />} isDisabled={!authChecked} onClick={() => { saveClickHandler() }}>
+                        {actions.isISaved ? t("CardSaved") : t("CardSave")}
                     </Button>
 
                     <Popover>

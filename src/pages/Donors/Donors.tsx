@@ -11,6 +11,7 @@ import {
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import Bg from "./../../assets/donorBg.jpg";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { IPost } from "../../features/HomeFeature/components/AddPost";
 import CardPost from "../../features/HomeFeature/components/CardPost";
 import { collection, getDocs } from "firebase/firestore";
@@ -25,6 +26,7 @@ interface IFDonars {
 }
 
 const Donors: React.FC<IDonors> = () => {
+  const {t} = useTranslation();
   const [posts, setPosts] = useState<IPost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -73,367 +75,361 @@ const Donors: React.FC<IDonors> = () => {
 
   return (
     <>
-      <Sidebar />
-      <Box
-        py="90px"
-        backgroundImage={Bg}
-        w={"100%"}
-        minH={'100vh'}
-        backgroundSize="cover"
-      >
-        <FormProvider {...methods}>
-          <Box>
-            <Grid
-              templateColumns="repeat(3,1fr)"
-              gap="24px"
-              width={"60%"}
-              margin={"0px auto"}
-              mb="60px"
-            >
-              <GridItem colSpan={4}>
-                <Heading
-                  color={"#FFFF"}
-                  as="h1"
-                  size="lg"
-                  textAlign={"center"}
-                  pt="50px"
-                  pb="20px"
-                >
-                  Search a Donor
-                </Heading>
-              </GridItem>
-              <GridItem colSpan={4}>
-                <Heading
-                  color={"white"}
-                  as="p"
-                  size="lg"
-                  textAlign={"center"}
-                  pb="30px"
-                >
-                  Your Donation Can Make Someone’s Life Better
-                </Heading>
-              </GridItem>
+    <Sidebar/>
+    <Box
+      py="90px"
+      backgroundImage={Bg}
+      w={"100%"}
+      minH={'100vh'}
+      backgroundSize="cover"
+    >
+      <FormProvider {...methods}>
+        <Box>
+          <Grid
+            templateColumns="repeat(3,1fr)"
+            gap="24px"
+            width={"60%"}
+            margin={"0px auto"}
+            mb="60px"
+          >
+            <GridItem colSpan={4}>
+              <Heading
+                color={"#FFFF"}
+                as="h1"
+                size="lg"
+                textAlign={"center"}
+                pt="50px"
+                pb="20px"
+              >
+                {t("DonorHeader")}
+              </Heading>
+            </GridItem>
+            <GridItem colSpan={4}>
+              <Heading
+                color={"white"}
+                as="p"
+                size="lg"
+                textAlign={"center"}
+                pb="30px"
+              >
+                {t("DonorHeading")}
+              </Heading>
+            </GridItem>
 
-              <GridItem colSpan={1}>
-                <FormControl isInvalid={!!methods.formState.errors.bloodGroups}>
-                  <Controller
-                    control={methods.control}
-                    rules={{
-                      required: "This field is required",
-                    }}
-                    name="bloodGroups"
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e);
-                        }}
-                        bgColor={"#ff4d4d"}
-                        color={"white"}
-                        border={"none"}
+            <GridItem colSpan={1}>
+              <FormControl isInvalid={!!methods.formState.errors.bloodGroups}>
+                <Controller
+                  control={methods.control}
+                  rules={{
+                    required: "This field is required",
+                  }}
+                  name="bloodGroups"
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                      }}
+                      bgColor={"#ff4d4d"}
+                      color={"white"}
+                      border={"none"}
+                      style={{
+                        outline: "none",
+                        boxShadow: "none",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <option
                         style={{
-                          outline: "none",
-                          boxShadow: "none",
+                          background: "#ff4d4d",
+                          color: "white",
                           fontWeight: "bold",
                         }}
+                        value={"All Blood Group"}
+                        selected
                       >
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"All Blood Group"}
-                          selected
-                        >
-                          All Blood Group
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"A+"}
-                        >
-                          A+
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"B+"}
-                        >
-                          B+
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"AB+"}
-                        >
-                          AB+
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"O+"}
-                        >
-                          O+
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"O-"}
-                        >
-                          O-
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"AB-"}
-                        >
-                          AB-
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"B-"}
-                        >
-                          B-
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"A-"}
-                        >
-                          A-
-                        </option>
-                      </Select>
-                    )}
-                  />
-                  <FormErrorMessage color={"red"} fontSize={"14px"}>
-                    {methods.formState.errors.bloodGroups?.message}
-                  </FormErrorMessage>
-                </FormControl>
-              </GridItem>
-
-              <GridItem colSpan={1}>
-                <FormControl isInvalid={!!methods.formState.errors.locations}>
-                  <Controller
-                    control={methods.control}
-                    rules={{
-                      required: "This field is required",
-                    }}
-                    name="locations"
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e);
-                        }}
-                        bgColor={"#ff4d4d"}
-                        color={"white"}
-                        border={"none"}
+                        {t("BloodSelector")}
+                      </option>
+                      <option
                         style={{
-                          outline: "none",
-                          boxShadow: "none",
+                          background: "#ff4d4d",
+                          color: "white",
                           fontWeight: "bold",
                         }}
+                        value={"A+"}
                       >
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"All Blood Group"}
-                          selected
-                        >
-                          Select A District
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"Baku"}
-                        >
-                          Baku
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"Ganja"}
-                        >
-                          Ganja
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"Laankaran"}
-                        >
-                          Lankaran
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"Gakh"}
-                        >
-                          Gakh
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"Quba"}
-                        >
-                          Quba
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"Oghuz"}
-                        >
-                          Oghuz
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"Shirvan"}
-                        >
-                          Shirvan
-                        </option>
-                      </Select>
-                    )}
-                  />
-                  <FormErrorMessage color={"red"} fontSize={"14px"}>
-                    {methods.formState.errors.locations?.message}
-                  </FormErrorMessage>
-                </FormControl>
-              </GridItem>
-
-              <GridItem colSpan={1}>
-                <FormControl isInvalid={!!methods.formState.errors.donorType}>
-                  <Controller
-                    control={methods.control}
-                    rules={{
-                      required: "This field is required",
-                    }}
-                    name="donorType"
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        onChange={(e) => {
-                          field.onChange(e);
-                        }}
-                        bgColor={"#ff4d4d"}
-                        color={"white"}
-                        border={"none"}
+                        A+
+                      </option>
+                      <option
                         style={{
-                          outline: "none",
-                          boxShadow: "none",
+                          background: "#ff4d4d",
+                          color: "white",
                           fontWeight: "bold",
                         }}
+                        value={"B+"}
                       >
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"All Blood Group"}
-                          selected
-                        >
-                          Donor Type
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"Donor"}
-                        >
-                          Donor
-                        </option>
-                        <option
-                          style={{
-                            background: "#ff4d4d",
-                            color: "white",
-                            fontWeight: "bold",
-                          }}
-                          value={"Acceptor"}
-                        >
-                          Acceptor
-                        </option>
-                      </Select>
-                    )}
-                  />
+                        B+
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"AB+"}
+                      >
+                        AB+
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"O+"}
+                      >
+                        O+
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"O-"}
+                      >
+                        O-
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"AB-"}
+                      >
+                        AB-
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"B-"}
+                      >
+                        B-
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"A-"}
+                      >
+                        A-
+                      </option>
+                    </Select>
+                  )}
+                />
+                <FormErrorMessage color={"red"} fontSize={"14px"}>
+                  {methods.formState.errors.bloodGroups?.message}
+                </FormErrorMessage>
+              </FormControl>
+            </GridItem>
 
-                  <FormErrorMessage color={"red"} fontSize={"14px"}>
-                    {methods.formState.errors.locations?.message}
-                  </FormErrorMessage>
-                </FormControl>
-              </GridItem>
-              <GridItem colSpan={1}>
-                <Button
-                  type="button"
-                  bgColor={"#ff4d4d"}
-                  color={"white"}
-                  onClick={methods.handleSubmit(handleSearch)}
-                >
-                  Search
-                </Button>
-              </GridItem>
-            </Grid>
-          </Box>
-        </FormProvider>
-        {
-          loading && <PostSkeleton/>
-        } 
-        {
-          !loading && <CardPost filteredPosts={filteredPosts} />
+            <GridItem colSpan={1}>
+              <FormControl isInvalid={!!methods.formState.errors.locations}>
+                <Controller
+                  control={methods.control}
+                  rules={{
+                    required: "This field is required",
+                  }}
+                  name="locations"
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                      }}
+                      bgColor={"#ff4d4d"}
+                      color={"white"}
+                      border={"none"}
+                      style={{
+                        outline: "none",
+                        boxShadow: "none",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"All Blood Group"}
+                        selected
+                      >
+                        {t("CitySelector")}
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"Baku"}
+                      >
+                        {t("City1")}
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"Ganja"}
+                      >
+                        {t("City2")}
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"Laankaran"}
+                      >
+                        {t("City3")}
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"Gakh"}
+                      >
+                        {t("City4")}
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"Quba"}
+                      >
+                        {t("City5")}
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"Oghuz"}
+                      >
+                        {t("City6")}
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"Shirvan"}
+                      >
+                        {t("City7")}
+                      </option>
+                    </Select>
+                  )}
+                />
+                <FormErrorMessage color={"red"} fontSize={"14px"}>
+                  {methods.formState.errors.locations?.message}
+                </FormErrorMessage>
+              </FormControl>
+            </GridItem>
 
-        }
-      </Box>
+            <GridItem colSpan={1}>
+              <FormControl isInvalid={!!methods.formState.errors.donorType}>
+                <Controller
+                  control={methods.control}
+                  rules={{
+                    required: "This field is required",
+                  }}
+                  name="donorType"
+                  render={({ field }) => (
+                    <Select
+                      {...field}
+                      onChange={(e) => {
+                        field.onChange(e);
+                      }}
+                      bgColor={"#ff4d4d"}
+                      color={"white"}
+                      border={"none"}
+                      style={{
+                        outline: "none",
+                        boxShadow: "none",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"All Blood Group"}
+                        selected
+                      >
+                        {t("DonorTypeSelector")}
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"Donor"}
+                      >
+                        {t("DonorType1")}
+                      </option>
+                      <option
+                        style={{
+                          background: "#ff4d4d",
+                          color: "white",
+                          fontWeight: "bold",
+                        }}
+                        value={"Acceptor"}
+                      >
+                        {t("DonorType2")}
+                      </option>
+                    </Select>
+                  )}
+                />
+
+                <FormErrorMessage color={"red"} fontSize={"14px"}>
+                  {methods.formState.errors.locations?.message}
+                </FormErrorMessage>
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={1}>
+              <Button
+                type="button"
+                bgColor={"#ff4d4d"}
+                color={"white"}
+                onClick={methods.handleSubmit(handleSearch)}
+              >
+                {t("SearchBtn")}
+              </Button>
+            </GridItem>
+          </Grid>
+        </Box>
+      </FormProvider>
+      <CardPost filteredPosts={filteredPosts} />
+    </Box>
     </>
   );
 };
