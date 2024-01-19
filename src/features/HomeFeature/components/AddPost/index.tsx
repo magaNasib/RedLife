@@ -19,6 +19,7 @@ import { Dispatch, SetStateAction, useContext, useEffect, useReducer, useState }
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import { AuthContext } from "../../../../context/AppContext";
 
@@ -48,6 +49,7 @@ export interface IPost {
   setTrigger?: Dispatch<SetStateAction<boolean>>
 }
 const AddPost = ({ setTrigger }: any) => {
+  const {t} = useTranslation();
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -93,7 +95,7 @@ const AddPost = ({ setTrigger }: any) => {
       triggerContext.setTrigger((curr: boolean) => !curr)
 
       toast({
-        title: "Post created successfully",
+        title: t("AddPostSuccesMessage"),
         status: "success",
         duration: 2000,
         isClosable: true,
@@ -138,7 +140,7 @@ const AddPost = ({ setTrigger }: any) => {
                         <Select
                           {...field}
                           name="bloodGrp"
-                          placeholder="Blood Group"
+                          placeholder={t("AddPostBloodSelector")}
                           onChange={field.onChange}
                           value={field.value}
                         >
@@ -170,10 +172,10 @@ const AddPost = ({ setTrigger }: any) => {
                       <Select
                         {...field}
                         name="typeOfUser"
-                        placeholder="Who are you"
+                        placeholder={t("AddPostDonorSelector")}
                       >
-                        <option value="Donor">Donor</option>
-                        <option value="Acceptor">Acceptor</option>
+                        <option value="Donor">{t("AddPostDonor")}</option>
+                        <option value="Acceptor">{t("AddPostAcceptor")}</option>
                       </Select>
                     )}
                   />
@@ -191,10 +193,10 @@ const AddPost = ({ setTrigger }: any) => {
                       required: "This field is required",
                     }}
                     render={({ field }) => (
-                      <Select {...field} placeholder="City">
-                        <option value="Baku">Baku </option>
-                        <option value="Oghuz">Oghuz</option>
-                        <option value="Ganja">Ganja</option>
+                      <Select {...field} placeholder={t("AddPostCitySelector")}>
+                        <option value="Baku">{t("AddPostCity1")} </option>
+                        <option value="Oghuz">{t("AddPostCity2")}</option>
+                        <option value="Ganja">{t("AddPostCity3")}</option>
                       </Select>
                     )}
                   />
@@ -222,7 +224,7 @@ const AddPost = ({ setTrigger }: any) => {
                           onChange={field.onChange}
                           onBlur={field.onBlur}
                           type="tel"
-                          placeholder="Phone number"
+                          placeholder={t("AddPostPhone")}
                         />
                       </InputGroup>
                     )}
@@ -240,7 +242,7 @@ const AddPost = ({ setTrigger }: any) => {
                       <Textarea
                         {...field}
                         resize={"none"}
-                        placeholder="Additional information if you want..."
+                        placeholder={t("AddPostDescription")}
                         size="sm"
                       />
                     )}
@@ -262,7 +264,7 @@ const AddPost = ({ setTrigger }: any) => {
                     setShow(false);
                   }}
                 >
-                  Cancel
+                  {t("AddPostCancelBtn")}
                 </Button>
                 <Button
                   border="1px solid"
@@ -273,7 +275,7 @@ const AddPost = ({ setTrigger }: any) => {
                   isLoading={loading && !authChecked}
                   onClick={handleSubmit}
                 >
-                  Post
+                  {t("AddPostPostBtn")}
                 </Button>
               </>
             )}
@@ -293,7 +295,7 @@ const AddPost = ({ setTrigger }: any) => {
                   auth.currentUser ? setShow(true) : navigate("/login");
                 }}
               >
-                Start a post
+                {t("AddPostStartPostBtn")}
               </Button>
             )}
           </Stack>

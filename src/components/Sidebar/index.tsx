@@ -8,7 +8,10 @@ import { IoHomeOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { CiLogin } from "react-icons/ci";
 import { LiaBlogSolid } from "react-icons/lia";
+import { useTranslation } from "react-i18next";
+
 const Sidebar = () => {
+  const {t} = useTranslation();
   const [authChecked, setAuthChecked] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -53,7 +56,7 @@ const Sidebar = () => {
             marginBottom: "30px",
           })}
         >
-          <IoHomeOutline size={25} style={{ marginRight: "10px" }} /> HOME
+          <IoHomeOutline size={25} style={{ marginRight: "10px" }} /> {t("SidebarHome")}
         </NavLink>
         <NavLink
           to="/donors"
@@ -64,7 +67,7 @@ const Sidebar = () => {
             alignItems: "center",
           })}
         >
-          <GoPeople size={25} style={{ marginRight: "10px" }} /> DONORS
+          <GoPeople size={25} style={{ marginRight: "10px" }} /> {t("SidebarDonors")}
         </NavLink>
         <NavLink
           to="/blogs"
@@ -75,7 +78,7 @@ const Sidebar = () => {
             alignItems: "center",
           })}
         >
-          <LiaBlogSolid size={25} style={{ marginRight: "10px" }} /> BLOGS
+          <LiaBlogSolid size={25} style={{ marginRight: "10px" }} /> {t("SidebarBlogs")}
         </NavLink>
 
         {!authChecked && <Spinner size="xs" />}
@@ -90,7 +93,7 @@ const Sidebar = () => {
             })}
           >
             <CgProfile size={25} style={{ marginRight: "10px" }} />
-            Profile
+            {t("SidebarProfile")}
           </NavLink>
         )}
         {authChecked && !auth.currentUser && (
@@ -104,7 +107,7 @@ const Sidebar = () => {
             })}
           >
             <CiLogin size={25} style={{ marginRight: "10px" }} />
-            LOGIN
+            {t("SidebarLogin")}
           </NavLink>
         )}
       </Flex>

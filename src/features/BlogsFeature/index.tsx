@@ -15,10 +15,11 @@ import factorsImg from "../../assets/factors.jpg";
 import conceptImg from "../../assets/concept.jpg";
 import girlImg from "../../assets/girlImg.jpg";
 import Sidebar from "../../components/Sidebar";
+import { useTranslation } from "react-i18next";
 
 function BlogsFeature() {
   const [isTextVisible, setIsTextVisible] = useState(false);
-
+  const {t} = useTranslation();
   const handleTextToggle = () => {
     setIsTextVisible(isTextVisible);
   };
@@ -42,9 +43,9 @@ function BlogsFeature() {
           <Stack>
             <CardBody>
               <Heading size="sm" mb="7px" fontSize="smaller">
-                Rach Abdash
+              {t("BlogHeader1")}
               </Heading>
-              <Heading size="sm">Donate the Gift of Life for Christmas</Heading>
+              <Heading size="sm">{t("BlogHeading1")}</Heading>
 
               {isTextVisible && (
                 <Text py="2">
@@ -78,7 +79,7 @@ function BlogsFeature() {
               )}
 
               <Text color="gray" py="2" size="sm" fontSize="smaller">
-                Sep 7, 2023
+                {t("BlogDate1")}
               </Text>
             </CardBody>
           </Stack>
@@ -103,9 +104,9 @@ function BlogsFeature() {
           <Stack>
             <CardBody>
               <Heading size="sm" mb="7px" fontSize="smaller">
-                Flynn Barbary
+              {t("BlogHeader2")}
               </Heading>
-              <Heading size="sm">Red Cross Lifeblood: A case study</Heading>
+              <Heading size="sm">{t("BlogHeading2")}</Heading>
 
               {isTextVisible && (
                 <Text py="2">
@@ -164,7 +165,7 @@ function BlogsFeature() {
               )}
 
               <Text color="gray" py="2" size="sm" fontSize="smaller">
-                Aug 12, 2021
+              {t("BlogDate2")}
               </Text>
             </CardBody>
           </Stack>
@@ -189,9 +190,9 @@ function BlogsFeature() {
           <Stack>
             <CardBody>
               <Heading size="sm" mb="7px" fontSize="smaller">
-                Benjamin Taylor
+              {t("BlogHeader3")}
               </Heading>
-              <Heading size="sm">The Importance of Blood Donation</Heading>
+              <Heading size="sm">{t("BlogHeading3")}</Heading>
 
               {isTextVisible && (
                 <Text py="2">
@@ -319,7 +320,7 @@ function BlogsFeature() {
               )}
 
               <Text color="gray" py="2" size="sm" fontSize="smaller">
-                Jun 16, 2023
+              {t("BlogDate3")}
               </Text>
             </CardBody>
           </Stack>
@@ -344,10 +345,10 @@ function BlogsFeature() {
           <Stack>
             <CardBody>
               <Heading size="sm" mb="7px" fontSize="smaller">
-                Estelle Yau
+                {t("BlogHeader4")}
               </Heading>
               <Heading size="sm">
-                World Blood Donor day-“Give blood and keep the world beating”
+                {t("BlogHeading4")}
               </Heading>
 
               {isTextVisible && (
@@ -401,7 +402,7 @@ function BlogsFeature() {
               )}
 
               <Text color="gray" py="2" size="sm" fontSize="smaller">
-                Sep 6, 2021
+                {t("BlogDate4")}
               </Text>
             </CardBody>
           </Stack>
@@ -426,10 +427,10 @@ function BlogsFeature() {
           <Stack>
             <CardBody>
               <Heading size="sm" mb="7px" fontSize="smaller">
-                Rajendra Chaudhary
+              {t("Blog5")}
               </Heading>
               <Heading size="sm">
-                Factors Associated with Intention to Donate Blood
+              {t("BlogHeading5")}
               </Heading>
 
               {isTextVisible && (
@@ -553,7 +554,7 @@ function BlogsFeature() {
               )}
 
               <Text color="gray" py="2" size="sm" fontSize="smaller">
-                Nov 5, 2014
+              {t("BlogDate5")}
               </Text>
             </CardBody>
           </Stack>

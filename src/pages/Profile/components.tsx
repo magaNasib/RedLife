@@ -21,8 +21,10 @@ import { auth, db } from "../../firebase";
 import { collection, doc, getDocs, orderBy, query, where } from "@firebase/firestore";
 import { IPost } from "../../features/HomeFeature/components/AddPost";
 import CardPost from "../../features/HomeFeature/components/CardPost";
+import { useTranslation } from "react-i18next";
 
-export const Banner = () => {
+export const Banner = () => { 
+  const {t} = useTranslation();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -70,10 +72,10 @@ export const Banner = () => {
           alignItems="start"
         >
           <Text fontSize="xl" color="white">
-            Name: {user?.displayName}
+          {t("NameProfPage")}: {user?.displayName}
           </Text>
           <Text fontSize="lg" color="white">
-            Email: {user?.email}
+          {t("EmailProfPage")}: {user?.email}
           </Text>
         </GridItem>
         <GridItem
@@ -94,7 +96,7 @@ export const Banner = () => {
             onClick={() => setIsEditModalOpen(true)}
           >
             <EditIcon />
-            Edit
+            {t("EditProfPage")}
           </Button>
 
           <Button
@@ -107,7 +109,7 @@ export const Banner = () => {
             onClick={() => navigate("/profile/changepassword")}
           >
             <LockIcon />
-            Change password
+            {t("ChangePasswordProfPage")}
           </Button>
 
           <Button
@@ -119,7 +121,7 @@ export const Banner = () => {
             borderWidth="1px"
             onClick={() => navigate("/logout")}
           >
-            Logout
+            {t("LogoutProfPage")}
           </Button>
         </GridItem>
       </Grid>
@@ -132,7 +134,8 @@ export const Banner = () => {
 };
 
 export function MainTabs() {
- 
+  
+  const {t} = useTranslation();
   const [tabIndex, setTabIndex] = useState(0);
 
   const [myPosts, setMyPost] = useState<IPost[]>([]);
@@ -165,11 +168,11 @@ export function MainTabs() {
       <TabList>
         <Tab>
           <AtSignIcon mr={'1'} />
-          My posts
+          {t("MyPostsProfPage")}
         </Tab>
         <Tab>
         {<BiBookmark />} 
-          Saved posts
+        {t("SavedPostsProfPage")}
         </Tab>
       </TabList>
       <TabPanels p="2rem">

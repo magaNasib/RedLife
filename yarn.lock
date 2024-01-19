@@ -1123,6 +1123,13 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@babel/runtime@^7.22.5":
+  version "7.23.8"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.8.tgz#8ee6fe1ac47add7122902f257b8ddf55c898f650"
+  integrity sha512-Y7KbAP984rn1VGMbGqKmBLio9V7y5Je9GvU4rQPCPinCyNfUcToxIXl06d59URp/F3LwinvODxab5N/G6qggkw==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/template@^7.22.15", "@babel/template@^7.3.3":
   version "7.22.15"
   resolved "https://registry.npmjs.org/@babel/template/-/template-7.22.15.tgz"
@@ -4933,6 +4940,13 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
+cross-fetch@4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-4.0.0.tgz#f037aef1580bb3a1a35164ea2a848ba81b445983"
+  integrity sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==
+  dependencies:
+    node-fetch "^2.6.12"
+
 cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
   version "7.0.3"
   resolved "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.3.tgz"
@@ -6647,6 +6661,13 @@ html-minifier-terser@^6.0.2:
     relateurl "^0.2.7"
     terser "^5.10.0"
 
+html-parse-stringify@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/html-parse-stringify/-/html-parse-stringify-3.0.1.tgz#dfc1017347ce9f77c8141a507f233040c59c55d2"
+  integrity sha512-KknJ50kTInJ7qIScF3jeaFRpMpE8/lfiTdzf/twXyPBLAGrLRTmkz3AdTnKeh40X8k9L2fdYwEp/42WGXIRGcg==
+  dependencies:
+    void-elements "3.1.0"
+
 html-webpack-plugin@^5.5.0:
   version "5.6.0"
   resolved "https://registry.npmjs.org/html-webpack-plugin/-/html-webpack-plugin-5.6.0.tgz"
@@ -6740,6 +6761,27 @@ human-signals@^2.1.0:
   version "2.1.0"
   resolved "https://registry.npmjs.org/human-signals/-/human-signals-2.1.0.tgz"
   integrity sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==
+
+i18next-browser-languagedetector@^7.2.0:
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-7.2.0.tgz#de0321cba6881be37d82e20e4d6f05aa75f6e37f"
+  integrity sha512-U00DbDtFIYD3wkWsr2aVGfXGAj2TgnELzOX9qv8bT0aJtvPV9CRO77h+vgmHFBMe7LAxdwvT/7VkCWGya6L3tA==
+  dependencies:
+    "@babel/runtime" "^7.23.2"
+
+i18next-http-backend@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-2.4.2.tgz#bd53cacaed671e9f38bdcfd46ac9d1763a898186"
+  integrity sha512-wKrgGcaFQ4EPjfzBTjzMU0rbFTYpa0S5gv9N/d8WBmWS64+IgJb7cHddMvV+tUkse7vUfco3eVs2lB+nJhPo3w==
+  dependencies:
+    cross-fetch "4.0.0"
+
+i18next@^23.7.16:
+  version "23.7.16"
+  resolved "https://registry.yarnpkg.com/i18next/-/i18next-23.7.16.tgz#7026d18b7a3ac9e2ecfeb78da5e4da5ca33312ef"
+  integrity sha512-SrqFkMn9W6Wb43ZJ9qrO6U2U4S80RsFMA7VYFSqp7oc7RllQOYDCdRfsse6A7Cq/V8MnpxKvJCYgM8++27n4Fw==
+  dependencies:
+    "@babel/runtime" "^7.23.2"
 
 iconv-lite@0.4.24:
   version "0.4.24"
@@ -8294,6 +8336,13 @@ no-case@^3.0.4:
     lower-case "^2.0.2"
     tslib "^2.0.3"
 
+node-fetch@^2.6.12:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.7.0.tgz#d0f0fa6e3e2dc1d27efcd8ad99d550bda94d187d"
+  integrity sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==
+  dependencies:
+    whatwg-url "^5.0.0"
+
 node-forge@^1:
   version "1.3.1"
   resolved "https://registry.npmjs.org/node-forge/-/node-forge-1.3.1.tgz"
@@ -9488,6 +9537,14 @@ react-hook-form@^7.49.2:
   version "7.49.2"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.49.2.tgz#6fb2742e1308020f26cb1915c7012b6c07b11ade"
   integrity sha512-TZcnSc17+LPPVpMRIDNVITY6w20deMdNi6iehTFLV1x8SqThXGwu93HjlUVU09pzFgZH7qZOvLMM7UYf2ShAHA==
+
+react-i18next@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-14.0.0.tgz#eb39d2245fd1024237828c955f770e409a1ccb12"
+  integrity sha512-OCrS8rHNAmnr8ggGRDxjakzihrMW7HCbsplduTm3EuuQ6fyvWGT41ksZpqbduYoqJurBmEsEVZ1pILSUWkHZng==
+  dependencies:
+    "@babel/runtime" "^7.22.5"
+    html-parse-stringify "^3.0.1"
 
 react-icons@^5.0.0:
   version "5.0.0"
@@ -10711,6 +10768,11 @@ tr46@^2.1.0:
   dependencies:
     punycode "^2.1.1"
 
+tr46@~0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
+  integrity sha512-N3WMsuqV66lT30CrXNbEjx4GEwlow3v6rr4mCcv6prnfwhS01rkgyFdjPNBYd9br7LpXV1+Emh01fHnq2Gdgrw==
+
 tryer@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/tryer/-/tryer-1.0.1.tgz"
@@ -11023,6 +11085,11 @@ vary@~1.1.2:
   resolved "https://registry.npmjs.org/vary/-/vary-1.1.2.tgz"
   integrity sha512-BNGbWLfd0eUPabhkXUVm0j8uuvREyTh5ovRa/dyow/BqAbZJyC+5fU+IzQOzmAKzYqYRAISoRhdQr3eIZ/PXqg==
 
+void-elements@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-3.1.0.tgz#614f7fbf8d801f0bb5f0661f5b2f5785750e4f09"
+  integrity sha512-Dhxzh5HZuiHQhbvTW9AMetFfBHDMYpo23Uo9btPXgdYP+3T5S+p+jgNy7spra+veYhBP2dCSgxR/i2Y02h5/6w==
+
 w3c-hr-time@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/w3c-hr-time/-/w3c-hr-time-1.0.2.tgz"
@@ -11065,6 +11132,11 @@ wbuf@^1.1.0, wbuf@^1.7.3:
   integrity sha512-O84QOnr0icsbFGLS0O3bI5FswxzRr8/gHwWkDlQFskhSPryQXvrTMxjxGP4+iWYoauLoBvfDpkrOauZ+0iZpDA==
   dependencies:
     minimalistic-assert "^1.0.0"
+
+webidl-conversions@^3.0.0:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/webidl-conversions/-/webidl-conversions-3.0.1.tgz#24534275e2a7bc6be7bc86611cc16ae0a5654871"
+  integrity sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==
 
 webidl-conversions@^4.0.2:
   version "4.0.2"
@@ -11217,6 +11289,14 @@ whatwg-mimetype@^2.3.0:
   version "2.3.0"
   resolved "https://registry.npmjs.org/whatwg-mimetype/-/whatwg-mimetype-2.3.0.tgz"
   integrity sha512-M4yMwr6mAnQz76TbJm914+gPpB/nCwvZbJU28cUD6dR004SAxDLOOSUaB1JDRqLtaOV/vi0IC5lEAGFgrjGv/g==
+
+whatwg-url@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/whatwg-url/-/whatwg-url-5.0.0.tgz#966454e8765462e37644d3626f6742ce8b70965d"
+  integrity sha512-saE57nupxk6v3HY35+jzBwYa0rKSy0XR8JSxZPwgLr7ys0IBzhGviA1/TUGJLmSVqs8pb9AnvICXEuOHLprYTw==
+  dependencies:
+    tr46 "~0.0.3"
+    webidl-conversions "^3.0.0"
 
 whatwg-url@^7.0.0:
   version "7.1.0"

@@ -28,6 +28,7 @@ import CommentSection from "../Comments/CommentsSection";
 import { FaEdit, FaCopy } from "react-icons/fa";
 import { MdDelete, MdReport } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { FaBookmark } from "react-icons/fa";
 import { AuthContext } from "../../../../context/AppContext";
 
@@ -35,7 +36,7 @@ import { AuthContext } from "../../../../context/AppContext";
 
 function CardPostItem(props: IPost, key: number) {
     const [showComment, setShowComment] = useState(false);
-
+    const {t} = useTranslation();
     const { id, phone, likes, comments, saved, type, description, city, bloodGroup, fullName, photoURL, uid } = props
     const navigate = useNavigate();
     const triggerContext = useContext<any>(AuthContext)
@@ -141,20 +142,20 @@ function CardPostItem(props: IPost, key: number) {
                                     icon={<BsThreeDotsVertical />}
                                 />
                             </PopoverTrigger>
-                            <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'140px'}>
+                            <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'200px'}>
                                 <PopoverHeader>
                                     <Flex alignItems={'center'}>
-                                        <FaEdit /><Text ml={'10px'} fontSize={'18px'}>Edit</Text>
+                                        <FaEdit /><Text ml={'10px'} fontSize={'18px'}>{t("CardEdit")}</Text>
                                     </Flex>
                                 </PopoverHeader>
                                 <PopoverHeader><Flex alignItems={'center'}>
-                                    <MdDelete /><Text ml={'10px'} fontSize={'18px'}>Delete</Text>
+                                    <MdDelete /><Text ml={'10px'} fontSize={'18px'}>{t("CardDelete")}</Text>
                                 </Flex></PopoverHeader>
                                 <PopoverHeader><Flex alignItems={'center'}>
-                                    <MdReport /><Text ml={'10px'} fontSize={'18px'}>Report</Text>
+                                    <MdReport /><Text ml={'10px'} fontSize={'18px'}>{t("CardReport")}</Text>
                                 </Flex></PopoverHeader>
                                 <PopoverHeader><Flex alignItems={'center'}>
-                                    <FaCopy /><Text ml={'10px'} fontSize={'18px'}>Copy URL</Text>
+                                    <FaCopy /><Text ml={'10px'} fontSize={'18px'}>{t("CardShare")}</Text>
                                 </Flex></PopoverHeader>
                             </PopoverContent>
                         </Popover>
@@ -185,7 +186,7 @@ function CardPostItem(props: IPost, key: number) {
                         {comments?.length || '0'}
                     </Button>
                     <Button flex="1" variant="ghost" leftIcon={actions.isISaved ? <FaBookmark size={20} color='#166fe5' /> : <BiBookmark size={20} />} isDisabled={!authChecked} onClick={() => { saveClickHandler() }}>
-                        {actions.isISaved ? 'Saved' : 'Save'}
+                        {actions.isISaved ? t("CardSaved") : t("CardSave")}
                     </Button>
 
                 </CardFooter>
