@@ -55,8 +55,8 @@ const Register: React.FC<IProps> = () => {
             if (error?.code?.includes('auth/weak-password')) {
                 setError('Please enter a stronger password.');
             } else if (error.code.includes('auth/email-already-in-use')) {
-                setError('Email already in use.');
-            } else {
+                setError('Email already in use.');      
+            } else {    
                 setError('Unable to register. Please try again later.');
             }
         }

@@ -118,4 +118,4 @@ function CardPost(props: IProps) {
 }
 
 
-export default CardPost
+export default React.memo(CardPost)
