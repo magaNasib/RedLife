@@ -74,7 +74,8 @@ function Header() {
             value={selectedLanguage}
             onChange={handleLanguageChange}
             size="sm"
-            bgColor="#D94B3C"
+            rounded={'5'}
+            // bgColor="#D94B3C"
             color="black"
           >
             {languageOptions.map((language) => (
