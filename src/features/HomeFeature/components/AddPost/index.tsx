@@ -27,6 +27,7 @@ import { useTranslation } from "react-i18next";
 import { AuthContext } from "../../../../context/AppContext";
 import { Autocomplete, useLoadScript } from "@react-google-maps/api";
 import { mapOptions } from "../../../../MapConfig";
+import { Library } from "@googlemaps/js-api-loader";
 
 
 export interface IPost {
@@ -46,8 +47,8 @@ export interface IPost {
   uid: string;
   id: string;
   publish_date: {
-    seconds:number
-    nanoseconds:number
+    seconds: number
+    nanoseconds: number
   };
   comments: {
     id: string
@@ -61,8 +62,9 @@ export interface IPost {
   comment: string;
   setTrigger?: Dispatch<SetStateAction<boolean>>
 }
+const libraries: Library[] = ["places"]
 const AddPost = ({ setTrigger }: any) => {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -78,7 +80,7 @@ const AddPost = ({ setTrigger }: any) => {
   });
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: mapOptions.googleMapApiKey,
-    libraries: ["places"],
+    libraries: libraries
   });
   function onLoad(autocomplete: any) {
     setSearchResult(autocomplete);
@@ -93,13 +95,13 @@ const AddPost = ({ setTrigger }: any) => {
       }
       console.log(place);
       console.log(coordinates);
-      
+
       const formattedAddress = place.formatted_address;
       methods.setValue('city', formattedAddress)
       methods.setValue('coordinates', coordinates)
 
     } else {
-      alert("Please enter text");
+      alert(t("MessageEnterText"));
     }
   }
 
@@ -145,7 +147,6 @@ const AddPost = ({ setTrigger }: any) => {
         isClosable: true,
         position: "top-right",
       });
-      setTrigger((curr: boolean) => !curr);
     } catch (error) {
       console.log(error);
     } finally {
@@ -177,7 +178,7 @@ const AddPost = ({ setTrigger }: any) => {
                     control={methods.control}
                     name="bloodGroup"
                     rules={{
-                      required: "This field is required",
+                      required: t("ValidationMessage"),
                     }}
                     render={({ field }) => (
                       <>
@@ -210,7 +211,7 @@ const AddPost = ({ setTrigger }: any) => {
                     control={methods.control}
                     name="type"
                     rules={{
-                      required: "This field is required",
+                      required: t("ValidationMessage"),
                     }}
                     render={({ field }) => (
                       <Select
@@ -234,16 +235,16 @@ const AddPost = ({ setTrigger }: any) => {
                     control={methods.control}
                     name="city"
                     rules={{
-                      required: "This field is required",
+                      required: t("ValidationMessage"),
                     }}
                     render={({ field }) => (
                       <Autocomplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>
-                          <Input
-                            type="text"
-                            placeholder="Search for location Information"
-                            onChange={field.onChange}
-                            value={field.value}
-                          />
+                        <Input
+                          type="text"
+                          placeholder={t("AddPostCitySearch")}
+                          onChange={field.onChange}
+                          value={field.value}
+                        />
                       </Autocomplete>
                     )}
                   />
@@ -257,11 +258,11 @@ const AddPost = ({ setTrigger }: any) => {
                     control={methods.control}
                     name="phone"
                     rules={{
-                      required: "This field is required",
+                      required: t("ValidationMessage"),
                       validate: value => {
                         const isNineDigits = /^\d{9}$/.test(value);
                         if (!isNineDigits) {
-                          return "Phone number must be 9 digits";
+                          return t("PhoneValidationMessage");
                         }
                         return true;
                       },

@@ -27,7 +27,3 @@ i18n.use(initReactI18next).init({
 });
 
 export default i18n;
-
-// {t("Edit")}
-// const {t} = useTranslation();
-// import { useTranslation } from "react-i18next";
