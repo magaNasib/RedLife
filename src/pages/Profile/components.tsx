@@ -28,8 +28,9 @@ import { AuthContext } from "../../context/AppContext";
 import { MdOutlineDriveFolderUpload } from "react-icons/md";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
+import { getDoc, setDoc, updateDoc } from "firebase/firestore";
 
-export const Banner = () => {
+export const Banner: React.FC<IPost> = ({ id, uid,photoURL }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [file, setFile] = useState("");
   // const [data, setData] = useState({});
@@ -50,6 +51,8 @@ export const Banner = () => {
       const storageRef = ref(storage, 'images/' + file.name);
 
       const uploadTask = uploadBytesResumable(storageRef, file);
+      // const donorCollectionRef = collection(db, "donors");
+
 
       // Listen for state changes, errors, and completion of the upload.
       uploadTask.on('state_changed',
@@ -84,14 +87,46 @@ export const Banner = () => {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             // console.log('File available at', downloadURL);
-            setMyPost((prev) => ({ ...prev, img: downloadURL }));
+            // setMyPost((prev) => ({ ...prev, img: downloadURL }));
+            // const userDocRef = doc(db, 'users',user?.uid || ''); 
+            // updateDoc(userDocRef, { profilePhotoURL: downloadURL });
+
+            setDoc(doc(db, 'users', user?.photoURL), { profilePhotoURL: downloadURL })
+
           });
         }
       );
 
     }
     file && uploadFile();
-  }, [file])
+  }, [file, myPosts, user?.photoURL, user?.uid])
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const userDocRef = doc(db, 'users', user?.photoURL || '');
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        if (userData.profilePhotoURL) {
+          setMyPost((prev) => ({ ...prev, img: userData.profilePhotoURL }));
+
+          localStorage.setItem('profilePhotoURL', userData.profilePhotoURL);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, [user?.uid]);
+
+  useEffect(() => {
+    const storedURL = localStorage.getItem('profilePhotoURL');
+    if (storedURL) {
+      setMyPost((prev) => ({ ...prev, img: storedURL }));
+    }
+  }, []);
+
+
 
   return (
     <Box
