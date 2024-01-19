@@ -9,8 +9,11 @@ import {
   FormErrorMessage,
   Input,
   InputGroup,
+  InputLeftAddon,
   InputLeftElement,
+  InputRightElement,
   Select,
+  Spinner,
   useToast,
 } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/textarea";
@@ -22,11 +25,18 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { AuthContext } from "../../../../context/AppContext";
+import { Autocomplete, useLoadScript } from "@react-google-maps/api";
+import { mapOptions } from "../../../../MapConfig";
+
 
 export interface IPost {
   bloodGroup: "B+" | "A+" | "AB+" | "O+" | "B-" | "A-" | "AB-" | "O-";
   type: "Donor" | "Acceptor";
   city: string;
+  coordinates: {
+    lat: number
+    lng: number
+  }
   phone: string;
   description?: string;
   fullName: string;
@@ -35,15 +45,18 @@ export interface IPost {
   saved: string[];
   uid: string;
   id: string;
-  publish_date: string;
+  publish_date: {
+    seconds:number
+    nanoseconds:number
+  };
   comments: {
-    id:string
+    id: string
     displayName?: string;
     comment: string;
     date?: string;
-    publish_date:string
-    uid:string
-    photo_url:string
+    publish_date: string
+    uid: string
+    photo_url: string
   }[]
   comment: string;
   setTrigger?: Dispatch<SetStateAction<boolean>>
@@ -54,6 +67,7 @@ const AddPost = ({ setTrigger }: any) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const triggerContext = useContext<any>(AuthContext)
+  const [searchResult, setSearchResult] = useState<any>("Result: none");
 
   const toast = useToast();
   const methods = useForm<IPost>({
@@ -62,6 +76,32 @@ const AddPost = ({ setTrigger }: any) => {
       description: "",
     },
   });
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: mapOptions.googleMapApiKey,
+    libraries: ["places"],
+  });
+  function onLoad(autocomplete: any) {
+    setSearchResult(autocomplete);
+  }
+
+  function onPlaceChanged() {
+    if (searchResult != null) {
+      const place = searchResult.getPlace();
+      let coordinates = {
+        lat: place.geometry.location.lat(),
+        lng: place.geometry.location.lng()
+      }
+      console.log(place);
+      console.log(coordinates);
+      
+      const formattedAddress = place.formatted_address;
+      methods.setValue('city', formattedAddress)
+      methods.setValue('coordinates', coordinates)
+
+    } else {
+      alert("Please enter text");
+    }
+  }
 
   const [authChecked, setAuthChecked] = useState(false);
   useEffect(() => {
@@ -76,8 +116,12 @@ const AddPost = ({ setTrigger }: any) => {
   }, [auth, navigate]);
 
   const donorCollectionRef = doc(collection(db, "donors"));
+
+
   const handleSubmit = methods.handleSubmit(async (data: IPost) => {
+    data.phone = '+994' + data.phone
     setLoading(true);
+
     try {
       const sendingData = {
         ...data,
@@ -87,7 +131,7 @@ const AddPost = ({ setTrigger }: any) => {
         avatar: auth.currentUser?.photoURL,
         likes: [],
         comments: [],
-        saved:[]
+        saved: []
       };
       await setDoc(donorCollectionRef, sendingData);
       setShow(false);
@@ -185,7 +229,7 @@ const AddPost = ({ setTrigger }: any) => {
                   </FormErrorMessage>
                 </FormControl>
 
-                <FormControl isInvalid={!!methods.formState.errors.city}>
+                {isLoaded && <FormControl isInvalid={!!methods.formState.errors.city}>
                   <Controller
                     control={methods.control}
                     name="city"
@@ -193,31 +237,38 @@ const AddPost = ({ setTrigger }: any) => {
                       required: "This field is required",
                     }}
                     render={({ field }) => (
-                      <Select {...field} placeholder={t("AddPostCitySelector")}>
-                        <option value="Baku">{t("AddPostCity1")} </option>
-                        <option value="Oghuz">{t("AddPostCity2")}</option>
-                        <option value="Ganja">{t("AddPostCity3")}</option>
-                      </Select>
+                      <Autocomplete onPlaceChanged={onPlaceChanged} onLoad={onLoad}>
+                          <Input
+                            type="text"
+                            placeholder="Search for location Information"
+                            onChange={field.onChange}
+                            value={field.value}
+                          />
+                      </Autocomplete>
                     )}
                   />
 
                   <FormErrorMessage>
                     {methods.formState.errors?.city?.message}
                   </FormErrorMessage>
-                </FormControl>
+                </FormControl>}
                 <FormControl isInvalid={!!methods.formState.errors.phone}>
                   <Controller
                     control={methods.control}
                     name="phone"
                     rules={{
                       required: "This field is required",
+                      validate: value => {
+                        const isNineDigits = /^\d{9}$/.test(value);
+                        if (!isNineDigits) {
+                          return "Phone number must be 9 digits";
+                        }
+                        return true;
+                      },
                     }}
                     render={({ field }) => (
                       <InputGroup>
-                        <InputLeftElement
-                          pointerEvents="none"
-                          children={<PhoneIcon color="gray.300" />}
-                        />
+                        <InputLeftAddon>+994</InputLeftAddon>
                         <Input
                           {...field}
                           value={field.value}

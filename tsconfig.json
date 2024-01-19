@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -24,7 +24,8 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.tsx",
-    "donorBg.d.ts"
+    "donorBg.d.ts",
+    "react-location-picker.d.ts"
 
   ]
 }

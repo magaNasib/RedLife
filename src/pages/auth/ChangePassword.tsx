@@ -82,8 +82,7 @@ const ChangePassword: React.FC<IProps> = () => {
         await reauthenticateWithCredential(user!, credentials);
     };
 
-    if (auth.currentUser?.providerData[0]?.providerId !== 'password')
-        return <Navigate to="/" />;
+    // if (auth.currentUser?.providerData[0]?.providerId !== 'password') return <Navigate to="/" />;   
 
     return (
         <FormProvider {...methods}>

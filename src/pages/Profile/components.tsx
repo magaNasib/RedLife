@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -21,6 +21,7 @@ import { auth, db } from "../../firebase";
 import { collection, doc, getDocs, orderBy, query, where } from "@firebase/firestore";
 import { IPost } from "../../features/HomeFeature/components/AddPost";
 import CardPost from "../../features/HomeFeature/components/CardPost";
+import { AuthContext } from "../../context/AppContext";
 import { useTranslation } from "react-i18next";
 
 export const Banner = () => { 
@@ -141,6 +142,8 @@ export function MainTabs() {
   const [myPosts, setMyPost] = useState<IPost[]>([]);
   const [savedPosts, setSavedPosts] = useState<IPost[]>([]);
   const donorCollectionRef = collection(db, "donors");
+  const triggerContext = useContext<any>(AuthContext)
+
   const user = auth?.currentUser
   useEffect(() => {
     const getPosts = async () => {
@@ -153,7 +156,6 @@ export function MainTabs() {
           );
           setMyPost(donorData.filter((data) => user?.uid === data.uid));
           setSavedPosts(donorData.filter((data) => data.saved.includes(user?.uid || '')));
-          console.log(savedPosts);
           
         }
       } catch (error) {
@@ -162,7 +164,7 @@ export function MainTabs() {
     };
 
     getPosts();
-  }, []);
+  }, [triggerContext.trigger]);
   return (
     <Tabs onChange={(index) => setTabIndex(index)}>
       <TabList>
