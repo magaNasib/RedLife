@@ -1,36 +1,34 @@
-import { GoogleMap } from '@react-google-maps/api';
+import { GoogleMap, Marker } from '@react-google-maps/api';
 import React, { Component, useState } from 'react';
 import LocationPicker from 'react-location-picker';
 
 
 interface ILocation {
-    address: string
-    position: {
+    coordinates: {
         lat: number
         lng: number
     }
+    isLoaded: any
 }
 
 const containerStyle = {
-    width: '400px',
-    height: '400px'
+    width: '100%',
+    height: '300px'
 };
 
-const center = {
-    lat: 40.4093,
-    lng: 49.8671
-};
 
-function MyLocationPicker(props: { isLoaded: any }) {
+function MyLocationPicker(props: ILocation) {
     const { isLoaded } = props
 
     return isLoaded && (
         <>
             <GoogleMap
                 mapContainerStyle={containerStyle}
-                center={center}
+                center={props.coordinates}
                 zoom={10}
             >
+                <Marker position={props.coordinates} />
+
             </GoogleMap>
         </>
     )

@@ -21,6 +21,7 @@ import CardPostItem from "./CardPostItem";
 import { postActions, PostsReducer, postsStates } from "../../../../context/PostReducer";
 import { TbMoodAnnoyed } from "react-icons/tb";
 import { AuthContext } from "../../../../context/AppContext";
+import PostSkeleton from "../../../../components/PostSkeleton";
 // interface IDonors {
 //   bloodGroup: string;
 //   city: string;
@@ -69,22 +70,7 @@ function CardPost(props: IProps) {
 
   const POSTS = props.filteredPosts ? props.filteredPosts : state?.posts
 
-  if (loading) return (
-    <>
-      <Flex justifyContent="center" my='2'>
-        <Box padding='6' boxShadow='lg' bg='white' w={'2xl'}>
-          <SkeletonCircle size='10' />
-          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-        </Box>
-      </Flex>
-      <Flex justifyContent="center" my='2'>
-        <Box padding='6' boxShadow='lg' bg='white' w={'2xl'}>
-          <SkeletonCircle size='10' />
-          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-        </Box>
-      </Flex>
-    </>
-  )
+  if (loading) return <PostSkeleton/>
 
   if (POSTS.length === 0) {
     return (

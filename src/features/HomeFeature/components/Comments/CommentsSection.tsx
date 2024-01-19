@@ -26,7 +26,7 @@ import { MdDelete } from "react-icons/md";
 import { AuthContext } from "../../../../context/AppContext";
 import { v4 as uuidv4 } from 'uuid';
 
-const CommentSection: React.FC<IPost> = ({ id, fullName, photoURL, bloodGroup, type, description, city, phone, comments }) => {
+const CommentSection: React.FC<IPost> = ({ id, comments }) => {
     const [text, setText] = useState('')
     const navigate = useNavigate();
     const triggerContext = useContext<any>(AuthContext)
@@ -35,6 +35,8 @@ const CommentSection: React.FC<IPost> = ({ id, fullName, photoURL, bloodGroup, t
         if (!auth.currentUser) return navigate('/login')
         if (text) {
 
+            console.log(id);
+            
             const userDocRef = doc(db, 'donors', id);
             const myComment = {
                 id: uuidv4(),
