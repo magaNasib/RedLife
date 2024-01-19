@@ -28,23 +28,20 @@ import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import CommentSection from "../Comments/CommentsSection";
 import { FaEdit, FaCopy } from "react-icons/fa";
 import { MdDelete, MdReport } from "react-icons/md";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaBookmark } from "react-icons/fa";
 import { AuthContext } from "../../../../context/AppContext";
-import MyLocationPicker from "../../../../components/LocationPicker";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { mapOptions } from "../../../../MapConfig";
 import { PhoneIcon } from "@chakra-ui/icons";
 import { GoLocation } from "react-icons/go";
-import { FacebookIcon, FacebookShareButton, FacebookShareCount, LinkedinIcon, LinkedinShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
+import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 
 
 function CardPostItem(props: IPost, key: number) {
     const [showComment, setShowComment] = useState(false);
-    const [showPost, setShowPost] = useState(false);
-
 
     const { id, phone, likes, comments, saved, type, description, city, bloodGroup, fullName, photoURL, coordinates, uid } = props
     const navigate = useNavigate();
@@ -275,9 +272,9 @@ function CardPostItem(props: IPost, key: number) {
                     <CommentSection  {...props} />
                 )}
                 
-                {showPost && (
+                {/* {showPost && (
                     <CardPostItemDetails {...props}/>
-                )}
+                )} */}
             </Card>
         </Flex>
 

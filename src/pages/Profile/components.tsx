@@ -21,114 +21,99 @@ import { EditProfileModal } from "./EditProfileModal";
 import { useNavigate } from "react-router";
 import profilImg from "../../assets/worldBlood.jpg";
 import { auth, db } from "../../firebase";
-import { collection, doc, getDocs, orderBy, query, where } from "@firebase/firestore";
-import { IPost } from "../../features/HomeFeature/components/AddPost";
+import { collection, getDocs, orderBy, query } from "@firebase/firestore";
 import CardPost from "../../features/HomeFeature/components/CardPost";
 import { AuthContext } from "../../context/AppContext";
 import { MdOutlineDriveFolderUpload } from "react-icons/md";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
-import { getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { User, updateProfile } from "firebase/auth";
+import { IPost } from "../../features/HomeFeature/components/AddPost";
+import { doc, updateDoc } from "firebase/firestore";
 
-export const Banner: React.FC<IPost> = ({ id, uid,photoURL }) => {
+export const Banner= () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-  const [file, setFile] = useState("");
-  // const [data, setData] = useState({});
+  const [file, setFile] = useState<File | null>(null);
   const [myPosts, setMyPost] = useState<IPost[]>([]);
-
-
+  
   const navigate = useNavigate();
-
-  const user = auth?.currentUser
-
+  const user : User | null = auth?.currentUser
   const handleEditModalClose = () => {
     setIsEditModalOpen(false);
   };
 
   useEffect(() => {
-    const uploadFile = () => {
-      const name = new Date().getTime() + file.name;
-      const storageRef = ref(storage, 'images/' + file.name);
-
-      const uploadTask = uploadBytesResumable(storageRef, file);
-      // const donorCollectionRef = collection(db, "donors");
-
-
-      // Listen for state changes, errors, and completion of the upload.
-      uploadTask.on('state_changed',
-        (snapshot) => {
-          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-            default:
-              break;
-          }
-        },
-        (error) => {
-          switch (error.code) {
-            case 'storage/unauthorized':
-              alert("User doesn't have permission to access the object")
-              break;
-            case 'storage/canceled':
-              alert("User canceled the upload")
-              break;
-            case 'storage/unknown':
-              alert("Unknown error occurred, inspect error.serverResponse")
-              break;
-          }
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            // console.log('File available at', downloadURL);
-            // setMyPost((prev) => ({ ...prev, img: downloadURL }));
-            // const userDocRef = doc(db, 'users',user?.uid || ''); 
-            // updateDoc(userDocRef, { profilePhotoURL: downloadURL });
-
-            setDoc(doc(db, 'users', user?.photoURL), { profilePhotoURL: downloadURL })
-
-          });
-        }
-      );
-
-    }
-    file && uploadFile();
-  }, [file, myPosts, user?.photoURL, user?.uid])
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const userDocRef = doc(db, 'users', user?.photoURL || '');
-      const userDocSnap = await getDoc(userDocRef);
-
-      if (userDocSnap.exists()) {
-        const userData = userDocSnap.data();
-        if (userData.profilePhotoURL) {
-          setMyPost((prev) => ({ ...prev, img: userData.profilePhotoURL }));
-
-          localStorage.setItem('profilePhotoURL', userData.profilePhotoURL);
-        }
-      }
-    };
-
-    fetchUserData();
-  }, [user?.uid]);
-
-  useEffect(() => {
     const storedURL = localStorage.getItem('profilePhotoURL');
     if (storedURL) {
       setMyPost((prev) => ({ ...prev, img: storedURL }));
+    } else if (user && user.photoURL) {
+      setMyPost((prev) => ({ ...prev, img: user.photoURL }));
     }
-  }, []);
+  }, [user]);
 
+  useEffect(() => {
+    const uploadFile = async () => {
+      if (file) {
 
+        const name = new Date().getTime() + file.name;
+        const storageRef = ref(storage, 'images/' + name);
+
+        try {
+          const uploadTask = uploadBytesResumable(storageRef, file);
+          uploadTask.on('state_changed',
+            (snapshot) => {
+              const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              console.log('Upload is ' + progress + '% done');
+              switch (snapshot.state) {
+                case 'paused':
+                  console.log('Upload is paused');
+                  break;
+                case 'running':
+                  console.log('Upload is running');
+                  break;
+                default:
+                  break;
+              }
+            },
+            (error) => {
+              switch (error.code) {
+                case 'storage/unauthorized':
+                  alert("User doesn't have permission to access the object")
+                  break;
+                case 'storage/canceled':
+                  alert("User canceled the upload")
+                  break;
+                case 'storage/unknown':
+                  alert("Unknown error occurred, inspect error.serverResponse")
+                  break;
+              }
+            },
+            () => {
+              getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
+                console.log('File available at', downloadURL);
+                // setMyPost((prev) => ({ ...prev, img: downloadURL }));
+                // const userDocRef = doc(db, 'users',user?.uid || ''); 
+                // updateDoc(userDocRef, { profilePhotoURL: downloadURL });
+
+                await updateProfile(user as User,{photoURL:downloadURL})
+
+                localStorage.setItem('profilePhotoURL', downloadURL);
+              });
+            }
+          );
+        } catch (error) {
+          console.error('Error uploading file:', error);
+        }
+
+      }
+
+    }
+    file && uploadFile();
+  }, [file,user])
+  console.log(user);
 
   return (
+    
     <Box
       position="relative"
       w="70vw"
@@ -154,8 +139,9 @@ export const Banner: React.FC<IPost> = ({ id, uid,photoURL }) => {
           <Avatar
             size="2xl"
             name={user?.displayName || ''}
-            // src={user?.photoURL || "path_to_image"}
-            src={file ? URL.createObjectURL(file) : 'path_to_image'}
+            // src={user?.photoURL || 'path_to_image'}
+            // src={file ? URL.createObjectURL(file) : photoURL || 'path_to_image'}
+            src={user?.photoURL || (file ? URL.createObjectURL(file) : 'path_to_image')}
             marginLeft="50px"
           />
         </GridItem>
@@ -202,7 +188,7 @@ export const Banner: React.FC<IPost> = ({ id, uid,photoURL }) => {
             <Input
               type="file"
               id="file"
-              onChange={(e) => setFile(e.target.files[0])}
+              onChange={(e) => setFile(e.target.files?.[0] || null)}
               display={'none'}
             />
           </Flex>

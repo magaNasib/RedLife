@@ -6,7 +6,7 @@ const ProfilePage = () => {
   return (
     <>
       <Box p="4" bgColor="#F2F2F5" minH="100vh">
-        <Banner />
+        <Banner/>
         <MainTabs />
       </Box>
     </>

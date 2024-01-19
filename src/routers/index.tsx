@@ -23,7 +23,7 @@ function Router() {
           <Route element={<PageLayout />}>
             <Route index element={<Home />} />
             <Route element={<AuthRoute />}>
-              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/profile" element={<ProfilePage/>} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/profile/changepassword" element={<ChangePassword />} />
 
