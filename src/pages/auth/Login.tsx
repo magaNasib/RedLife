@@ -36,7 +36,7 @@ const Login: React.FC<IProps> = () => {
 
     const navigate = useNavigate()
     const onClickClose = () => {
-        navigate(-1)
+        navigate('/')
     }
     const methods = useForm<ILogin>({
         defaultValues: {

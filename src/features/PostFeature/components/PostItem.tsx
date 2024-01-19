@@ -10,8 +10,6 @@ import {
     Flex,
     Heading,
     IconButton,
-    SkeletonCircle,
-    SkeletonText,
     Text,
     Popover,
     PopoverTrigger,
@@ -19,30 +17,29 @@ import {
     PopoverHeader,
     useToast,
 } from "@chakra-ui/react";
-import { BiLike, BiChat, BiSave, BiBookmark, BiSolidLike, BiShare } from "react-icons/bi";
+import { BiLike,   BiBookmark, BiSolidLike, BiShare } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import { arrayRemove, arrayUnion, collection, doc, getDocs, updateDoc } from "firebase/firestore";
-import { IPost } from "../AddPost";
-import { auth, db, onAuthStateChanged } from "../../../../firebase";
-import CommentSection from "../Comments/CommentsSection";
+import { auth, db, onAuthStateChanged } from "../../../firebase";
 import { FaEdit, FaCopy } from "react-icons/fa";
 import { MdDelete, MdReport } from "react-icons/md";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { FaBookmark } from "react-icons/fa";
-import { AuthContext } from "../../../../context/AppContext";
-import MyLocationPicker from "../../../../components/LocationPicker";
 import { useJsApiLoader } from "@react-google-maps/api";
-import { mapOptions } from "../../../../MapConfig";
 import { PhoneIcon } from "@chakra-ui/icons";
 import { GoLocation } from "react-icons/go";
 import { FacebookIcon, FacebookShareButton, FacebookShareCount, LinkedinIcon, LinkedinShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { mapOptions } from "../../../MapConfig";
+import { AuthContext } from "../../../context/AppContext";
+import CommentSection from "../../HomeFeature/components/Comments/CommentsSection";
+import { IPost } from "../../HomeFeature/components/AddPost";
+import MyLocationPicker from "../../../components/LocationPicker";
 
 
 
-function CardPostItem(props: IPost, key: number) {
-    const [showComment, setShowComment] = useState(false);
+function PostItem(props: IPost, key: number) {
 
     const { id, phone, likes, comments, saved, type, description, city, bloodGroup, fullName, photoURL, coordinates, uid } = props
     const navigate = useNavigate();
@@ -114,8 +111,8 @@ function CardPostItem(props: IPost, key: number) {
 
     return (
 
-        <Flex justifyContent="center" my='2' key={key}>
-            <Card w="2xl" >
+        <Flex justifyContent="center" w={'100%'} my='2' key={key}>
+            <Card w="5xl" mx={'auto'}>
                 <CardHeader>
                     <Flex gap="4">
                         <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap" justifyContent={'space-between'}>
@@ -179,7 +176,7 @@ function CardPostItem(props: IPost, key: number) {
                                             </Flex></PopoverHeader>
                                         <PopoverHeader cursor={'pointer'}>
                                             <Flex alignItems={'center'}>
-                                                <CopyToClipboard text={window.location.href + id} onCopy={() => {
+                                                <CopyToClipboard text={window.location.href} onCopy={() => {
                                                     toast({
                                                         title: "Copied the url",
                                                         status: 'info',
@@ -201,8 +198,9 @@ function CardPostItem(props: IPost, key: number) {
                                     <Text color={'gray'} fontWeight={'bold'} display={'flex'} alignItems={'center'} gap={'1'} mt={'2'}>{<GoLocation />} {city}</Text>
 
                                 </div>
-                                {/* <MyLocationPicker isLoaded={isLoaded} coordinates={coordinates} /> */}
+                                <MyLocationPicker isLoaded={isLoaded} coordinates={coordinates} />
                             </Box>
+
                         </Flex>
                     </Flex>
                 </CardHeader>
@@ -224,12 +222,7 @@ function CardPostItem(props: IPost, key: number) {
                     <Button flex="2" variant="ghost" leftIcon={actions.isILiked ? <BiSolidLike size={20} color='#166fe5' /> : <BiLike size={20} />} isDisabled={!authChecked} onClick={() => addLikeHandler()}>
                         {likes?.length || '0'}
                     </Button>
-                    <Button flex="2" variant="ghost" leftIcon={<BiChat size={20} />} isDisabled={!authChecked} onClick={() => {
-                        setShowComment(!showComment)
 
-                    }}>
-                        {comments?.length || '0'}
-                    </Button>
                     <Button flex="2" variant="ghost" leftIcon={actions.isISaved ? <FaBookmark size={20} color='#166fe5' /> : <BiBookmark size={20} />} isDisabled={!authChecked} onClick={() => { saveClickHandler() }}>
                         {actions.isISaved ? 'Saved' : 'Save'}
                     </Button>
@@ -269,9 +262,8 @@ function CardPostItem(props: IPost, key: number) {
 
 
                 </CardFooter>
-                {showComment && (
-                    <CommentSection  {...props} />
-                )}
+                <CommentSection  {...props} />
+
             </Card>
         </Flex>
 
@@ -281,4 +273,4 @@ function CardPostItem(props: IPost, key: number) {
 
 }
 
-export default CardPostItem;
+export default PostItem;
