@@ -30,8 +30,10 @@ import { storage } from "../../firebase";
 import { User, updateProfile } from "firebase/auth";
 import { IPost } from "../../features/HomeFeature/components/AddPost";
 import { doc, updateDoc } from "firebase/firestore";
+import { useTranslation } from "react-i18next";
 
-export const Banner= () => {
+export const Banner = () => { 
+  const {t} = useTranslation();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const [myPosts, setMyPost] = useState<IPost[]>([]);
@@ -153,10 +155,10 @@ export const Banner= () => {
           alignItems="start"
         >
           <Text fontSize="xl" color="white">
-            Name: {user?.displayName}
+          {t("NameProfPage")}: {user?.displayName}
           </Text>
           <Text fontSize="lg" color="white">
-            Email: {user?.email}
+          {t("EmailProfPage")}: {user?.email}
           </Text>
         </GridItem>
         <GridItem
@@ -177,7 +179,7 @@ export const Banner= () => {
             onClick={() => setIsEditModalOpen(true)}
           >
             <EditIcon />
-            Edit
+            {t("EditProfPage")}
           </Button>
           {/* Upload image button */}
           <Flex justifyContent={'center'} alignItems={'center'} border={'2px solid white'} borderRadius={'5px'} width={'180px'} height={'40px'}>
@@ -203,7 +205,7 @@ export const Banner= () => {
             onClick={() => navigate("/profile/changepassword")}
           >
             <LockIcon />
-            Change password
+            {t("ChangePasswordProfPage")}
           </Button>
 
           <Button
@@ -215,7 +217,7 @@ export const Banner= () => {
             borderWidth="1px"
             onClick={() => navigate("/logout")}
           >
-            Logout
+            {t("LogoutProfPage")}
           </Button>
         </GridItem>
       </Grid>
@@ -228,7 +230,8 @@ export const Banner= () => {
 };
 
 export function MainTabs() {
-
+  
+  const {t} = useTranslation();
   const [tabIndex, setTabIndex] = useState(0);
 
   const [myPosts, setMyPost] = useState<IPost[]>([]);
@@ -262,11 +265,11 @@ export function MainTabs() {
       <TabList>
         <Tab>
           <AtSignIcon mr={'1'} />
-          My posts
+          {t("MyPostsProfPage")}
         </Tab>
         <Tab>
-          {<BiBookmark />}
-          Saved posts
+        {<BiBookmark />} 
+        {t("SavedPostsProfPage")}
         </Tab>
       </TabList>
       <TabPanels p="2rem">

@@ -28,7 +28,8 @@ import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import CommentSection from "../Comments/CommentsSection";
 import { FaEdit, FaCopy } from "react-icons/fa";
 import { MdDelete, MdReport } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { FaBookmark } from "react-icons/fa";
 import { AuthContext } from "../../../../context/AppContext";
 import { useJsApiLoader } from "@react-google-maps/api";
@@ -37,12 +38,13 @@ import { PhoneIcon } from "@chakra-ui/icons";
 import { GoLocation } from "react-icons/go";
 import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import PostActions from "../../../../components/PostComponents/PostActions";
 
 
 
 function CardPostItem(props: IPost, key: number) {
     const [showComment, setShowComment] = useState(false);
-
+    const {t} = useTranslation();
     const { id, phone, likes, comments, saved, type, description, city, bloodGroup, fullName, photoURL, coordinates, uid } = props
     const navigate = useNavigate();
     const triggerContext = useContext<any>(AuthContext)
@@ -145,54 +147,9 @@ function CardPostItem(props: IPost, key: number) {
                                         alignItems="center"
                                         justifyContent="center"
                                     >{type} {bloodGroup}</Text>
-                                    <Text ml="5px"></Text>
                                 </Flex>
-                                <Popover>
-                                    <PopoverTrigger>
-                                        <IconButton
-                                            variant="ghost"
-                                            colorScheme="gray"
-                                            aria-label="See menu"
-                                            icon={<BsThreeDotsVertical />}
-                                        />
-                                    </PopoverTrigger>
-                                    <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'140px'}>
-                                        {
-                                            auth?.currentUser?.uid === uid &&
-                                            <>
-                                                <PopoverHeader cursor={'pointer'}>
-                                                    <Flex alignItems={'center'}>
-                                                        <FaEdit /><Text ml={'10px'} fontSize={'18px'}>Edit</Text>
-                                                    </Flex>
-                                                </PopoverHeader>
-                                                <PopoverHeader cursor={'pointer'}>
-                                                    <Flex alignItems={'center'}>
-                                                        <MdDelete /><Text ml={'10px'} fontSize={'18px'}>Delete</Text>
-                                                    </Flex>
-                                                </PopoverHeader>
-                                            </>
-                                        }
-                                        <PopoverHeader cursor={'pointer'}>
-                                            <Flex alignItems={'center'}>
-                                                <MdReport /><Text ml={'10px'} fontSize={'18px'}>Report</Text>
-                                            </Flex></PopoverHeader>
-                                        <PopoverHeader cursor={'pointer'}>
-                                            <Flex alignItems={'center'}>
-                                                <CopyToClipboard text={window.location.href + id} onCopy={() => {
-                                                    toast({
-                                                        title: "Copied the url",
-                                                        status: 'info',
-                                                        duration: 1000,
-                                                        isClosable: true,
-                                                        position: "top-right",
-                                                    });
-                                                }}>
-                                                    <Flex gap={'10px'} alignItems={'center'} fontSize={'18px'}><FaCopy />Copy URL</Flex>
-                                                </CopyToClipboard>
-                                            </Flex>
-                                        </PopoverHeader>
-                                    </PopoverContent>
-                                </Popover>
+                                    <Text ml="5px"></Text>
+                                <PostActions id={id} uid={uid}/>
                             </Flex>
                             <Box w={'full'} onClick={() => { navigate('/' + id) }} cursor={'pointer'}>
                                 <div>
@@ -229,8 +186,8 @@ function CardPostItem(props: IPost, key: number) {
                     }}>
                         {comments?.length || '0'}
                     </Button>
-                    <Button flex="2" variant="ghost" leftIcon={actions.isISaved ? <FaBookmark size={20} color='#166fe5' /> : <BiBookmark size={20} />} isDisabled={!authChecked} onClick={() => { saveClickHandler() }}>
-                        {actions.isISaved ? 'Saved' : 'Save'}
+                    <Button flex="1" variant="ghost" leftIcon={actions.isISaved ? <FaBookmark size={20} color='#166fe5' /> : <BiBookmark size={20} />} isDisabled={!authChecked} onClick={() => { saveClickHandler() }}>
+                        {actions.isISaved ? t("CardSaved") : t("CardSave")}
                     </Button>
 
                     <Popover>

@@ -22,6 +22,7 @@ import { postActions, PostsReducer, postsStates } from "../../../../context/Post
 import { TbMoodAnnoyed } from "react-icons/tb";
 import { AuthContext } from "../../../../context/AppContext";
 import PostSkeleton from "../../../../components/PostSkeleton";
+import { useTranslation } from "react-i18next";
 // interface IDonors {
 //   bloodGroup: string;
 //   city: string;
@@ -40,6 +41,7 @@ interface IProps {
 }
 function CardPost(props: IProps) {
 
+  const {t} = useTranslation();
   const [loading, setLoading] = useState(true)
   const donorCollectionRef = collection(db, 'donors');
   const { SUBMIT_POST } = postActions;
@@ -79,7 +81,7 @@ function CardPost(props: IProps) {
           <TbMoodAnnoyed />
 
           <Text size={'lg'}>
-            No posts present...
+            {t("IfNotCards")}
           </Text>
         </Flex>
       </>
