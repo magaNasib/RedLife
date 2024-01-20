@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Button, IconButton } from "@chakra-ui/button";
 import { Flex, Text } from "@chakra-ui/layout";
 import { Popover, PopoverTrigger, PopoverContent, PopoverHeader } from "@chakra-ui/popover";
@@ -13,6 +13,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 import { AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader, AlertDialogBody, AlertDialogFooter } from '@chakra-ui/modal';
 import { FocusableElement } from '@chakra-ui/utils';
 import { AuthContext } from '../../context/AppContext';
+import { EditPost } from './EditPost';
 
 const PostActions = ({ uid, id }: { uid: string; id: string }) => {
     const donorCollectionRef = collection(db, 'donors');
@@ -21,6 +22,10 @@ const PostActions = ({ uid, id }: { uid: string; id: string }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const cancelRef = React.useRef<FocusableElement>(null);
 
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const handleEditModalClose = () => {
+        setIsEditModalOpen(false);
+    };
     const handleDelete = async () => {
         // onclose()
         try {
@@ -56,7 +61,8 @@ const PostActions = ({ uid, id }: { uid: string; id: string }) => {
                         <>
                             <PopoverHeader cursor={'pointer'}>
                                 <Flex alignItems={'center'}>
-                                    <FaEdit /><Text ml={'10px'} fontSize={'18px'}>Edit</Text>
+                                    <FaEdit /><Text ml={'10px'} fontSize={'18px'} onClick={() => setIsEditModalOpen(true)}
+                                    >Edit</Text>
                                 </Flex>
                             </PopoverHeader>
                             <PopoverHeader cursor={'pointer'} onClick={onOpen}>
@@ -116,6 +122,11 @@ const PostActions = ({ uid, id }: { uid: string; id: string }) => {
                     </AlertDialogContent>
                 </AlertDialogOverlay>
             </AlertDialog>
+            <EditPost
+                isOpen={isEditModalOpen}
+                onClose={handleEditModalClose}
+                id={id}
+            />
         </>
     )
 }
