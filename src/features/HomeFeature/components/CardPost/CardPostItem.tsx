@@ -44,8 +44,33 @@ import PostActions from "../../../../components/PostComponents/PostActions";
 
 function CardPostItem(props: IPost, key: number) {
     const [showComment, setShowComment] = useState(false);
-    const {t} = useTranslation();
-    const { id, phone, likes, comments, saved, type, description, city, bloodGroup, fullName, photoURL, coordinates, uid } = props
+    const { t } = useTranslation();
+    const { id, phone, likes, comments, saved, publish_date, type, description, city, bloodGroup, fullName, photoURL, coordinates, uid } = props
+    // const date = new Date(publish_date?.seconds * 1000 + publish_date?.nanoseconds / 1e6);
+    const date: any = new Date(publish_date.seconds * 1000 + publish_date.nanoseconds / 1e6);
+    const now: any = new Date();
+
+    // Calculate the time difference in seconds and minutes
+    const timeDifferenceInSeconds = Math.floor((now - date) / 1000);
+    const timeDifferenceInMinutes = Math.floor(timeDifferenceInSeconds / 60);
+
+    let diffTime;
+
+    if (timeDifferenceInSeconds < 60) {
+        diffTime = `${timeDifferenceInSeconds} seconds ago`;
+    } else if (timeDifferenceInMinutes < 60) {
+        diffTime = `${timeDifferenceInMinutes} minutes ago`;
+    } else if (timeDifferenceInMinutes >= 60 && timeDifferenceInMinutes < 1440) {
+        // Calculate hours ago
+        const hoursAgo = Math.floor(timeDifferenceInMinutes / 60);
+        diffTime = `${hoursAgo} hours ago`;
+    } else if (timeDifferenceInMinutes >= 1440) {
+        // More than 1 day, show month and day
+        const options = { month: 'short', day: 'numeric' };
+        const formattedDate = date.toLocaleDateString('en-US', options as Intl.DateTimeFormatOptions); // Cast options to the correct type
+        diffTime = `Published on ${formattedDate}`;
+    }
+
     const navigate = useNavigate();
     const triggerContext = useContext<any>(AuthContext)
     const toast = useToast()
@@ -148,14 +173,21 @@ function CardPostItem(props: IPost, key: number) {
                                         justifyContent="center"
                                     >{type} {bloodGroup}</Text>
                                 </Flex>
-                                    <Text ml="5px"></Text>
-                                <PostActions id={id} uid={uid}/>
+                                <Text ml="5px"></Text>
+                                <PostActions id={id} uid={uid} />
                             </Flex>
-                            <Box w={'full'} onClick={() => { navigate('/' + id) }} cursor={'pointer'}>
+                            <Box w={'full'} onClick={() => { navigate('/' + id) }} cursor={'pointer'} pl={'5'}>
                                 <div>
-                                    <Text fontWeight={'500'} color={'gray'} display={'block'}>{<PhoneIcon />} {phone}</Text>
-                                    <Text color={'gray'} fontWeight={'bold'} display={'flex'} alignItems={'center'} gap={'1'} mt={'2'}>{<GoLocation />} {city}</Text>
+                                    <Flex justifyContent={'space-between'} alignItems={'center'}>
+                                        <Text fontWeight={'500'} color={'gray'} display={'block'}>{<PhoneIcon />} {phone}</Text>
 
+                                        <Text color={'gray'} display={'flex'} alignItems={'center'} gap={'1'} mt={'2'}>
+                                            {diffTime}
+                                        </Text>
+                                    </Flex>
+                                    <Text color={'gray'} fontWeight={'bold'} display={'flex'} alignItems={'center'} gap={'1'} mt={'2'}>
+                                        {<GoLocation />} {city}
+                                    </Text>
                                 </div>
                                 {/* <MyLocationPicker isLoaded={isLoaded} coordinates={coordinates} /> */}
                             </Box>
@@ -228,7 +260,7 @@ function CardPostItem(props: IPost, key: number) {
                 {showComment && (
                     <CommentSection  {...props} />
                 )}
-                
+
                 {/* {showPost && (
                     <CardPostItemDetails {...props}/>
                 )} */}
