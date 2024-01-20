@@ -5,15 +5,15 @@ import CardPost from "./components/CardPost";
 import Blogs from "../../pages/Blogs";
 import Sidebar from "../../components/Sidebar";
 function HomeFeature() {
-  const [trigger,setTrigger] = useState(false)
-  
+  const [trigger, setTrigger] = useState(false);
+
   return (
     <>
       <Sidebar />
-      <Flex justify="space-between" bgColor="#F1F2F5">
+      <Flex justify="space-between" bgColor="#F1F2F5" h="100%">
         <Flex w="100%" direction="column" align="center" mt="110px" ml="220px">
-          <AddPost setTrigger={setTrigger}/>
-          <CardPost trigger={trigger}/>
+          <AddPost setTrigger={setTrigger} />
+          <CardPost trigger={trigger} />
         </Flex>
         <Blogs />
       </Flex>

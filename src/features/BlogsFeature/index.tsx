@@ -7,6 +7,7 @@ import {
   Heading,
   Text,
   Image,
+  Link,
 } from "@chakra-ui/react";
 import handsImg from "../../assets/hands.jpg";
 import blogsImg2 from "../../assets/blogsImg2.jpg";
@@ -26,7 +27,6 @@ function BlogsFeature() {
   return (
     <>
       <Sidebar />
-
       <Box m="0 auto" w="65%" pr={"10"} mt={"95px"}>
         <Card
           direction={{ base: "column", sm: "row" }}
@@ -44,7 +44,9 @@ function BlogsFeature() {
               <Heading size="sm" mb="7px" fontSize="smaller">
                 Rach Abdash
               </Heading>
-              <Heading size="sm">Donate the Gift of Life for Christmas</Heading>
+              <Link fontWeight="bold" cursor="pointer">
+                Donate the Gift of Life for Christmas
+              </Link>
 
               {isTextVisible && (
                 <Text py="2">
@@ -89,7 +91,7 @@ function BlogsFeature() {
             alt="Caffe Latte"
           />
         </Card>
-        <Card
+        {/* <Card
           direction={{ base: "column", sm: "row" }}
           overflow="hidden"
           variant="outline"
@@ -169,6 +171,7 @@ function BlogsFeature() {
             </CardBody>
           </Stack>
           <Image
+          
             objectFit="cover"
             maxW={{ base: "100%", sm: "200px" }}
             src={conceptImg}
@@ -563,7 +566,7 @@ function BlogsFeature() {
             src={factorsImg}
             alt="Caffe Latte"
           />
-        </Card>
+        </Card> */}
       </Box>
     </>
   );
