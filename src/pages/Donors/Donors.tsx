@@ -17,7 +17,6 @@ import CardPost from "../../features/HomeFeature/components/CardPost";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import Sidebar from "../../components/Sidebar";
-import PostSkeleton from "../../components/PostSkeleton";
 interface IDonors { }
 interface IFDonars {
   bloodGroups: string;

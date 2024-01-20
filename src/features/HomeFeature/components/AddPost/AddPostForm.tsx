@@ -247,7 +247,7 @@ const AddPostForm = ({ setShow, mode, id = ' ' }: { setShow: (a: boolean) => voi
                                 value={field.value}
                                 onChange={field.onChange}
                                 onBlur={field.onBlur}
-                                type="tel"
+                                type="number"
                                 placeholder={t("AddPostPhone")}
                             />
                         </InputGroup>
