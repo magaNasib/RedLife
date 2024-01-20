@@ -15,6 +15,7 @@ import Logout from "../pages/auth/Logout";
 import BlogsDetails from "../pages/BlogsDetail/BlogsDetails";
 import Post from "../pages/Post";
 function Router() {
+  
   return (
     <>
       <ChakraProvider>
@@ -22,7 +23,7 @@ function Router() {
           <Route element={<PageLayout />}>
             <Route index element={<Home />} />
             <Route element={<AuthRoute />}>
-              <Route path="/profile" element={<ProfilePage />} />
+              <Route path="/profile" element={<ProfilePage/>} />
               <Route path="/logout" element={<Logout />} />
               <Route path="/profile/changepassword" element={<ChangePassword />} />
 
@@ -34,6 +35,7 @@ function Router() {
             <Route path="/donors" element={<Donors />} />
             <Route path="/blogsDetails" element={<BlogsDetails />} />
             <Route path="/blogs" element={<Blogs />} />
+            
           </Route>
         </Routes>
       </ChakraProvider>

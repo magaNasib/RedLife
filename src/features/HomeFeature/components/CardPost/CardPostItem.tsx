@@ -32,12 +32,11 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { FaBookmark } from "react-icons/fa";
 import { AuthContext } from "../../../../context/AppContext";
-import MyLocationPicker from "../../../../components/LocationPicker";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { mapOptions } from "../../../../MapConfig";
 import { PhoneIcon } from "@chakra-ui/icons";
 import { GoLocation } from "react-icons/go";
-import { FacebookIcon, FacebookShareButton, FacebookShareCount, LinkedinIcon, LinkedinShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
+import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import PostActions from "../../../../components/PostComponents/PostActions";
 
@@ -229,6 +228,10 @@ function CardPostItem(props: IPost, key: number) {
                 {showComment && (
                     <CommentSection  {...props} />
                 )}
+                
+                {/* {showPost && (
+                    <CardPostItemDetails {...props}/>
+                )} */}
             </Card>
         </Flex>
 
