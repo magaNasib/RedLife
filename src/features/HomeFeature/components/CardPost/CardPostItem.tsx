@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { BiLike, BiChat, BiSave, BiBookmark } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 import { IPost } from "../AddPost";
 import { auth, db, onAuthStateChanged } from "../../../../firebase";
@@ -92,7 +92,7 @@ function CardPostItem(props: IPost, key: number) {
                 <Box mr="65px">
                   <Heading size="md">{fullName}</Heading>
                   <Flex>
-                    <Text>{city}:</Text>
+                    <Text>{city},</Text>
                     <Text ml="5px">{phone}</Text>
                   </Flex>
                 </Box>

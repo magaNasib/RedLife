@@ -8,11 +8,11 @@ import Login from "../pages/auth/Login";
 import ForgotPassword from "../pages/auth/ForgotPassword";
 import Register from "../pages/auth/Register";
 import Donors from "../pages/Donors/Donors";
-import Blogs from "../features/BlogsFeature";
 import AuthRoute from "../pages/auth/components/AuthRoute";
 import ChangePassword from "../pages/auth/ChangePassword";
 import Logout from "../pages/auth/Logout";
-import BlogsDetails from "../pages/BlogsDetail/BlogsDetails";
+import InformationDetail from "../pages/InformationDetail";
+import Messages from "../pages/Messages/Messages";
 function Router() {
   return (
     <>
@@ -32,8 +32,8 @@ function Router() {
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />
             <Route path="/donors" element={<Donors />} />
-            <Route path="/blogsDetails" element={<BlogsDetails />} />
-            <Route path="/blogs" element={<Blogs />} />
+            <Route path="/messages" element={<Messages/>} />
+            <Route path="/infoDetails" element={<InformationDetail />} />
           </Route>
         </Routes>
       </ChakraProvider>
