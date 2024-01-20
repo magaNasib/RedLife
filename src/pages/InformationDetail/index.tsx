@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Container, VStack, Heading, Text, Image } from "@chakra-ui/react";
 import Sidebar from "../../components/Sidebar";
 
-const BlogsDetails: React.FC = () => {
+const InfoDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
   const donor = {
@@ -62,4 +62,4 @@ const BlogsDetails: React.FC = () => {
   );
 };
 
-export default BlogsDetails;
+export default InfoDetails;

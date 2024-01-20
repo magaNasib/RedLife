@@ -1,7 +1,7 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Navigate, Outlet, useNavigate } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { Box, Spinner } from '@chakra-ui/react';
+import { Box, Spinner, Text } from '@chakra-ui/react';
 
 export interface IAuthRouteProps { children?: ReactNode | undefined; }
 
@@ -44,7 +44,7 @@ const AuthRoute: React.FunctionComponent<IAuthRouteProps> = props => {
     }
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <Text>Loading...</Text>;
     }
 
     return (
