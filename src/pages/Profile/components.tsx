@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -21,8 +21,11 @@ import { auth, db } from "../../firebase";
 import { collection, doc, getDocs, orderBy, query, where } from "@firebase/firestore";
 import { IPost } from "../../features/HomeFeature/components/AddPost";
 import CardPost from "../../features/HomeFeature/components/CardPost";
+import { AuthContext } from "../../context/AppContext";
+import { useTranslation } from "react-i18next";
 
-export const Banner = () => {
+export const Banner = () => { 
+  const {t} = useTranslation();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -51,7 +54,7 @@ export const Banner = () => {
         templateColumns="1fr 2fr 2fr"
         gap={3}
         w="65vw"
-        h="25vh"
+        minH="25vh"
         margin="0 auto"
       >
         <GridItem display="flex" alignItems="center">
@@ -70,10 +73,10 @@ export const Banner = () => {
           alignItems="start"
         >
           <Text fontSize="xl" color="white">
-            Name: {user?.displayName}
+          {t("NameProfPage")}: {user?.displayName}
           </Text>
           <Text fontSize="lg" color="white">
-            Email: {user?.email}
+          {t("EmailProfPage")}: {user?.email}
           </Text>
         </GridItem>
         <GridItem
@@ -94,7 +97,7 @@ export const Banner = () => {
             onClick={() => setIsEditModalOpen(true)}
           >
             <EditIcon />
-            Edit
+            {t("EditProfPage")}
           </Button>
 
           <Button
@@ -107,7 +110,7 @@ export const Banner = () => {
             onClick={() => navigate("/profile/changepassword")}
           >
             <LockIcon />
-            Change password
+            {t("ChangePasswordProfPage")}
           </Button>
 
           <Button
@@ -119,7 +122,7 @@ export const Banner = () => {
             borderWidth="1px"
             onClick={() => navigate("/logout")}
           >
-            Logout
+            {t("LogoutProfPage")}
           </Button>
         </GridItem>
       </Grid>
@@ -132,12 +135,15 @@ export const Banner = () => {
 };
 
 export function MainTabs() {
- 
+  
+  const {t} = useTranslation();
   const [tabIndex, setTabIndex] = useState(0);
 
   const [myPosts, setMyPost] = useState<IPost[]>([]);
   const [savedPosts, setSavedPosts] = useState<IPost[]>([]);
   const donorCollectionRef = collection(db, "donors");
+  const triggerContext = useContext<any>(AuthContext)
+
   const user = auth?.currentUser
   useEffect(() => {
     const getPosts = async () => {
@@ -150,7 +156,6 @@ export function MainTabs() {
           );
           setMyPost(donorData.filter((data) => user?.uid === data.uid));
           setSavedPosts(donorData.filter((data) => data.saved.includes(user?.uid || '')));
-          console.log(savedPosts);
           
         }
       } catch (error) {
@@ -159,17 +164,17 @@ export function MainTabs() {
     };
 
     getPosts();
-  }, []);
+  }, [triggerContext.trigger]);
   return (
     <Tabs onChange={(index) => setTabIndex(index)}>
       <TabList>
         <Tab>
           <AtSignIcon mr={'1'} />
-          My posts
+          {t("MyPostsProfPage")}
         </Tab>
         <Tab>
         {<BiBookmark />} 
-          Saved posts
+        {t("SavedPostsProfPage")}
         </Tab>
       </TabList>
       <TabPanels p="2rem">

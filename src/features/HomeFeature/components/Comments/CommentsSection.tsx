@@ -25,8 +25,10 @@ import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { AuthContext } from "../../../../context/AppContext";
 import { v4 as uuidv4 } from 'uuid';
+import { useTranslation } from "react-i18next";
 
-const CommentSection: React.FC<IPost> = ({ id, fullName, photoURL, bloodGroup, type, description, city, phone, comments }) => {
+const CommentSection: React.FC<IPost> = ({ id, comments }) => {
+    const {t} = useTranslation();
     const [text, setText] = useState('')
     const navigate = useNavigate();
     const triggerContext = useContext<any>(AuthContext)
@@ -35,6 +37,8 @@ const CommentSection: React.FC<IPost> = ({ id, fullName, photoURL, bloodGroup, t
         if (!auth.currentUser) return navigate('/login')
         if (text) {
 
+            console.log(id);
+            
             const userDocRef = doc(db, 'donors', id);
             const myComment = {
                 id: uuidv4(),
@@ -92,14 +96,14 @@ const CommentSection: React.FC<IPost> = ({ id, fullName, photoURL, bloodGroup, t
                                             icon={<BsThreeDotsVertical />}
                                         />
                                     </PopoverTrigger>
-                                    <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'120px'}>
+                                    <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'180px'}>
                                         <PopoverHeader>
                                             <Flex alignItems={'center'}>
-                                                <FaEdit /><Text ml={'10px'} fontSize={'18px'}>Edit</Text>
+                                                <FaEdit /><Text ml={'10px'} fontSize={'18px'}>{t("CommentEdit")}</Text>
                                             </Flex>
                                         </PopoverHeader>
                                         <PopoverHeader><Flex alignItems={'center'}>
-                                            <MdDelete /><Text ml={'10px'} fontSize={'18px'}>Delete</Text>
+                                            <MdDelete /><Text ml={'10px'} fontSize={'18px'}>{t("CommentDelete")}</Text>
                                         </Flex></PopoverHeader>
                                     </PopoverContent>
                                 </Popover>

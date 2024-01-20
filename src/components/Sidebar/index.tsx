@@ -9,7 +9,10 @@ import { CgProfile } from "react-icons/cg";
 import { CiLogin } from "react-icons/ci";
 import { LiaBlogSolid } from "react-icons/lia";
 import { TbMessageCircleShare } from "react-icons/tb";
+import { useTranslation } from "react-i18next";
+
 const Sidebar = () => {
+  const {t} = useTranslation();
   const [authChecked, setAuthChecked] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
@@ -54,7 +57,7 @@ const Sidebar = () => {
             marginBottom: "30px",
           })}
         >
-          <IoHomeOutline size={25} style={{ marginRight: "10px" }} /> HOME
+          <IoHomeOutline size={25} style={{ marginRight: "10px" }} /> {t("SidebarHome")}
         </NavLink>
         <NavLink
           to="/donors"
@@ -104,7 +107,7 @@ const Sidebar = () => {
             })}
           >
             <CgProfile size={25} style={{ marginRight: "10px" }} />
-            Profile
+            {t("SidebarProfile")}
           </NavLink>
         )}
         {authChecked && !auth.currentUser && (
@@ -118,7 +121,7 @@ const Sidebar = () => {
             })}
           >
             <CiLogin size={25} style={{ marginRight: "10px" }} />
-            LOGIN
+            {t("SidebarLogin")}
           </NavLink>
         )}
       </Flex>

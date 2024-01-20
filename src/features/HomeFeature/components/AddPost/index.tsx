@@ -9,26 +9,36 @@ import {
   FormErrorMessage,
   Input,
   InputGroup,
+  InputLeftAddon,
   InputLeftElement,
+  InputRightElement,
   Select,
+  Spinner,
   useToast,
 } from "@chakra-ui/react";
 import { Textarea } from "@chakra-ui/textarea";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { Dispatch, SetStateAction, useEffect, useReducer, useState } from "react";
+import { Dispatch, SetStateAction, useContext, useEffect, useReducer, useState } from "react";
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import { auth, db, onAuthStateChanged } from "../../../../firebase";
 import { useNavigate } from "react-router-dom";
-import {
-  PostsReducer,
-  postActions,
-  postsStates,
-} from "../../../../context/PostReducer";
+import { useTranslation } from "react-i18next";
+
+import { AuthContext } from "../../../../context/AppContext";
+import { Autocomplete, useLoadScript } from "@react-google-maps/api";
+import { mapOptions } from "../../../../MapConfig";
+import { Library } from "@googlemaps/js-api-loader";
+import AddPostForm from "./AddPostForm";
+
 
 export interface IPost {
   bloodGroup: "B+" | "A+" | "AB+" | "O+" | "B-" | "A-" | "AB-" | "O-";
   type: "Donor" | "Acceptor";
   city: string;
+  coordinates: {
+    lat: number
+    lng: number
+  }
   phone: string;
   description?: string;
   fullName: string;
@@ -37,31 +47,27 @@ export interface IPost {
   saved: string[];
   uid: string;
   id: string;
-  publish_date: string;
+  publish_date: {
+    seconds: number
+    nanoseconds: number
+  };
   comments: {
-    id:string
+    id: string
     displayName?: string;
     comment: string;
     date?: string;
-    publish_date:string
-    uid:string
-    photo_url:string
+    publish_date: string
+    uid: string
+    photo_url: string
   }[]
   comment: string;
-  setTrigger?: Dispatch<SetStateAction<boolean>>
+  // setTrigger?: Dispatch<SetStateAction<boolean>>
 }
-const AddPost = ({ setTrigger }: any) => {
+const AddPost = () => {
+  const { t } = useTranslation();
   const [show, setShow] = useState(false);
+  const navigate = useNavigate()
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const toast = useToast();
-  const methods = useForm<IPost>({
-    defaultValues: {
-      phone: "",
-      description: "",
-    },
-  });
 
   const [authChecked, setAuthChecked] = useState(false);
   useEffect(() => {
@@ -75,39 +81,9 @@ const AddPost = ({ setTrigger }: any) => {
     return () => unsubscribe();
   }, [auth, navigate]);
 
-  const donorCollectionRef = doc(collection(db, "donors"));
-  const handleSubmit = methods.handleSubmit(async (data: IPost) => {
-    setLoading(true);
-    try {
-      const sendingData = {
-        ...data,
-        publish_date: new Date(),
-        uid: auth.currentUser?.uid,
-        fullName: auth.currentUser?.displayName,
-        avatar: auth.currentUser?.photoURL,
-        likes: [],
-        comments: [],
-        saved:[]
-      };
-      await setDoc(donorCollectionRef, sendingData);
-      setShow(false);
-      methods.reset();
-      toast({
-        title: "Post created successfully",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-        position: "top-right",
-      });
-      setTrigger((curr: boolean) => !curr);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  });
+
   return (
-    <Box w="100%" my={"2"} maxW={"xl"} mx={"auto"} mt="0">
+    <Box w="100%" my={"2"} maxW={"2xl"} mx={"auto"} mt="0">
       <Flex
         justifyContent="space-between"
         bg={"white"}
@@ -124,159 +100,8 @@ const AddPost = ({ setTrigger }: any) => {
             borderWidth="2px"
           />
           <Stack spacing={4} w={"100%"}>
-            {show && (
-              <>
-                <FormControl isInvalid={!!methods.formState.errors.bloodGroup}>
-                  <Controller
-                    control={methods.control}
-                    name="bloodGroup"
-                    rules={{
-                      required: "This field is required",
-                    }}
-                    render={({ field }) => (
-                      <>
-                        <Select
-                          {...field}
-                          name="bloodGrp"
-                          placeholder="Blood Group"
-                          onChange={field.onChange}
-                          value={field.value}
-                        >
-                          <option value="B+">B+</option>
-                          <option value="A+">A+</option>
-                          <option value="AB+">AB+</option>
-                          <option value="O+">O+</option>
-                          <option value="O-">O-</option>
-                          <option value="AB-">AB-</option>
-                          <option value="B-">B-</option>
-                          <option value="A-">A-</option>
-                        </Select>
-                      </>
-                    )}
-                  />
-                  <FormErrorMessage>
-                    {methods.formState.errors?.bloodGroup?.message}
-                  </FormErrorMessage>
-                </FormControl>
+            {show && <AddPostForm setShow={setShow} mode='add' />}
 
-                <FormControl isInvalid={!!methods.formState.errors.type}>
-                  <Controller
-                    control={methods.control}
-                    name="type"
-                    rules={{
-                      required: "This field is required",
-                    }}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        name="typeOfUser"
-                        placeholder="Who are you"
-                      >
-                        <option value="Donor">Donor</option>
-                        <option value="Acceptor">Acceptor</option>
-                      </Select>
-                    )}
-                  />
-
-                  <FormErrorMessage>
-                    {methods.formState.errors?.type?.message}
-                  </FormErrorMessage>
-                </FormControl>
-
-                <FormControl isInvalid={!!methods.formState.errors.city}>
-                  <Controller
-                    control={methods.control}
-                    name="city"
-                    rules={{
-                      required: "This field is required",
-                    }}
-                    render={({ field }) => (
-                      <Select {...field} placeholder="City">
-                        <option value="Baku">Baku </option>
-                        <option value="Oghuz">Oghuz</option>
-                        <option value="Ganja">Ganja</option>
-                      </Select>
-                    )}
-                  />
-
-                  <FormErrorMessage>
-                    {methods.formState.errors?.city?.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!!methods.formState.errors.phone}>
-                  <Controller
-                    control={methods.control}
-                    name="phone"
-                    rules={{
-                      required: "This field is required",
-                    }}
-                    render={({ field }) => (
-                      <InputGroup>
-                        <InputLeftElement
-                          pointerEvents="none"
-                          children={<PhoneIcon color="gray.300" />}
-                        />
-                        <Input
-                          {...field}
-                          value={field.value}
-                          onChange={field.onChange}
-                          onBlur={field.onBlur}
-                          type="tel"
-                          placeholder="Phone number"
-                        />
-                      </InputGroup>
-                    )}
-                  />
-
-                  <FormErrorMessage>
-                    {methods.formState.errors?.phone?.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <FormControl isInvalid={!!methods.formState.errors.description}>
-                  <Controller
-                    control={methods.control}
-                    name="description"
-                    render={({ field }) => (
-                      <Textarea
-                        {...field}
-                        resize={"none"}
-                        placeholder="Additional information if you want..."
-                        size="sm"
-                      />
-                    )}
-                  />
-
-                  <FormErrorMessage>
-                    {methods.formState.errors?.description?.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <Button
-                  border="1px solid"
-                  borderRadius="35px"
-                  borderColor="#0C67C3"
-                  backgroundColor="#FFFF"
-                  color="#0C67C3"
-                  _hover={{ bg: "#FFFF", borderColor: "#0C67C3" }}
-                  onClick={() => {
-                    methods.reset();
-                    setShow(false);
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  border="1px solid"
-                  borderRadius="35px"
-                  bgColor="#0C67C3"
-                  color="#FFFF"
-                  _hover={{ bg: "#0C67C3" }}
-                  isLoading={loading && !authChecked}
-                  onClick={handleSubmit}
-                >
-                  Post
-                </Button>
-              </>
-            )}
             {!show && (
               <Button
                 border="1px solid"
@@ -287,13 +112,14 @@ const AddPost = ({ setTrigger }: any) => {
                 display="flex"
                 justifyContent="flex-start"
                 pl="25px"
-                isLoading={!authChecked}
+                isDisabled={!authChecked}
+                isLoading={ loading}
                 _hover={{ bg: "#E8E9EB", borderColor: "#E8E9EB" }}
                 onClick={() => {
                   auth.currentUser ? setShow(true) : navigate("/login");
                 }}
               >
-                Start a post
+                {t("AddPostStartPostBtn")}
               </Button>
             )}
           </Stack>

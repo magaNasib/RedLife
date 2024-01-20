@@ -1,13 +1,27 @@
-import { Flex, Link, Text, Image, Box } from "@chakra-ui/react";
+import { Flex, Text, Image, Box, Select } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import logo from "../../assets/logo.png";
-
+import { useTranslation } from 'react-i18next';
 
 function Header() {
-  const navigate = useNavigate()
+  const {t} = useTranslation();
+  const { i18n } = useTranslation();
+  const navigate = useNavigate();
+  const languageOptions = [  
+    { value: "AZ", label: "AZE" },
+    { value: "EN", label: "ENG" },
+    { value: "RU", label: "RUS" },
+
+  ];
+
+  const [selectedLanguage, setSelectedLanguage] = useState("EN");
+  const handleLanguageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedLanguage(event.target.value);
+    i18n.changeLanguage(event.target.value); 
+  };
 
   return (
     <Box position="fixed" zIndex="10" w="100%" top={'0'}>
@@ -21,7 +35,7 @@ function Header() {
         fontSize="sm"
       >
         <Text>blood@smarteyeapps.com </Text>
-        <Text>Contact us: +9940556784534</Text>
+        <Text>{t("HeaderContact")} +9940556784534</Text>
       </Flex>
       <Flex
         h="65px"
@@ -55,7 +69,21 @@ function Header() {
           </Text>
         </Flex>
         <Flex justify="center">
-
+          <Select
+            variant="filled"
+            value={selectedLanguage}
+            onChange={handleLanguageChange}
+            size="sm"
+            rounded={'5'}
+            // bgColor="#D94B3C"
+            color="black"
+          >
+            {languageOptions.map((language) => (
+              <option key={language.value} value={language.value}>
+                {language.label}
+              </option>
+            ))}
+          </Select>
         </Flex>
       </Flex>
     </Box>

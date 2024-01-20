@@ -17,6 +17,7 @@ import {
   Box,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { sendPasswordResetEmail } from "@firebase/auth";
 import { auth} from "../../firebase"
 
@@ -26,7 +27,7 @@ interface IForgot {
 
 const ForgotPassword: React.FC = () => {
   const [error, setError] = useState('')
-
+  const {t} = useTranslation();
   const methods = useForm<IForgot>({
     defaultValues: {
       email: "",
@@ -48,15 +49,15 @@ const ForgotPassword: React.FC = () => {
         navigate("/login");
       }, 2000); 
 
-      alert('Email sent successfully. Redirecting to login page.');
+      alert(t("ForgotPassSuccesMessage"));
 
     } catch (error: any) {
       if (error?.code?.includes('auth/invalid-email')) {
-        setError('Invalid email address.');
+        setError(t("ForgotPassErrMessage1"));
       } else if (error?.code?.includes('auth/user-not-found')) {
-        setError('User not found. Please check your email address.');
+        setError(t("ForgotPassErrMessage2"));
       } else {
-        setError('Unable to reset password. Please try again later.');
+        setError(t("ForgotPassErrMessage3"));
       }
     }
 
@@ -79,7 +80,7 @@ const ForgotPassword: React.FC = () => {
           backdropFilter="blur(10px) hue-rotate(90deg)"
         />
         <ModalContent>
-          <ModalHeader>Reset your password</ModalHeader>
+          <ModalHeader>{t("ForgotPassModal")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Stack spacing="8">
@@ -95,7 +96,7 @@ const ForgotPassword: React.FC = () => {
                       }}
                       render={({ field }) => (
                         <>
-                          <FormLabel htmlFor="email">Email</FormLabel>
+                          <FormLabel htmlFor="email">{t("ForgotPassEmail")}</FormLabel>
                           <Input {...field} id="email" type="email" value={field.value} />
                         </>
                       )}
@@ -111,7 +112,7 @@ const ForgotPassword: React.FC = () => {
                 <Stack spacing="6">
                   <Stack spacing="6">
                     <Button type="submit" onClick={handleSubmit}>
-                      Get a link
+                    {t("LinkButton")}
                     </Button>
                     <Text fontSize="14" color="red">{error}
                     </Text>

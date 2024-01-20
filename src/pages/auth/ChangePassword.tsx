@@ -11,6 +11,7 @@ import { useState } from "react"
 import { Navigate } from "react-router-dom"
 import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth"
 import { useToast } from "@chakra-ui/toast"
+import { useTranslation } from "react-i18next";
 
 interface IProps {
 }
@@ -21,6 +22,7 @@ interface IChange {
 }
 const ChangePassword: React.FC<IProps> = () => {
 
+    const {t} = useTranslation();
     const [changing, setChanging] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
 
@@ -43,7 +45,7 @@ const ChangePassword: React.FC<IProps> = () => {
     const handleSubmit = methods.handleSubmit(async (data: IChange) => {
         const { newPassword, confirmPassword,oldPassword } = data
         if (newPassword !== confirmPassword) {
-            setError('Make sure your passwords are matching');
+            setError(t("ErrorMessage1"));
             return;
         }
 
@@ -54,21 +56,21 @@ const ChangePassword: React.FC<IProps> = () => {
             setChanging(true);
             await updatePassword(auth.currentUser!, newPassword);
             toast({
-                title: "Password changed successfully",
+                title: t("SuccesMessage"),
                 // description: "Refresh the page to see latest posts",
                 status: "success",
                 duration: 2000,
                 isClosable: true,
                 position: 'top-right'   
-              });
+            });
             navigate('/profile')
         } catch (error: any) {
             console.log(error);
 
             if (error?.code?.includes('auth/wrong-password')) {
-                setError('Invalid current password.');
+                setError(t("ErrorMessage2"));
             } else {
-                setError('Unable to change password. Please try again later.');
+                setError(t("ErrorMessage3"));
             }
         }
 
@@ -80,8 +82,7 @@ const ChangePassword: React.FC<IProps> = () => {
         await reauthenticateWithCredential(user!, credentials);
     };
 
-    if (auth.currentUser?.providerData[0]?.providerId !== 'password')
-        return <Navigate to="/" />;
+    // if (auth.currentUser?.providerData[0]?.providerId !== 'password') return <Navigate to="/" />;   
 
     return (
         <FormProvider {...methods}>
@@ -91,7 +92,7 @@ const ChangePassword: React.FC<IProps> = () => {
                     backdropFilter='blur(10px) hue-rotate(90deg)'
                 />
                 <ModalContent>
-                    <ModalHeader>Change Password</ModalHeader>
+                    <ModalHeader>{t("ChangePassModal")}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody >
                         <Stack spacing="8">
@@ -108,7 +109,7 @@ const ChangePassword: React.FC<IProps> = () => {
                                                 }}
                                                 render={({ field }) => (
                                                     <>
-                                                        <FormLabel htmlFor="oldPassword">Current Password</FormLabel>
+                                                        <FormLabel htmlFor="oldPassword">{t("CurrPasswordModal")}</FormLabel>
                                                         <Input {...field}
                                                             onChange={field.onChange}
                                                             value={field.value}
@@ -129,7 +130,7 @@ const ChangePassword: React.FC<IProps> = () => {
                                                 }}
                                                 render={({ field }) => (
                                                     <>
-                                                        <FormLabel htmlFor="newPassword">New Password</FormLabel>
+                                                        <FormLabel htmlFor="newPassword">{t("NewPasswordModal1")}</FormLabel>
                                                         <Input {...field}
                                                             onChange={field.onChange}
                                                             value={field.value}
@@ -151,7 +152,7 @@ const ChangePassword: React.FC<IProps> = () => {
                                                 }}
                                                 render={({ field }) => (
                                                     <>
-                                                        <FormLabel htmlFor="newPassword">Confirm Your New Password</FormLabel>
+                                                        <FormLabel htmlFor="newPassword">{t("NewPasswordModal2")}</FormLabel>
                                                         <Input {...field}
                                                             onChange={field.onChange}
                                                             value={field.value}
@@ -167,7 +168,7 @@ const ChangePassword: React.FC<IProps> = () => {
 
                                     </Stack>
                                     <Stack spacing="6">
-                                        <Button type="submit" disabled={changing} onClick={handleSubmit}>Change Password</Button>
+                                        <Button type="submit" disabled={changing} onClick={handleSubmit}>{t("BtnChangePass")}</Button>
                                         <Text fontSize='14' color='red'>{error}</Text>
                                     </Stack>
                                 </Stack>

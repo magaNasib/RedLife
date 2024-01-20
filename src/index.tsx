@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import AppContext from "./context/AppContext";
+import './translation';
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

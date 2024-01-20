@@ -21,6 +21,8 @@ import CardPostItem from "./CardPostItem";
 import { postActions, PostsReducer, postsStates } from "../../../../context/PostReducer";
 import { TbMoodAnnoyed } from "react-icons/tb";
 import { AuthContext } from "../../../../context/AppContext";
+import PostSkeleton from "../../../../components/PostSkeleton";
+import { useTranslation } from "react-i18next";
 // interface IDonors {
 //   bloodGroup: string;
 //   city: string;
@@ -39,12 +41,12 @@ interface IProps {
 }
 function CardPost(props: IProps) {
 
+  const {t} = useTranslation();
   const [loading, setLoading] = useState(true)
   const donorCollectionRef = collection(db, 'donors');
   const { SUBMIT_POST } = postActions;
   const [state, dispatch] = useReducer(PostsReducer, postsStates);
   const triggerContext = useContext<any>(AuthContext)
-  console.log(triggerContext);
   
   useEffect(() => {
     const getPosts = async () => {
@@ -70,22 +72,7 @@ function CardPost(props: IProps) {
 
   const POSTS = props.filteredPosts ? props.filteredPosts : state?.posts
 
-  if (loading) return (
-    <>
-      <Flex justifyContent="center" my='2'>
-        <Box padding='6' boxShadow='lg' bg='white' w={'2xl'}>
-          <SkeletonCircle size='10' />
-          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-        </Box>
-      </Flex>
-      <Flex justifyContent="center" my='2'>
-        <Box padding='6' boxShadow='lg' bg='white' w={'2xl'}>
-          <SkeletonCircle size='10' />
-          <SkeletonText mt='4' noOfLines={4} spacing='4' skeletonHeight='2' />
-        </Box>
-      </Flex>
-    </>
-  )
+  if (loading) return <PostSkeleton/>
 
   if (POSTS.length === 0) {
     return (
@@ -94,7 +81,7 @@ function CardPost(props: IProps) {
           <TbMoodAnnoyed />
 
           <Text size={'lg'}>
-            No posts present...
+            {t("IfNotCards")}
           </Text>
         </Flex>
       </>
@@ -119,4 +106,4 @@ function CardPost(props: IProps) {
 }
 
 
-export default CardPost
+export default React.memo(CardPost)

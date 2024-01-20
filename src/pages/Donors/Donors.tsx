@@ -11,18 +11,22 @@ import {
 import { Controller, FormProvider, useForm } from "react-hook-form";
 import Bg from "./../../assets/donorBg.jpg";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { IPost } from "../../features/HomeFeature/components/AddPost";
 import CardPost from "../../features/HomeFeature/components/CardPost";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../firebase";
 import Sidebar from "../../components/Sidebar";
+import PostSkeleton from "../../components/PostSkeleton";
+interface IDonors { }
 interface IFDonars {
   bloodGroups: string;
   locations: string;
   donorType: string;
 }
 
-const Donors: React.FC = () => {
+const Donors: React.FC<IDonors> = () => {
+  const {t} = useTranslation();
   const [posts, setPosts] = useState<IPost[]>([]);
   const [filteredPosts, setFilteredPosts] = useState<IPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -97,7 +101,7 @@ const Donors: React.FC = () => {
                 pt="50px"
                 pb="20px"
               >
-                Search a Donor
+                {t("DonorHeader")}
               </Heading>
             </GridItem>
             <GridItem colSpan={4}>
@@ -108,7 +112,7 @@ const Donors: React.FC = () => {
                 textAlign={"center"}
                 pb="30px"
               >
-                Your Donation Can Make Someone’s Life Better
+                {t("DonorHeading")}
               </Heading>
             </GridItem>
 
@@ -144,7 +148,7 @@ const Donors: React.FC = () => {
                         value={"All Blood Group"}
                         selected
                       >
-                        All Blood Group
+                        {t("BloodSelector")}
                       </option>
                       <option
                         style={{
@@ -267,7 +271,7 @@ const Donors: React.FC = () => {
                         value={"All Blood Group"}
                         selected
                       >
-                        Select A District
+                        {t("CitySelector")}
                       </option>
                       <option
                         style={{
@@ -277,7 +281,7 @@ const Donors: React.FC = () => {
                         }}
                         value={"Baku"}
                       >
-                        Baku
+                        {t("City1")}
                       </option>
                       <option
                         style={{
@@ -287,7 +291,7 @@ const Donors: React.FC = () => {
                         }}
                         value={"Ganja"}
                       >
-                        Ganja
+                        {t("City2")}
                       </option>
                       <option
                         style={{
@@ -297,7 +301,7 @@ const Donors: React.FC = () => {
                         }}
                         value={"Laankaran"}
                       >
-                        Lankaran
+                        {t("City3")}
                       </option>
                       <option
                         style={{
@@ -307,7 +311,7 @@ const Donors: React.FC = () => {
                         }}
                         value={"Gakh"}
                       >
-                        Gakh
+                        {t("City4")}
                       </option>
                       <option
                         style={{
@@ -317,7 +321,7 @@ const Donors: React.FC = () => {
                         }}
                         value={"Quba"}
                       >
-                        Quba
+                        {t("City5")}
                       </option>
                       <option
                         style={{
@@ -327,7 +331,7 @@ const Donors: React.FC = () => {
                         }}
                         value={"Oghuz"}
                       >
-                        Oghuz
+                        {t("City6")}
                       </option>
                       <option
                         style={{
@@ -337,7 +341,7 @@ const Donors: React.FC = () => {
                         }}
                         value={"Shirvan"}
                       >
-                        Shirvan
+                        {t("City7")}
                       </option>
                     </Select>
                   )}
@@ -380,7 +384,7 @@ const Donors: React.FC = () => {
                         value={"All Blood Group"}
                         selected
                       >
-                        Donor Type
+                        {t("DonorTypeSelector")}
                       </option>
                       <option
                         style={{
@@ -390,7 +394,7 @@ const Donors: React.FC = () => {
                         }}
                         value={"Donor"}
                       >
-                        Donor
+                        {t("DonorType1")}
                       </option>
                       <option
                         style={{
@@ -400,7 +404,7 @@ const Donors: React.FC = () => {
                         }}
                         value={"Acceptor"}
                       >
-                        Acceptor
+                        {t("DonorType2")}
                       </option>
                     </Select>
                   )}
@@ -418,7 +422,7 @@ const Donors: React.FC = () => {
                 color={"white"}
                 onClick={methods.handleSubmit(handleSearch)}
               >
-                Search
+                {t("SearchBtn")}
               </Button>
             </GridItem>
           </Grid>

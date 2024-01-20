@@ -13,6 +13,7 @@ import ChangePassword from "../pages/auth/ChangePassword";
 import Logout from "../pages/auth/Logout";
 import InformationDetail from "../pages/InformationDetail";
 import Messages from "../pages/Messages/Messages";
+import Post from "../pages/Post";
 function Router() {
   return (
     <>
@@ -26,6 +27,7 @@ function Router() {
               <Route path="/profile/changepassword" element={<ChangePassword />} />
 
             </Route>
+            <Route path="/:id" element={<Post />} />
             <Route path="/login" element={<Login />} />
             <Route path="/forgotpassword" element={<ForgotPassword />} />
             <Route path="/register" element={<Register />} />

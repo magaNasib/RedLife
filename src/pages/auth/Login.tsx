@@ -2,6 +2,7 @@ import { Button } from "@chakra-ui/button"
 import { Text } from "@chakra-ui/layout"
 import { Modal, ModalOverlay, ModalContent, ModalHeader, ModalCloseButton, ModalBody } from "@chakra-ui/modal"
 import { useNavigate } from "react-router"
+import { useTranslation } from "react-i18next";
 import {
     Box,
     Checkbox,
@@ -32,11 +33,12 @@ interface ILogin {
     password: string
 }
 const Login: React.FC<IProps> = () => {
+    const {t} = useTranslation();
     const [error, setError] = useState('')
 
     const navigate = useNavigate()
     const onClickClose = () => {
-        navigate(-1)
+        navigate('/')
     }
     const methods = useForm<ILogin>({
         defaultValues: {
@@ -57,11 +59,11 @@ const Login: React.FC<IProps> = () => {
             console.log(error);
 
             if (error?.code?.includes('auth/invalid-credential')) {
-                setError('Your email or password is not correct.');
+                setError(t("LoginErrMessage1"));
             } else if (error.code.includes('auth/invalid-email')) {
-                setError('Email is not valid');
+                setError(t("LoginErrMessage2"));
             } else {
-                setError('Unable to login. Please try again later.');
+                setError(t("LoginErrMessage3"));
             }
         }
 
@@ -79,15 +81,15 @@ const Login: React.FC<IProps> = () => {
                     backdropFilter='blur(10px) hue-rotate(90deg)'
                 />
                 <ModalContent>
-                    <ModalHeader>Login</ModalHeader>
+                    <ModalHeader>{t("LoginHeader")}</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody >
                         <Stack spacing="8">
                             <Stack spacing="6">
                                 <Stack spacing={{ base: '2', md: '3' }} textAlign="center">
-                                    <Heading size={{ base: 'xs', md: 'sm' }}>Log in to your account</Heading>
+                                    <Heading size={{ base: 'xs', md: 'sm' }}>{t("LoginHeading")}</Heading>
                                     <Text color="fg.muted">
-                                        Don't have an account? <Link href="/register">Sign up</Link>
+                                    {t("LoginText")} <Link href="/register">{t("LoginTextLink")}</Link>
                                     </Text>
                                 </Stack>
                             </Stack>
@@ -103,7 +105,7 @@ const Login: React.FC<IProps> = () => {
                                                 }}
                                                 render={({ field }) => (
                                                     <>
-                                                        <FormLabel htmlFor="email">Email</FormLabel>
+                                                        <FormLabel htmlFor="email">{t("LoginEmail")}</FormLabel>
                                                         <Input {...field} id="email" type="email" value={field.value} />
                                                     </>
                                                 )}
@@ -121,7 +123,7 @@ const Login: React.FC<IProps> = () => {
                                                     required: 'This field is required'
                                                 }}
                                                 render={({ field }) => (
-                                                    <PasswordField label='Password' {...field} />
+                                                    <PasswordField label={t("LoginPassword")} {...field} />
                                                 )}
                                             />
 
@@ -131,18 +133,18 @@ const Login: React.FC<IProps> = () => {
                                         </FormControl>
                                     </Stack>
                                     <HStack justify="space-between">
-                                        <Checkbox defaultChecked>Remember me</Checkbox>
+                                        <Checkbox defaultChecked>{t("LoginChekbox")}</Checkbox>
                                         <Button variant="text" size="sm" onClick={() => navigate('/forgotpassword')}>
-                                            Forgot password?
+                                            {t("LoginForgotPass")}
                                         </Button>
                                     </HStack>
                                     <Stack spacing="6">
-                                        <Button type="submit" onClick={handleSubmit}>Sign in</Button>
+                                        <Button type="submit" onClick={handleSubmit}>{t("LoginButton")}</Button>
                                         <Text fontSize='14' color='red'>{error}</Text>
                                         <HStack>
                                             <Divider />
                                             <Text textStyle="sm" whiteSpace="nowrap" color="fg.muted">
-                                                or continue with
+                                            {t("LoginBottomText")}
                                             </Text>
                                             <Divider />
                                         </HStack>
