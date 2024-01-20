@@ -4,7 +4,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { auth } from "../../firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import logo from "../../assets/logo.png";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 function Header() {
   const {t} = useTranslation();

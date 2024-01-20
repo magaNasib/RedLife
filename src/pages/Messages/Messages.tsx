@@ -1,21 +1,18 @@
+
 import React, { useState } from "react";
 import {
   Avatar,
   Box,
   Button,
-  Divider,
   Flex,
   Heading,
   Icon,
   Input,
-  InputGroup,
-  InputLeftElement,
   Text,
 } from "@chakra-ui/react";
 import Sidebar from "../../components/Sidebar";
-import { SearchIcon } from "@chakra-ui/icons";
 import { PiChatCircleDotsFill } from "react-icons/pi";
-import SearchPeople from "./components/SearchPeople";
+import ChoosePeople from './components/ChoosePeople';
 
 const Messages: React.FC = () => {
   const [isBoxClicked, setIsBoxClicked] = useState(false);
@@ -27,196 +24,34 @@ const Messages: React.FC = () => {
   return (
     <>
       <Sidebar />
-      <Flex bgColor="#F2F2F5" mt="90px" ml="200px">
-        <Box className="left" display="flex" w="25%" borderTopWidth="0">
-          <Box w="100%" mt="120px">
-            <SearchPeople />
-            <Box className="choosePeople">
-              <Box
-                _hover={{
-                  bgColor: "#6f7d84",
-                }}
-                cursor="pointer"
-                onClick={handleBoxClick}
-              >
-                <Flex
-                  flex="1"
-                  gap="4"
-                  alignItems="center"
-                  flexWrap="wrap"
-                  pl="15px"
-                >
-                  <Avatar name="Avatar" src="https://bit.ly/sage-adebayo" />
-                  <Box pt="15px" pb="15px">
-                    <Heading size="sm">Mehemmed Nesibov</Heading>
-                    <Text>En son yazilan sms</Text>
-                  </Box>
-                </Flex>
-              </Box>
-              <Box
-                _hover={{
-                  bgColor: "#6f7d84",
-                }}
-                cursor="pointer"
-                onClick={handleBoxClick}
-              >
-                <Flex
-                  flex="1"
-                  gap="4"
-                  alignItems="center"
-                  flexWrap="wrap"
-                  pl="15px"
-                >
-                  <Avatar name="Avatar" src="https://bit.ly/sage-adebayo" />
-                  <Box pt="15px" pb="15px">
-                    <Heading size="sm">Mehemmed Nesibov</Heading>
-                    <Text>En son yazilan sms</Text>
-                  </Box>
-                </Flex>
-              </Box>
-              <Box
-                _hover={{
-                  bgColor: "#6f7d84",
-                }}
-                cursor="pointer"
-                onClick={handleBoxClick}
-              >
-                <Flex
-                  flex="1"
-                  gap="4"
-                  alignItems="center"
-                  flexWrap="wrap"
-                  pl="15px"
-                >
-                  <Avatar name="Avatar" src="https://bit.ly/sage-adebayo" />
-                  <Box pt="15px" pb="15px">
-                    <Heading size="sm">Mehemmed Nesibov</Heading>
-                    <Text>En son yazilan sms</Text>
-                  </Box>
-                </Flex>
-              </Box>
-              <Box
-                _hover={{
-                  bgColor: "#6f7d84",
-                }}
-                cursor="pointer"
-                onClick={handleBoxClick}
-              >
-                <Flex
-                  flex="1"
-                  gap="4"
-                  alignItems="center"
-                  flexWrap="wrap"
-                  pl="15px"
-                >
-                  <Avatar name="Avatar" src="https://bit.ly/sage-adebayo" />
-                  <Box pt="15px" pb="15px">
-                    <Heading size="sm">Mehemmed Nesibov</Heading>
-                    <Text>En son yazilan sms</Text>
-                  </Box>
-                </Flex>
-              </Box>
-              <Box
-                _hover={{
-                  bgColor: "#6f7d84",
-                }}
-                cursor="pointer"
-                onClick={handleBoxClick}
-              >
-                <Flex
-                  flex="1"
-                  gap="4"
-                  alignItems="center"
-                  flexWrap="wrap"
-                  pl="15px"
-                >
-                  <Avatar name="Avatar" src="https://bit.ly/sage-adebayo" />
-                  <Box pt="15px" pb="15px">
-                    <Heading size="sm">Mehemmed Nesibov</Heading>
-                    <Text>En son yazilan sms</Text>
-                  </Box>
-                </Flex>
-              </Box>
-              <Box
-                _hover={{
-                  bgColor: "#6f7d84",
-                }}
-                cursor="pointer"
-                onClick={handleBoxClick}
-              >
-                <Flex
-                  flex="1"
-                  gap="4"
-                  alignItems="center"
-                  flexWrap="wrap"
-                  pl="15px"
-                >
-                  <Avatar name="Avatar" src="https://bit.ly/sage-adebayo" />
-                  <Box pt="15px" pb="15px">
-                    <Heading size="sm">Mehemmed Nesibov</Heading>
-                    <Text>En son yazilan sms</Text>
-                  </Box>
-                </Flex>
-              </Box>
-              <Box
-                _hover={{
-                  bgColor: "#6f7d84",
-                }}
-                cursor="pointer"
-                onClick={handleBoxClick}
-              >
-                <Flex
-                  flex="1"
-                  gap="4"
-                  alignItems="center"
-                  flexWrap="wrap"
-                  pl="15px"
-                >
-                  <Avatar name="Avatar" src="https://bit.ly/sage-adebayo" />
-                  <Box pt="15px" pb="15px">
-                    <Heading size="sm">Mehemmed Nesibov</Heading>
-                    <Text>En son yazilan sms</Text>
-                  </Box>
-                </Flex>
-              </Box>
-              <Box
-                _hover={{
-                  bgColor: "#6f7d84",
-                }}
-                cursor="pointer"
-                onClick={handleBoxClick}
-              >
-                <Flex
-                  flex="1"
-                  gap="4"
-                  alignItems="center"
-                  flexWrap="wrap"
-                  pl="15px"
-                >
-                  <Avatar name="Avatar" src="https://bit.ly/sage-adebayo" />
-                  <Box pt="15px" pb="15px">
-                    <Heading size="sm">Mehemmed Nesibov</Heading>
-                    <Text>En son yazilan sms</Text>
-                  </Box>
-                </Flex>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
+      <Flex bgColor="#F2F2F5" ml="200px" h="100vh">
+        <ChoosePeople handleBoxClick={handleBoxClick} />
         {isBoxClicked ? (
-          <Flex w="75%" direction="column" borderLeft="1px solid #6f7d84">
+          <Flex
+            position="relative"
+            h="100vh"
+            w="75%"
+            direction="column"
+            borderLeft="1px solid #6f7d84"
+          >
             <Flex
+              mt="90px"
               align="center"
               p="8px"
               borderBottom="1px solid #6f7d84"
-              bgColor="#F2F2F5"
             >
               <Avatar name="Avatar" src="https://bit.ly/sage-adebayo" />
               <Heading size="sm" pl="15px">
                 Mehemmed Nesibov
               </Heading>
             </Flex>
-            <Flex flexDirection="column-reverse" h="72vh" pb="10px">
+            <Flex
+              className="noScrollbar"
+              overflowY="scroll"
+              h="100vh"
+              flexDirection="column-reverse"
+              pb="50px"
+            >
               <Flex p="0 0 10px 10px" className="chating">
                 <Flex alignItems="center">
                   <Avatar
@@ -250,7 +85,13 @@ const Messages: React.FC = () => {
                 </Flex>
               </Flex>
             </Flex>
-            <Flex p="0 10px">
+            <Flex
+              position="absolute"
+              bottom="0px"
+              w="100%"
+              p="0 5px 10px"
+              bgColor="#F2F2F6"
+            >
               <Input
                 placeholder="Message..."
                 type="text"
@@ -265,7 +106,7 @@ const Messages: React.FC = () => {
                 borderRadius="35px"
                 position="absolute"
                 zIndex="10"
-                right="10px"
+                right="6px"
               >
                 Send
               </Button>
@@ -277,6 +118,7 @@ const Messages: React.FC = () => {
             borderLeft="1px solid #6f7d84"
             direction="column"
             alignItems="center"
+            h="100vh"
             justifyContent="center"
             m="0 auto"
           >
