@@ -8,6 +8,7 @@ import { IoHomeOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { CiLogin } from "react-icons/ci";
 import { LiaBlogSolid } from "react-icons/lia";
+import { TbMessageCircleShare } from "react-icons/tb";
 import { useTranslation } from "react-i18next";
 
 const Sidebar = () => {
@@ -33,7 +34,7 @@ const Sidebar = () => {
   return (
     <Flex
       w="200px"
-      h="100vh"
+      h="100%"
       position="fixed"
       bgColor="#445760"
       align="center"
@@ -67,10 +68,11 @@ const Sidebar = () => {
             alignItems: "center",
           })}
         >
-          <GoPeople size={25} style={{ marginRight: "10px" }} /> {t("SidebarDonors")}
+          <GoPeople size={25} style={{ marginRight: "10px" }} />
+          Donors
         </NavLink>
         <NavLink
-          to="/blogs"
+          to="/messages"
           style={({ isActive }) => ({
             color: isActive ? "#e6010b" : "#fff",
             marginBottom: "30px",
@@ -78,9 +80,21 @@ const Sidebar = () => {
             alignItems: "center",
           })}
         >
-          <LiaBlogSolid size={25} style={{ marginRight: "10px" }} /> {t("SidebarBlogs")}
+          <TbMessageCircleShare size={25} style={{ marginRight: "10px" }} />{" "}
+          Messages
         </NavLink>
-
+        <NavLink
+          to="/infoDetails"
+          style={({ isActive }) => ({
+            color: isActive ? "#e6010b" : "#fff",
+            marginBottom: "30px",
+            display: "flex",
+            alignItems: "center",
+          })}
+        >
+          <LiaBlogSolid size={25} style={{ marginRight: "10px" }} />{" "}
+          Informations
+        </NavLink>
         {!authChecked && <Spinner size="xs" />}
         {authChecked && auth.currentUser && (
           <NavLink
