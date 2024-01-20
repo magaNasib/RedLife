@@ -188,8 +188,12 @@ function CardPostItem(props: IPost, key: number) {
                   borderWidth="2px"
                   bg={"black"}
                 />
-                <div>
+                <Box w={'100%'}>
+                  <Flex justifyContent={'space-between'}>
+                    
                   <Heading size="md">{fullName}</Heading>
+                  <Text>{diffTime}</Text>
+                  </Flex>
                   <Flex
                     alignItems="center"
                     w={"full"}
@@ -216,7 +220,7 @@ function CardPostItem(props: IPost, key: number) {
                       {<GoLocation />} {city}
                     </Text>
                   </Flex>
-                </div>
+                </Box>
               </Flex>
               <Flex alignItems={"center"} gap={"2"}>
                 <Flex>
