@@ -1,8 +1,8 @@
-
+import { IPost } from "./features/HomeFeature/components/AddPost";
 import Router from "./routers/index";
 
 function App() {
-  return <Router />;
+  return <Router/>;
 }
 
 export default App;
