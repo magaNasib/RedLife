@@ -47,6 +47,7 @@ const Register: React.FC<IProps> = () => {
         const { fullname, email, password } = data
         try {
             const { user } = await createUserWithEmailAndPassword(auth, email, password);
+            
             await updateProfile(user, {
                 displayName: fullname
             });
