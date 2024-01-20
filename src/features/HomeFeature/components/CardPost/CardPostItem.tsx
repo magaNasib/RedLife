@@ -177,9 +177,36 @@ function CardPostItem(props: IPost, key: number) {
                   borderWidth="2px"
                   bg={"black"}
                 />
+                <div>
                   <Heading size="md">{fullName}</Heading>
+                  <Flex
+                    alignItems="center"
+                    w={"full"}
+                    onClick={() => {
+                      navigate("/" + id);
+                    }}
+                    cursor={"pointer"}
+                  >
+                    <Text
+                      fontWeight={"500"}
+                      color={"#445760"}
+                      display={"block"}
+                    >
+                      {<PhoneIcon />} {phone}
+                    </Text>
+                    <Text
+                      color={"#445760"}
+                      fontWeight={"bold"}
+                      display={"flex"}
+                      alignItems={"center"}
+                      gap={"1"}
+                      pl={"3"}
+                    >
+                      {<GoLocation />} {city}
+                    </Text>
+                  </Flex>
+                </div>
               </Flex>
-              
               <Flex alignItems={"center"} gap={"2"}>
                 <Flex>
                   <Text
