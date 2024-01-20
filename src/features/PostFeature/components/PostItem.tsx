@@ -151,12 +151,12 @@ function PostItem(props: IPost, key: number) {
                                     >{type} {bloodGroup}</Text>
                                     <Text ml="5px"></Text>
                                 </Flex>
-                                <PostActions uid={uid} id={id}/>
+                                <PostActions uid={uid} id={id} />
                             </Flex>
                             <Box w={'full'}>
                                 <div>
                                     <Flex justifyContent={'space-between'}>
-                                        <Link href={"tel:"+phone} fontWeight={'500'} color={'gray'} display={'block'}>{<PhoneIcon />} {phone}</Link>
+                                        <Link href={"tel:" + phone} fontWeight={'500'} color={'gray'} display={'block'}>{<PhoneIcon />} {phone}</Link>
 
                                         <Text color={'gray'} display={'flex'} alignItems={'center'} gap={'1'} mt={'2'}>
                                             {String(date)}
@@ -195,7 +195,7 @@ function PostItem(props: IPost, key: number) {
                         {actions.isISaved ? 'Saved' : 'Save'}
                     </Button>
 
-                  <PostScoialButtons id={id}/>
+                    <PostScoialButtons id={id} />
 
                 </CardFooter>
                 <CommentSection  {...props} />
