@@ -14,6 +14,7 @@ import {
   FormLabel,
   Input,
   Flex,
+  Spinner,
 } from "@chakra-ui/react";
 import { AtSignIcon, EditIcon, LockIcon } from "@chakra-ui/icons";
 import { BiBookmark } from "react-icons/bi";
@@ -27,43 +28,33 @@ import { AuthContext } from "../../context/AppContext";
 import { MdOutlineDriveFolderUpload } from "react-icons/md";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebase";
-import { User, updateProfile } from "firebase/auth";
+import { User, reload, updateProfile } from "firebase/auth";
 import { IPost } from "../../features/HomeFeature/components/AddPost";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { useTranslation } from "react-i18next";
 
-export const Banner = () => { 
-  const {t} = useTranslation();
+export const Banner = () => {
+  const { t } = useTranslation();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [file, setFile] = useState<File | null>(null);
-  const [myPosts, setMyPost] = useState<IPost[]>([]);
-  
+  const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate();
-  const user : User | null = auth?.currentUser
+  const [user, setUser] = useState({ ...auth?.currentUser })
   const handleEditModalClose = () => {
     setIsEditModalOpen(false);
   };
 
   useEffect(() => {
-    const storedURL = localStorage.getItem('profilePhotoURL');
-    if (storedURL) {
-      setMyPost((prev) => ({ ...prev, img: storedURL }));
-    } else if (user && user.photoURL) {
-      setMyPost((prev) => ({ ...prev, img: user.photoURL }));
-    }
-  }, [user]);
-
-  useEffect(() => {
     const uploadFile = async () => {
       if (file) {
-
+        setLoading(true)
         const name = new Date().getTime() + file.name;
         const storageRef = ref(storage, 'images/' + name);
 
         try {
           const uploadTask = uploadBytesResumable(storageRef, file);
           uploadTask.on('state_changed',
-            (snapshot) => {
+            (snapshot) => {   
               const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
               console.log('Upload is ' + progress + '% done');
               switch (snapshot.state) {
@@ -92,15 +83,14 @@ export const Banner = () => {
             },
             () => {
               getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
-                console.log('File available at', downloadURL);
-                // setMyPost((prev) => ({ ...prev, img: downloadURL }));
-                // const userDocRef = doc(db, 'users',user?.uid || ''); 
-                // updateDoc(userDocRef, { profilePhotoURL: downloadURL });
 
-                await updateProfile(user as User,{photoURL:downloadURL})
+                await updateProfile(auth?.currentUser as User, { photoURL: downloadURL })
 
-                localStorage.setItem('profilePhotoURL', downloadURL);
-              });
+                setUser({ ...auth?.currentUser })
+                const donorDocRef = doc(db, "users", user?.uid || '');
+                await setDoc(donorDocRef, { avatar: downloadURL, uid: user?.uid }, { merge: true });
+                setLoading(false)
+              });   
             }
           );
         } catch (error) {
@@ -111,11 +101,10 @@ export const Banner = () => {
 
     }
     file && uploadFile();
-  }, [file,user])
-  console.log(user);
+  }, [file])
 
   return (
-    
+
     <Box
       position="relative"
       w="70vw"
@@ -137,15 +126,16 @@ export const Banner = () => {
         minH="25vh"
         margin="0 auto"
       >
-        <GridItem display="flex" alignItems="center">
-          <Avatar
+        <GridItem display="flex" alignItems="center" justifyContent={'center'}>
+          {!loading && <Avatar
             size="2xl"
             name={user?.displayName || ''}
-            // src={user?.photoURL || 'path_to_image'}
-            // src={file ? URL.createObjectURL(file) : photoURL || 'path_to_image'}
             src={user?.photoURL || (file ? URL.createObjectURL(file) : 'path_to_image')}
             marginLeft="50px"
-          />
+          />}
+          {
+            loading && <Spinner size={'xl'} marginLeft={'50px'} />
+          }
         </GridItem>
         <GridItem
           w="100%"
@@ -155,10 +145,10 @@ export const Banner = () => {
           alignItems="start"
         >
           <Text fontSize="xl" color="white">
-          {t("NameProfPage")}: {user?.displayName}
+            {t("NameProfPage")}: {user?.displayName}
           </Text>
           <Text fontSize="lg" color="white">
-          {t("EmailProfPage")}: {user?.email}
+            {t("EmailProfPage")}: {user?.email}
           </Text>
         </GridItem>
         <GridItem
@@ -182,14 +172,16 @@ export const Banner = () => {
             {t("EditProfPage")}
           </Button>
           {/* Upload image button */}
-          <Flex justifyContent={'center'} alignItems={'center'} border={'2px solid white'} borderRadius={'5px'} width={'180px'} height={'40px'}>
+          <Flex justifyContent={'center'} alignItems={'center'} border={'2px solid white'} borderRadius={'5px'} width={'180px'} height={'40px'} cursor={'pointer'}>
             <MdOutlineDriveFolderUpload color={'white'} />
-            <FormLabel htmlFor="file" color={'white'} pt={'8px'}>
+            <FormLabel htmlFor="file" color={'white'} pt={'8px'} cursor={'pointer'}>
               Image
             </FormLabel>
             <Input
               type="file"
               id="file"
+              w={'full'}
+              isDisabled={loading}
               onChange={(e) => setFile(e.target.files?.[0] || null)}
               display={'none'}
             />
@@ -230,8 +222,8 @@ export const Banner = () => {
 };
 
 export function MainTabs() {
-  
-  const {t} = useTranslation();
+
+  const { t } = useTranslation();
   const [tabIndex, setTabIndex] = useState(0);
 
   const [myPosts, setMyPost] = useState<IPost[]>([]);
@@ -268,8 +260,8 @@ export function MainTabs() {
           {t("MyPostsProfPage")}
         </Tab>
         <Tab>
-        {<BiBookmark />} 
-        {t("SavedPostsProfPage")}
+          {<BiBookmark />}
+          {t("SavedPostsProfPage")}
         </Tab>
       </TabList>
       <TabPanels p="2rem">
