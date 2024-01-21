@@ -32,7 +32,7 @@ export const EditPost: React.FC<EditPostProps> = ({ isOpen, onClose,id }) => {
         <Modal isOpen={isOpen} onClose={onClose} size="md">
             <ModalOverlay />
             <ModalContent>
-                <ModalHeader>Edit Post</ModalHeader>
+                <ModalHeader>{t("EditModalHeader")}</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
                     <Stack spacing={4} w={"100%"} pb={'5'}>

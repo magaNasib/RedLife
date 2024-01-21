@@ -92,7 +92,7 @@ const Register: React.FC<IProps> = () => {
                                                 control={methods.control}
                                                 name='fullname'
                                                 rules={{
-                                                    required: 'This field is required'
+                                                    required: t("ValidationMessage")
                                                 }}
                                                 render={({ field }) => (
                                                     <>
@@ -110,7 +110,7 @@ const Register: React.FC<IProps> = () => {
                                                 control={methods.control}
                                                 name='email'
                                                 rules={{
-                                                    required: 'This field is required'
+                                                    required: t("ValidationMessage")
                                                 }}
                                                 render={({ field }) => (
                                                     <>
@@ -128,7 +128,7 @@ const Register: React.FC<IProps> = () => {
                                                 control={methods.control}
                                                 name='password'
                                                 rules={{
-                                                    required: 'This field is required'
+                                                    required: t("ValidationMessage")
                                                 }}
                                                 render={({ field }) => (
                                                     <PasswordField label={t("RegisterPassword1")} {...field} />
@@ -144,7 +144,7 @@ const Register: React.FC<IProps> = () => {
                                                 control={methods.control}
                                                 name='repassword'
                                                 rules={{
-                                                    required: 'This field is required'
+                                                    required: t("ValidationMessage")
                                                 }}
                                                 render={({ field }) => (
                                                     <PasswordField label={t("RegisterPassword2")} {...field} />

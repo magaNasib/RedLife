@@ -14,8 +14,12 @@ import { AlertDialog, AlertDialogOverlay, AlertDialogContent, AlertDialogHeader,
 import { FocusableElement } from '@chakra-ui/utils';
 import { AuthContext } from '../../context/AppContext';
 import { EditPost } from './EditPost';
+import { useTranslation } from "react-i18next";
+
 
 const PostActions = ({ uid, id }: { uid: string; id: string }) => {
+    const {t} = useTranslation();
+
     const donorCollectionRef = collection(db, 'donors');
     const triggerContext = useContext<any>(AuthContext)
     const toast = useToast();
@@ -33,7 +37,7 @@ const PostActions = ({ uid, id }: { uid: string; id: string }) => {
             await deleteDoc(donorDocRef);
             triggerContext.setTrigger((curr: boolean) => !curr)
             toast({
-                title: 'Deleted successfully',
+                title: t("DeleteSuccesMessage"),
                 status: "success",
                 duration: 2000,
                 isClosable: true,
@@ -55,39 +59,39 @@ const PostActions = ({ uid, id }: { uid: string; id: string }) => {
                         icon={<BsThreeDotsVertical />}
                     />
                 </PopoverTrigger>
-                <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'140px'}>
+                <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'240px'}>
                     {
                         auth?.currentUser?.uid === uid &&
                         <>
                             <PopoverHeader cursor={'pointer'}>
                                 <Flex alignItems={'center'}>
                                     <FaEdit /><Text ml={'10px'} fontSize={'18px'} onClick={() => setIsEditModalOpen(true)}
-                                    >Edit</Text>
+                                    >{t("CardEdit")}</Text>
                                 </Flex>
                             </PopoverHeader>
                             <PopoverHeader cursor={'pointer'} onClick={onOpen}>
                                 <Flex alignItems={'center'}>
-                                    <MdDelete /><Text ml={'10px'} fontSize={'18px'}>Delete</Text>
+                                    <MdDelete /><Text ml={'10px'} fontSize={'18px'}>{t("CardDelete")}</Text>
                                 </Flex>
                             </PopoverHeader>
                         </>
                     }
                     <PopoverHeader cursor={'pointer'}>
                         <Flex alignItems={'center'}>
-                            <MdReport /><Text ml={'10px'} fontSize={'18px'}>Report</Text>
+                            <MdReport /><Text ml={'10px'} fontSize={'18px'}>{t("CardReport")}</Text>
                         </Flex></PopoverHeader>
                     <PopoverHeader cursor={'pointer'}>
                         <Flex alignItems={'center'}>
                             <CopyToClipboard text={window.location.href + id} onCopy={() => {
                                 toast({
-                                    title: "Copied the url",
+                                    title: t("SharedMessage"),
                                     status: 'info',
                                     duration: 1000,
                                     isClosable: true,
                                     position: "top-right",
                                 });
                             }}>
-                                <Flex gap={'10px'} alignItems={'center'} fontSize={'18px'}><FaCopy />Copy URL</Flex>
+                                <Flex gap={'10px'} alignItems={'center'} fontSize={'18px'}><FaCopy />{t("CardShare")}</Flex>
                             </CopyToClipboard>
                         </Flex>
                     </PopoverHeader>
@@ -101,22 +105,22 @@ const PostActions = ({ uid, id }: { uid: string; id: string }) => {
                 <AlertDialogOverlay>
                     <AlertDialogContent>
                         <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                            Delete Post
+                            {t("DeleteAlert1")}
                         </AlertDialogHeader>
 
                         <AlertDialogBody>
-                            Are you sure? You can't undo this action afterwards.
+                        {t("DeleteAlert2")}
                         </AlertDialogBody>
 
                         <AlertDialogFooter>
                             <Button onClick={onClose}>
-                                Cancel
+                                {t("DeleteBtn1")}
                             </Button>
                             <Button colorScheme='red' onClick={(e) => {
                                 onClose()
                                 handleDelete()
                             }} ml={3}>
-                                Delete
+                                {t("DeleteBtn2")}
                             </Button>
                         </AlertDialogFooter>
                     </AlertDialogContent>

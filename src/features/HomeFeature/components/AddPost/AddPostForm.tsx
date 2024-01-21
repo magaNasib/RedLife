@@ -300,7 +300,7 @@ const AddPostForm = ({ setShow, mode, id = ' ' }: { setShow: (a: boolean) => voi
                     isLoading={loading}
                     onClick={handleSubmit}
                 >
-                    {t("AddPostPostBtn")}
+                    {t("AddPostBtn")}
                 </Button>
             }
             {
@@ -313,7 +313,7 @@ const AddPostForm = ({ setShow, mode, id = ' ' }: { setShow: (a: boolean) => voi
                     isLoading={loading}
                     onClick={handleEdit}
                 >
-                    Save
+                    {t("SavePostBtn")}
                 </Button>
             }
         </>

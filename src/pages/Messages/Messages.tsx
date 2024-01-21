@@ -13,8 +13,10 @@ import {
 import Sidebar from "../../components/Sidebar";
 import { PiChatCircleDotsFill } from "react-icons/pi";
 import ChoosePeople from './components/ChoosePeople';
+import { useTranslation } from "react-i18next";
 
 const Messages: React.FC = () => {
+  const {t} = useTranslation();
   const [isBoxClicked, setIsBoxClicked] = useState(false);
 
   const handleBoxClick = () => {
@@ -108,7 +110,7 @@ const Messages: React.FC = () => {
                 zIndex="10"
                 right="6px"
               >
-                Send
+                {t("MessagesBtn")}
               </Button>
             </Flex>
           </Flex>
@@ -124,9 +126,9 @@ const Messages: React.FC = () => {
           >
             <Icon as={PiChatCircleDotsFill} boxSize={150} />
             <Text mt="5px" mb="5px" fontSize="xl">
-              Your messages
+            {t("YourMessages")}
             </Text>
-            <Text>Send private photos and messages to a friend or group</Text>
+            <Text>{t("MessagesText")}</Text>
           </Flex>
         )}
       </Flex>

@@ -4,6 +4,7 @@
     "NameProfPage": "Name",
     "EmailProfPage": "Email",
     "EditProfPage": "Edit",
+    "İmageProfPage": "İmage",
     "ChangePasswordProfPage": "Change password",
     "LogoutProfPage": "Logout",
     "MyPostsProfPage": "My posts",
@@ -37,11 +38,12 @@
     "YesBtn": "Sign out",
     "NoBtn": "Cancel",
 
-    "SidebarHome": "HOME",
-    "SidebarDonors": "DONORS",
-    "SidebarBlogs": "BLOGS",
-    "SidebarProfile": "PROFILE",
-    "SidebarLogin": "LOGIN",
+    "SidebarHome": "Home",
+    "SidebarDonors": "Donors",
+    "SidebarMessages": "Messages",
+    "SidebarInformation": "Information",
+    "SidebarProfile": "Profile",
+    "SidebarLogin": "Login",
     
     "LoginHeader": "Login",
     "LoginHeading": "Log in to your account",
@@ -101,6 +103,7 @@
     "AddPostDescription": "Additional information if you want...",
     "AddPostCancelBtn": "Cancel",
     "AddPostPostBtn": "Post",
+    "SavePostPostBtn": "Save",
     "AddPostStartPostBtn": "Start a post",
     "ValidationMessage": "This field is required",
     "PhoneValidationMessage" : "Phone number must be 9 digits",
@@ -112,9 +115,17 @@
     "CardShare": "Copy URL",
     "CardSave": "Save",
     "CardSaved": "Saved",
+    "DeleteAlert1": "Delete Post",
+    "DeleteAlert2": "Are you sure? You can't undo this action afterwards.",
+    "DeleteBtn1": "Cancel",
+    "DeleteBtn2": "Delete",
+    "DeleteSuccesMessage": "Deleted succesfully",
+    "SharedMessage": "Copied the URL",
+    "EditModalHeader": "Edit post",
 
     "CommentEdit": "Edit",
     "CommentDelete": "Delete",
+    "CommentPlaceholder": "Add comment",
 
     "BlogHeader1": "Rach Abdash",
     "BlogHeading1": "Donate the Gift of Life for Christmas",
@@ -130,7 +141,18 @@
     "BlogDate4": "Sep 6, 2021",
     "BlogHeader5": "Rajendra Chaudhary",
     "BlogHeading5": "Factors Associated with Intention to Donate Blood",
-    "BlogDate5": "Nov 5, 2014"
+    "BlogDate5": "Nov 5, 2014",
+
+    "InfopageDescription": "Information about donor",
+    "InfopageDate": "29 Dec, 2023",
+    "InfopageHeading": "Donor Details for ID",
+    "InfopageQuantity": "Quantity of Blood",
+
+    "YourMessages": "Your messages",
+    "MessagesText": "Send private photos and messages to a friend or group",
+    "MessagesBtn": "Send",
+    "MessagesHeading": "Messages",
+    "MessagesPlaceholder": "Start chatting"
     
 }
 
