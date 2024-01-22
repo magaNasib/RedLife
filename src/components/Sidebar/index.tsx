@@ -57,7 +57,7 @@ const Sidebar = () => {
             marginBottom: "30px",
           })}
         >
-          <IoHomeOutline size={25} style={{ marginRight: "10px" }} /> {t("SidebarHome")}
+          <IoHomeOutline size={25} style={{ marginRight: "10px" }} /> Home
         </NavLink>
         <NavLink
           to="/donors"
@@ -107,7 +107,7 @@ const Sidebar = () => {
             })}
           >
             <CgProfile size={25} style={{ marginRight: "10px" }} />
-            {t("SidebarProfile")}
+            Profile
           </NavLink>
         )}
         {authChecked && !auth.currentUser && (
@@ -121,7 +121,7 @@ const Sidebar = () => {
             })}
           >
             <CiLogin size={25} style={{ marginRight: "10px" }} />
-            {t("SidebarLogin")}
+            Login
           </NavLink>
         )}
       </Flex>

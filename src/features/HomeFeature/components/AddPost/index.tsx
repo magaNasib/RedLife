@@ -30,7 +30,6 @@ import { mapOptions } from "../../../../MapConfig";
 import { Library } from "@googlemaps/js-api-loader";
 import AddPostForm from "./AddPostForm";
 
-
 export interface IPost {
   bloodGroup: "B+" | "A+" | "AB+" | "O+" | "B-" | "A-" | "AB-" | "O-";
   type: "Donor" | "Acceptor";
