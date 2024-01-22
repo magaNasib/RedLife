@@ -1,59 +1,77 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Container, VStack, Heading, Text, Image } from "@chakra-ui/react";
+import { Container, VStack, Text, Image, Box, Flex } from "@chakra-ui/react";
 import Sidebar from "../../components/Sidebar";
+import { db } from "../../firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { IBlogs } from "../../features/BlogsFeature";
 
 const InfoDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
 
-  const donor = {
-    id: 1,
-    imageUrl:
-      "https://media.istockphoto.com/id/1352107081/photo/world-blood-donor-day-blood-donation-blood-donor-with-bandage-after-giving-blood.jpg?s=612x612&w=0&k=20&c=X0yE4G5ZOx11VEoZgVo4FFGdepWF-qekKqBdzKJoP8c=",
-    heading: "Heading 1",
-    description:
-      "Donor 1 description Donor 1 description Donor 1 description Donor 1 description Donor 1 description Donor 1 description",
-    createdAt: "Dec 29, 2023",
-    quantityOfBlood: 2,
-  };
+  const [blog, setBlog] = useState<IBlogs | null>(null);
+
+  useEffect(() => {
+    const fetchBlog = async () => {
+      try {
+        const blogDoc = await getDoc(doc(db, "blogs", id || ""));
+        if (blogDoc.exists()) {
+          setBlog({ ...blogDoc.data(), id: blogDoc.id } as IBlogs);
+        } else {
+          console.log("Blog not found");
+        }
+      } catch (error) {
+        console.error("Error fetching blog:", error);
+      }
+    };
+
+    fetchBlog();
+  }, [id]);
+
+  if (!blog) {
+    return <div>Loading...</div>;
+  }
+
+  const { article, creator, dateCreated, title, imageUrl } = blog;
 
   return (
     <>
       <Sidebar />
-      <VStack spacing={8} align="stretch" bg="#F1F2F5" h="100vh">
+      <VStack align="stretch" bg="#F1F2F5" h="100%">
         <Container
-          mt={10}
-          maxW="container.sm"
+          mt={20}
+          maxW="container.md"
           color="white"
           padding={8}
           borderRadius="md"
         >
-          <Heading as="h2" size="lg" color={"black"} mt="90px">
-            Donor Details for ID: {donor.id}
-          </Heading>
-          <Text color={"black"} mb={3} fontSize={22} textColor={"#6B6B6B"}>
-            {donor.description}
+          <Text mb={6} fontSize={26} textColor={"#2C383E"} fontWeight="bold">
+            {title}
           </Text>
+          <Flex justifyContent="space-between" fontWeight="bold" mb={1}>
+            <Text fontSize={18} textColor={"#445760"}>
+              {creator}
+            </Text>
+            <Text fontSize={16} textColor={"#445760"}>
+              {dateCreated}
+            </Text>
+          </Flex>
+
           <Image
-            src={donor.imageUrl}
-            alt="Donor Avatar"
+            src={imageUrl}
+            alt="Blog Image"
             borderRadius="sm"
             height={400}
             width={"100%"}
           />
-          {/* <Heading as="h3" size="md" mt={4} color={"black"}>
-          {donor.heading}
-        </Heading> */}
           <Text
-            color="black"
             fontSize="xl"
             mt={3}
             display={"flex"}
-            justifyContent={"space-between"}
+            textAlign= "justify"
           >
-            Quantity of Blood: {donor.quantityOfBlood}
-            <Text fontSize={16} textColor={"#6B6B6B"}>
-              {donor.createdAt}
+            <Text fontSize={18} textColor={"#445760"}>
+              {article}
             </Text>
           </Text>
         </Container>

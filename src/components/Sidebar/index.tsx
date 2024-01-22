@@ -57,7 +57,7 @@ const Sidebar = () => {
             marginBottom: "30px",
           })}
         >
-          <IoHomeOutline size={25} style={{ marginRight: "10px" }} /> {t("SidebarHome")}
+          <IoHomeOutline size={25} style={{ marginRight: "10px" }} /> Home
         </NavLink>
         <NavLink
           to="/donors"
@@ -83,18 +83,8 @@ const Sidebar = () => {
           <TbMessageCircleShare size={25} style={{ marginRight: "10px" }} />{" "}
           Messages
         </NavLink>
-        <NavLink
-          to="/infoDetails"
-          style={({ isActive }) => ({
-            color: isActive ? "#e6010b" : "#fff",
-            marginBottom: "30px",
-            display: "flex",
-            alignItems: "center",
-          })}
-        >
-          <LiaBlogSolid size={25} style={{ marginRight: "10px" }} />{" "}
-          Informations
-        </NavLink>
+       
+        
         {!authChecked && <Spinner size="xs" />}
         {authChecked && auth.currentUser && (
           <NavLink
@@ -107,7 +97,7 @@ const Sidebar = () => {
             })}
           >
             <CgProfile size={25} style={{ marginRight: "10px" }} />
-            {t("SidebarProfile")}
+            Profile
           </NavLink>
         )}
         {authChecked && !auth.currentUser && (
@@ -121,7 +111,7 @@ const Sidebar = () => {
             })}
           >
             <CiLogin size={25} style={{ marginRight: "10px" }} />
-            {t("SidebarLogin")}
+            Login
           </NavLink>
         )}
       </Flex>
