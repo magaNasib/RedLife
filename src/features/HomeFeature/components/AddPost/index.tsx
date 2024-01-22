@@ -97,6 +97,7 @@ const AddPost = () => {
         <Stack isInline spacing={4} alignItems={`${!show && "center"}`}>
           <Avatar
             src={auth?.currentUser?.photoURL || "https://bit.ly/broken-link"}
+            // src={auth?.currentUser?.photoURL}
             borderColor="green.500"
             borderWidth="2px"
           />

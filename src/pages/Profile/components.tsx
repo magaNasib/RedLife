@@ -40,6 +40,8 @@ export const Banner = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const navigate = useNavigate();
   const [user, setUser] = useState({ ...auth?.currentUser })
+  const triggerContext = useContext<any>(AuthContext)
+
   const handleEditModalClose = () => {
     setIsEditModalOpen(false);
   };
@@ -89,7 +91,9 @@ export const Banner = () => {
                 setUser({ ...auth?.currentUser })
                 const donorDocRef = doc(db, "users", user?.uid || '');
                 await setDoc(donorDocRef, { avatar: downloadURL, uid: user?.uid }, { merge: true });
+                
                 setLoading(false)
+                triggerContext.setTrigger((curr: boolean) => !curr);
               });   
             }
           );
@@ -168,19 +172,20 @@ export const Banner = () => {
             borderWidth="1px"
             onClick={() => setIsEditModalOpen(true)}
           >
-            <EditIcon />
+            <EditIcon mr={'2'}/>
             {t("EditProfPage")}
           </Button>
           {/* Upload image button */}
           <Flex justifyContent={'center'} alignItems={'center'} border={'2px solid white'} borderRadius={'5px'} width={'180px'} height={'40px'} cursor={'pointer'}>
             <MdOutlineDriveFolderUpload color={'white'} />
-            <FormLabel htmlFor="file" color={'white'} pt={'8px'}>
+            <FormLabel htmlFor="file" color={'white'} pt={'8px'} ml={'2'}>
             {t("İmageProfPage")}
             </FormLabel>
             <Input
               type="file"
               id="file"
               w={'full'}
+              h={'full'}
               isDisabled={loading}
               onChange={(e) => setFile(e.target.files?.[0] || null)}
               display={'none'}
@@ -196,7 +201,7 @@ export const Banner = () => {
             borderWidth="1px"
             onClick={() => navigate("/profile/changepassword")}
           >
-            <LockIcon />
+            <LockIcon  mr={'2'}/>
             {t("ChangePasswordProfPage")}
           </Button>
 

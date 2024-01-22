@@ -83,7 +83,7 @@
 
     "DonorHeader": "Donor tapın",
     "DonorHeading": "Sizin ianəniz kiminsə həyatını yaxşılaşdıra bilər",
-    "BloodSelector": "Bütün qan qripları",
+    "BloodSelector": "Bütün qan qrupları",
     "CitySelector": "Rayonu seçin",
     "City1": "Bakı",
     "City2": "Gəncə",
@@ -123,13 +123,13 @@
     "DeleteAlert2": "Siz əminsiz? Daha sonra bu əməliyyatı geri qaytara bilməyəcəksiniz.",
     "DeleteBtn1": "İmtina",
     "DeleteBtn2": "Sil",
-    "DeleteSuccesMessage": "U]urla silindi",
+    "DeleteSuccesMessage": "Uğurla silindi",
     "SharedMessage": "Link kopiyalandı",
     "EditModalHeader": "Məqaləni redaktə et",
 
     "CommentEdit": "Redakt'et",
     "CommentDelete": "Sil",
-    "CommentPlaceholder": "Kommentariy əlave et",
+    "CommentPlaceholder": "Şərh əlavə et",
 
     "BlogHeader1": "Rach Abdash",
     "BlogHeading1": "Milad üçün Həyat Hədiyyəsini bağışlayın",

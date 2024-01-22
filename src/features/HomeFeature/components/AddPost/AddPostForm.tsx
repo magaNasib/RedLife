@@ -17,11 +17,11 @@ import { useToast } from "@chakra-ui/toast";
 
 const AddPostForm = ({ setShow, mode, id = ' ' }: { setShow: (a: boolean) => void; mode: 'add' | 'edit', id?: string }) => {
     const [loading, setLoading] = useState(false);
-    const [searchResult, setSearchResult] = useState<any>("Result: none");
     const triggerContext = useContext<any>(AuthContext)
     const isEdit = mode === 'edit'
     const toast = useToast();
     const libraries: Library[] = ["places"]
+    const [searchResult, setSearchResult] = useState<any>("Result: none");
     const methods = useForm<IPost>({
         defaultValues: {
             phone: "",
@@ -73,9 +73,6 @@ const AddPostForm = ({ setShow, mode, id = ' ' }: { setShow: (a: boolean) => voi
                 lat: place?.geometry?.location?.lat(),
                 lng: place?.geometry?.location?.lng()
             }
-            console.log(place);
-            console.log(coordinates);
-
             const formattedAddress = place.formatted_address;
             methods.setValue('city', formattedAddress)
             methods.setValue('coordinates', coordinates)
