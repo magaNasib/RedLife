@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, VStack, Text, Image, Box, Flex } from "@chakra-ui/react";
 import Sidebar from "../../components/Sidebar";
+import { useTranslation } from "react-i18next";
+
 import { db } from "../../firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { IBlogs } from "../../features/BlogsFeature";

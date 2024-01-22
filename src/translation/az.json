@@ -4,6 +4,7 @@
     "NameProfPage": "Adı",
     "EmailProfPage": "Elektron poçt",
     "EditProfPage": "Redaktə et",
+    "İmageProfPage": "Şəkil",
     "ChangePasswordProfPage": "Şifrəni dəyişdir",
     "LogoutProfPage": "Çıxış",
     "MyPostsProfPage": "Mənim məqalələrim",
@@ -37,11 +38,12 @@
     "YesBtn": "Çıxış",
     "NoBtn": "İmtina",
 
-    "SidebarHome": "ANA SƏHİFƏ",
-    "SidebarDonors": "DONORLAR",
-    "SidebarBlogs": "BLOG",
-    "SidebarProfile": "PROFIL",
-    "SidebarLogin": "DAXİL OL",
+    "SidebarHome": "Ana səhidə",
+    "SidebarDonors": "Donorlar",
+    "SidebarMessages": "İsmarıclar",
+    "SidebarInformation": "Məlumat",
+    "SidebarProfile": "Profil",
+    "SidebarLogin": "Daxil ol",
 
     "LoginHeader": "Daxil ol",
     "LoginHeading": "Hesabınıza daxil olun",
@@ -81,7 +83,7 @@
 
     "DonorHeader": "Donor tapın",
     "DonorHeading": "Sizin ianəniz kiminsə həyatını yaxşılaşdıra bilər",
-    "BloodSelector": "Bütün qan qripları",
+    "BloodSelector": "Bütün qan qrupları",
     "CitySelector": "Rayonu seçin",
     "City1": "Bakı",
     "City2": "Gəncə",
@@ -104,7 +106,8 @@
     "AddPostPhone": "Əlaqə nömrəsi",
     "AddPostDescription": "İstəsəniz əlavə məlumat...",
     "AddPostCancelBtn": "İmtina",
-    "AddPostPostBtn": "Dərc et",
+    "AddPostBtn": "Dərc et",
+    "SavePostBtn": "Saxla",
     "AddPostStartPostBtn": "Məqaləni yarat",
     "ValidationMessage": "Bu xananın doldurulması məcburidir",
     "PhoneValidationMessage" : "Əlaqə nömrəsi 9 rəqəmdən ibarət olmalıdır",
@@ -116,9 +119,17 @@
     "CardShare": "Linki kopyalayın",
     "CardSave": "Yadda saxla",
     "CardSaved": "Saxlandı",
+    "DeleteAlert1": "Məqaləni sil",
+    "DeleteAlert2": "Siz əminsiz? Daha sonra bu əməliyyatı geri qaytara bilməyəcəksiniz.",
+    "DeleteBtn1": "İmtina",
+    "DeleteBtn2": "Sil",
+    "DeleteSuccesMessage": "Uğurla silindi",
+    "SharedMessage": "Link kopiyalandı",
+    "EditModalHeader": "Məqaləni redaktə et",
 
     "CommentEdit": "Redakt'et",
     "CommentDelete": "Sil",
+    "CommentPlaceholder": "Şərh əlavə et",
 
     "BlogHeader1": "Rach Abdash",
     "BlogHeading1": "Milad üçün Həyat Hədiyyəsini bağışlayın",
@@ -134,7 +145,18 @@
     "BlogDate4": "6 Sentyabr, 2021",
     "BlogHeader5": "Rajendra Chaudhary",
     "BlogHeading5": "Qan vermək niyyəti ilə əlaqəli amillər",
-    "BlogDate5": "5 Noyabr, 2014"
+    "BlogDate5": "5 Noyabr, 2014",
+
+    "InfopageDescription": "Donor haqqında məlumat",
+    "InfopageDate": "29 Dekabr, 2023",
+    "InfopageHeading": "Donor Təfərrüatlar ",
+    "InfopageQuantity": "Qanvermələrin sayı",
+
+    "YourMessages": "Sizin İsmarıclar",
+    "MessagesText": "Dostunuza və ya qrupa sms gondərin",
+    "MessagesBtn": "Gondər",
+    "MessagesHeading": "İsmarıclar",
+    "MessagesLatest": "Ən son yazilan sms"
 }
 
 

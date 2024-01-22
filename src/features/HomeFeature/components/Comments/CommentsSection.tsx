@@ -112,7 +112,7 @@ const CommentSection: React.FC<IPost> = ({ id, comments }) => {
                     })
                 }
                 <InputGroup>
-                    <Input type="text" placeholder="Add Comment" value={text} onChange={(e) => setText(e.target.value)} />
+                    <Input type="text" placeholder={t("CommentPlaceholder")} value={text} onChange={(e) => setText(e.target.value)} />
                     <InputRightElement>
                         <IconButton
                             onClick={addCommentHandler}

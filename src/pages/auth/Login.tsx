@@ -101,7 +101,7 @@ const Login: React.FC<IProps> = () => {
                                                 control={methods.control}
                                                 name='email'
                                                 rules={{
-                                                    required: 'This field is required'
+                                                    required: t("ValidationMessage")
                                                 }}
                                                 render={({ field }) => (
                                                     <>
@@ -120,7 +120,7 @@ const Login: React.FC<IProps> = () => {
                                                 control={methods.control}
                                                 name='password'
                                                 rules={{
-                                                    required: 'This field is required'
+                                                    required: t("ValidationMessage")
                                                 }}
                                                 render={({ field }) => (
                                                     <PasswordField label={t("LoginPassword")} {...field} />
