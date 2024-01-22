@@ -71,7 +71,7 @@ const Sidebar = () => {
           <GoPeople size={25} style={{ marginRight: "10px" }} />
           {t("SidebarDonors")}
         </NavLink>
-        <NavLink
+        {/* <NavLink
           to="/messages"
           style={({ isActive }) => ({
             color: isActive ? "#e6010b" : "#99a6b3",
@@ -82,8 +82,8 @@ const Sidebar = () => {
         >
           <TbMessageCircleShare size={25} style={{ marginRight: "10px" }} />{" "}
           {t("SidebarMessages")}
-        </NavLink>
-        <NavLink
+        </NavLink> */}
+        {/* <NavLink
           to="/infoDetails"
           style={({ isActive }) => ({
             color: isActive ? "#e6010b" : "#99a6b3",
@@ -94,7 +94,7 @@ const Sidebar = () => {
         >
           <LiaBlogSolid size={25} style={{ marginRight: "10px" }} />{" "}
           {t("SidebarInformation")}
-        </NavLink>
+        </NavLink> */}
         {!authChecked && <Spinner size="xs" />}
         {authChecked && auth.currentUser && (
           <NavLink
