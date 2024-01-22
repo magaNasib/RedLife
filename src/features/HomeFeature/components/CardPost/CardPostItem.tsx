@@ -41,7 +41,9 @@ import {
   collection,
   doc,
   getDocs,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { IPost } from "../AddPost";
 import { auth, db, onAuthStateChanged } from "../../../../firebase";
@@ -68,39 +70,64 @@ import {
 } from "react-share";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import PostActions from "../../../../components/PostComponents/PostActions";
-
+interface IUser {
+  uid: string
+  photoURL: string
+  avatar:string
+}
 function CardPostItem(props: IPost, key: number) {
-    const [showComment, setShowComment] = useState(false);
-    const { t } = useTranslation();
-    const { id, phone, likes, comments, saved, publish_date, type, description, city, bloodGroup, fullName, photoURL, coordinates, uid } = props
-    // const date = new Date(publish_date?.seconds * 1000 + publish_date?.nanoseconds / 1e6);
-    const date: any = new Date(publish_date.seconds * 1000 + publish_date.nanoseconds / 1e6);
-    const now: any = new Date();
+  const [showComment, setShowComment] = useState(false);
+  const { t } = useTranslation();
+  
+  const { id, phone, likes, comments, saved, publish_date, type, description, city, bloodGroup, fullName, avatar, coordinates, uid } = props
+  const [userData, setUserData] = useState<IUser | null>(null);
+  const fetchUserData = async (uid: string): Promise<IUser | null> => {
+    const usersCollectionRef = collection(db, 'users');
+    const userQuery = query(usersCollectionRef, where('uid', '==', uid));
+    const userData = await getDocs(userQuery);
 
-    // Calculate the time difference in seconds and minutes
-    const timeDifferenceInSeconds = Math.floor((now - date) / 1000);
-    const timeDifferenceInMinutes = Math.floor(timeDifferenceInSeconds / 60);
-
-    let diffTime;
-
-    if (timeDifferenceInSeconds < 60) {
-        diffTime = `${timeDifferenceInSeconds} seconds ago`;
-    } else if (timeDifferenceInMinutes < 60) {
-        diffTime = `${timeDifferenceInMinutes} minutes ago`;
-    } else if (timeDifferenceInMinutes >= 60 && timeDifferenceInMinutes < 1440) {
-        // Calculate hours ago
-        const hoursAgo = Math.floor(timeDifferenceInMinutes / 60);
-        diffTime = `${hoursAgo} hours ago`;
-    } else if (timeDifferenceInMinutes >= 1440) {
-        // More than 1 day, show month and day
-        const options = { month: 'short', day: 'numeric' };
-        const formattedDate = date.toLocaleDateString('en-US', options as Intl.DateTimeFormatOptions); // Cast options to the correct type
-        diffTime = `Published on ${formattedDate}`;
+    if (userData.docs.length > 0) {
+      return userData.docs[0].data() as IUser;
     }
 
-    const navigate = useNavigate();
-    const triggerContext = useContext<any>(AuthContext)
-    const toast = useToast()
+    return null;
+  };
+
+  useEffect(() => {
+    const getUserData = async () => {
+      const userData = await fetchUserData(uid);
+      
+      setUserData(userData)
+    }
+    uid && getUserData()
+  }, [])
+
+  const date: any = new Date(publish_date.seconds * 1000 + publish_date.nanoseconds / 1e6);
+  const now: any = new Date();
+
+  // Calculate the time difference in seconds and minutes
+  const timeDifferenceInSeconds = Math.floor((now - date) / 1000);
+  const timeDifferenceInMinutes = Math.floor(timeDifferenceInSeconds / 60);
+
+  let diffTime;
+
+  if (timeDifferenceInSeconds < 60) {
+    diffTime = `${timeDifferenceInSeconds} seconds ago`;
+  } else if (timeDifferenceInMinutes < 60) {
+    diffTime = `${timeDifferenceInMinutes} minutes ago`;
+  } else if (timeDifferenceInMinutes >= 60 && timeDifferenceInMinutes < 1440) {
+    // Calculate hours ago
+    const hoursAgo = Math.floor(timeDifferenceInMinutes / 60);
+    diffTime = `${hoursAgo} hours ago`;
+  } else if (timeDifferenceInMinutes >= 1440) {
+    // More than 1 day, show month and day
+    const options = { month: 'short', day: 'numeric' };
+    const formattedDate = date.toLocaleDateString('en-US', options as Intl.DateTimeFormatOptions); // Cast options to the correct type
+    diffTime = `Published on ${formattedDate}`;
+  }
+
+  const navigate = useNavigate();
+  const triggerContext = useContext<any>(AuthContext)
 
   const [authChecked, setAuthChecked] = useState(false);
 
@@ -168,6 +195,7 @@ function CardPostItem(props: IPost, key: number) {
       });
   };
 
+
   return (
     <Flex justifyContent="center" my="2" key={key}>
       <Card w="2xl">
@@ -183,16 +211,16 @@ function CardPostItem(props: IPost, key: number) {
               <Flex alignItems={"center"} gap={"2"}>
                 <Avatar
                   name={fullName}
-                  src={photoURL}
+                  src={userData?.avatar}
                   borderColor="green.500"
                   borderWidth="2px"
                   bg={"black"}
                 />
                 <Box w={'100%'}>
                   <Flex justifyContent={'space-between'}>
-                    
-                  <Heading size="md">{fullName}</Heading>
-                  <Text>{diffTime}</Text>
+
+                    <Heading size="md">{fullName}</Heading>
+                    <Text pl={'3'}>{diffTime}</Text>
                   </Flex>
                   <Flex
                     alignItems="center"
@@ -217,7 +245,7 @@ function CardPostItem(props: IPost, key: number) {
                       gap={"1"}
                       pl={"3"}
                     >
-                      {<GoLocation />} {city}
+                      {<GoLocation />} {city.length > 20 ? city.substring(0, 19) + '...' : city}
                     </Text>
                   </Flex>
                 </Box>

@@ -126,7 +126,7 @@ const ChangePassword: React.FC<IProps> = () => {
                                                 control={methods.control}
                                                 name='newPassword'
                                                 rules={{
-                                                    required: 'This field is required'
+                                                    required: t("ValidationMessage")
                                                 }}
                                                 render={({ field }) => (
                                                     <>
@@ -148,7 +148,7 @@ const ChangePassword: React.FC<IProps> = () => {
                                                 control={methods.control}
                                                 name='confirmPassword'
                                                 rules={{
-                                                    required: 'This field is required'
+                                                    required: t("ValidationMessage")
                                                 }}
                                                 render={({ field }) => (
                                                     <>

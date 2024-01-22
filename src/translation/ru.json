@@ -4,6 +4,7 @@
     "NameProfPage": "Имя",
     "EmailProfPage": "Эл. почта",
     "EditProfPage": "Редактировать",
+    "İmageProfPage": "Изображение",
     "ChangePasswordProfPage": "Изменить пароль",
     "LogoutProfPage": "Выход",
     "MyPostsProfPage": "Мои публикации",
@@ -37,11 +38,12 @@
     "YesBtn": "Выйти",
     "NoBtn": "Отмена",
 
-    "SidebarHome": "ГЛАВНАЯ СТРАНИЦА",
-    "SidebarDonors": "ДОНОРЫ",
-    "SidebarBlogs": "БЛОГ",
-    "SidebarProfile": "ПРОФИЛЬ",
-    "SidebarLogin": "АВТОРИЗАЦИЯ",
+    "SidebarHome": "Главная",
+    "SidebarDonors": "Доноры",
+    "SidebarMessages": "Сообщения",
+    "SidebarInformation": "Информация",
+    "SidebarProfile": "Профиль",
+    "SidebarLogin": "Авторизация",
 
     "LoginHeader": "Авторизация",
     "LoginHeading": "Войдите в ваш аккаунт",
@@ -104,7 +106,8 @@
     "AddPostPhone": "Телефонный номер",
     "AddPostDescription": "Дополнительная информация, если вы хотите...",
     "AddPostCancelBtn": "Отмена",
-    "AddPostPostBtn": "Опубликовать",
+    "AddPostBtn": "Опубликовать",
+    "SavePostBtn": "Сохранить",
     "AddPostStartPostBtn": "Сделать публикацию",
     "ValidationMessage": "Это поле обязательное для заполненияю",
     "PhoneValidationMessage" : "Телефонный номер должен быть из 9 цифр",
@@ -116,9 +119,17 @@
     "CardShare": "Скопировать ссылку",
     "CardSave": "Сохранить",
     "CardSaved": "Сохранено",
+    "DeleteAlert1": "Удалить пост",
+    "DeleteAlert2": "Вы уверены? Вы не сможете отменить это действие впоследствии.",
+    "DeleteBtn1": "Отмена",
+    "DeleteBtn2": "Удалить",
+    "DeleteSuccesMessage": "Успешно удалено",
+    "SharedMessage": "Ссылка скопирована",
+    "EditModalHeader": "Редактировать публикацию",
 
     "CommentEdit": "Редактировать",
     "CommentDelete": "Удалить",
+    "CommentPlaceholder": "Добавить комментарий",
 
     "BlogHeader1": "Рах Абдаш",
     "BlogHeading1": "Пожертвуйте подарок жизни на Рождество",
@@ -134,7 +145,18 @@
     "BlogDate4": "6 Сентября, 2021",
     "BlogHeader5": "Раджендра Чаудхари",
     "BlogHeading5": "Факторы, связанные с намерением сдать кровь",
-    "BlogDate5": "5 Ноября, 2014"
+    "BlogDate5": "5 Ноября, 2014", 
+
+    "InfopageDescription": "Информация о доноре",
+    "InfopageDate": "29 Декабря, 2023",
+    "InfopageHeading": "Детали о доноре с ID",
+    "InfopageQuantity": "Количество сдач крови",
+
+    "YourMessages": "Ваши сообщения",
+    "MessagesText": "Отправьте личное сообщение вашему другу или группе",
+    "MessagesBtn": "Отправить",
+    "MessagesPlaceholder": "Начните общаться",
+    "MessagesHeading": "Сообщения"
 }
 
 

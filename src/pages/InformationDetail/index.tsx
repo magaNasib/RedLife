@@ -2,18 +2,20 @@ import React from "react";
 import { useParams } from "react-router-dom";
 import { Container, VStack, Heading, Text, Image } from "@chakra-ui/react";
 import Sidebar from "../../components/Sidebar";
+import { useTranslation } from "react-i18next";
+
 
 const InfoDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-
+  const {t} = useTranslation();
   const donor = {
     id: 1,
     imageUrl:
       "https://media.istockphoto.com/id/1352107081/photo/world-blood-donor-day-blood-donation-blood-donor-with-bandage-after-giving-blood.jpg?s=612x612&w=0&k=20&c=X0yE4G5ZOx11VEoZgVo4FFGdepWF-qekKqBdzKJoP8c=",
     heading: "Heading 1",
     description:
-      "Donor 1 description Donor 1 description Donor 1 description Donor 1 description Donor 1 description Donor 1 description",
-    createdAt: "Dec 29, 2023",
+      t("InfopageDescription"),
+    createdAt: t("InfopageDate"),
     quantityOfBlood: 2,
   };
 
@@ -29,7 +31,7 @@ const InfoDetails: React.FC = () => {
           borderRadius="md"
         >
           <Heading as="h2" size="lg" color={"black"} mt="90px">
-            Donor Details for ID: {donor.id}
+            {t("InfopageHeading")}: {donor.id}
           </Heading>
           <Text color={"black"} mb={3} fontSize={22} textColor={"#6B6B6B"}>
             {donor.description}
@@ -51,7 +53,7 @@ const InfoDetails: React.FC = () => {
             display={"flex"}
             justifyContent={"space-between"}
           >
-            Quantity of Blood: {donor.quantityOfBlood}
+            {t("InfopageQuantity")}: {donor.quantityOfBlood}
             <Text fontSize={16} textColor={"#6B6B6B"}>
               {donor.createdAt}
             </Text>
