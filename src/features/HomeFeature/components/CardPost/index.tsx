@@ -54,7 +54,16 @@ function CardPost(props: IProps) {
         const data = await getDocs(query(donorCollectionRef, orderBy('publish_date', 'desc')));
 
         if (data.docs.length > 0) {
-          const donorData = data.docs.map((doc) => ({ ...doc.data(), id: doc.id }) as IPost);
+          const donorData = data.docs.map((doc) => {
+            console.log({...doc.data()}.uid);
+            // const donorDocRef = doc(db, "users", doc.data().uid);
+
+            
+            
+            return ({ ...doc.data(), id: doc.id }) as IPost
+          });
+          console.log(donorData);
+          
           dispatch({
             type: SUBMIT_POST,
             posts: donorData,
