@@ -34,7 +34,7 @@ function Router() {
             <Route path="/register" element={<Register />} />
             <Route path="/donors" element={<Donors />} />
             <Route path="/messages" element={<Messages/>} />
-            <Route path="/infoDetails" element={<InformationDetail />} />
+            <Route path="/infoDetails/:id" element={<InformationDetail />} />
           </Route>
         </Routes>
       </ChakraProvider>

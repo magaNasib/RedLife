@@ -23,18 +23,6 @@ import { TbMoodAnnoyed } from "react-icons/tb";
 import { AuthContext } from "../../../../context/AppContext";
 import PostSkeleton from "../../../../components/PostSkeleton";
 import { useTranslation } from "react-i18next";
-// interface IDonors {
-//   bloodGroup: string;
-//   city: string;
-//   description: string;
-//   phone: string;
-//   publish_date: string;
-//   type: string;
-//   uid: string;
-//   id: string;
-//   fullName: string
-//   photoURL: string
-// }
 interface IProps {
   trigger?: boolean
   filteredPosts?: IPost[]
@@ -90,7 +78,6 @@ function CardPost(props: IProps) {
       <>
         <Flex justifyContent="center" alignItems={'center'} fontSize={'25'} my='2'>
           <TbMoodAnnoyed />
-
           <Text size={'lg'}>
             {t("IfNotCards")}
           </Text>
@@ -105,11 +92,6 @@ function CardPost(props: IProps) {
           <CardPostItem key={post.id}  {...post} />
         ))
       }
-      {/* {filteredPosts
-        ? filteredPosts.map((post: IPost) => (
-          <CardPostItem key={post.id} {...post} />
-        ))
-        : state?.posts.map((post: IPost) => <CardPostItem key={post.id} {...post} />)} */}
     </>
   );
 

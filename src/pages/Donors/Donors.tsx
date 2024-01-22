@@ -15,7 +15,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { IPost } from "../../features/HomeFeature/components/AddPost";
 import CardPost from "../../features/HomeFeature/components/CardPost";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "../../firebase";
 import Sidebar from "../../components/Sidebar";
 import { Autocomplete, useLoadScript } from "@react-google-maps/api";
@@ -47,7 +47,7 @@ const Donors: React.FC<IDonors> = () => {
   useEffect(() => {
     const getPosts = async () => {
       try {
-        const data = await getDocs(donorCollectionRef);
+        const data =await getDocs(query(donorCollectionRef, orderBy('publish_date', 'desc')))
 
         if (data.docs.length > 0) {
           const donorData = data.docs.map(
