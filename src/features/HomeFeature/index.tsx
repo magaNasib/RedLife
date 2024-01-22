@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import AddPost from "./components/AddPost";
 import CardPost from "./components/CardPost";

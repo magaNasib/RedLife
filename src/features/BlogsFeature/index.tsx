@@ -47,43 +47,45 @@ function BlogsFeature(props: IProps) {
   return (
     <>
       <Box m="0 auto" w="60%" pr={"10"} mt={"95px"}>
-        {blogs.map((blog) => (
-          <Card
-            key={blog.id}
-            direction={{ base: "column", sm: "row" }}
-            overflow="hidden"
-            variant="outline"
-            display="flex"
-            justify="space-between"
-            mt="15px"
-            onClick={handleTextToggle}
-            style={{ cursor: "pointer" }}
-            h="170px"
-          >
-            <Stack>
-              <CardBody>
-                <Heading size="sm" mb="7px" fontSize="smaller">
-                  {blog.creator}
-                </Heading>
-                <Link
-                  style={{ fontWeight: "bold", cursor: "pointer" }}
-                  to={`/infoDetails/${blog.id}`}
-                >
-                  {blog.title}
-                </Link>
-                <Text color="gray" py="2" size="sm" fontSize="smaller">
-                  {blog.dateCreated}
-                </Text>
-              </CardBody>
-            </Stack>
-            <Image
-              objectFit="cover"
-              maxW={{ base: "50%", sm: "200px" }}
-              src={blog?.imageUrl}
-              alt="error"
-            />
-          </Card>
-        ))}
+        <Box position={'sticky'} top={'10px'}>
+          {blogs.map((blog) => (
+            <Card
+              key={blog.id}
+              direction={{ base: "column", sm: "row" }}
+              overflow="hidden"
+              variant="outline"
+              display="flex"
+              justify="space-between"
+              mt="15px"
+              onClick={handleTextToggle}
+              style={{ cursor: "pointer" }}
+              h="170px"
+            >
+              <Stack>
+                <CardBody>
+                  <Heading size="sm" mb="7px" fontSize="smaller">
+                    {blog.creator}
+                  </Heading>
+                  <Link
+                    style={{ fontWeight: "bold", cursor: "pointer" }}
+                    to={`/infoDetails/${blog.id}`}
+                  >
+                    {blog.title}
+                  </Link>
+                  <Text color="gray" py="2" size="sm" fontSize="smaller">
+                    {blog.dateCreated}
+                  </Text>
+                </CardBody>
+              </Stack>
+              <Image
+                objectFit="cover"
+                maxW={{ base: "50%", sm: "200px" }}
+                src={blog?.imageUrl}
+                alt="error"
+              />
+            </Card>
+          ))}
+        </Box>
       </Box>
     </>
   );

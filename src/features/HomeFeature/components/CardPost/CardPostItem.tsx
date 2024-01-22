@@ -70,7 +70,7 @@ import {
 } from "react-share";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import PostActions from "../../../../components/PostComponents/PostActions";
-interface IUser {
+export interface IUser {
   uid: string
   photoURL: string
   avatar:string

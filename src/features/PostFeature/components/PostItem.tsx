@@ -21,7 +21,7 @@ import {
 import { BiLike, BiBookmark, BiSolidLike, BiShare } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import React, { Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
-import { arrayRemove, arrayUnion, collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import { arrayRemove, arrayUnion, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
 import { auth, db, onAuthStateChanged } from "../../../firebase";
 import { FaEdit, FaCopy } from "react-icons/fa";
 import { MdDelete, MdReport } from "react-icons/md";
@@ -40,6 +40,7 @@ import MyLocationPicker from "../../../components/LocationPicker";
 import { CiLock } from "react-icons/ci";
 import PostActions from "../../../components/PostComponents/PostActions";
 import PostScoialButtons from "../../../components/PostComponents/PostSocialButtons";
+import { IUser } from "../../HomeFeature/components/CardPost/CardPostItem";
 
 
 
@@ -52,12 +53,33 @@ function PostItem(props: IPost, key: number) {
     const triggerContext = useContext<any>(AuthContext)
 
     const [authChecked, setAuthChecked] = useState(false);
+    const [userData, setUserData] = useState<IUser | null>(null);
 
     const { isLoaded } = useJsApiLoader({
         id: mapOptions.googleMapApiKey,
         googleMapsApiKey: mapOptions.googleMapApiKey
     })
+    const fetchUserData = async (uid: string): Promise<IUser | null> => {
+        const usersCollectionRef = collection(db, 'users');
+        const userQuery = query(usersCollectionRef, where('uid', '==', uid));
+        const userData = await getDocs(userQuery);
 
+        if (userData.docs.length > 0) {
+            return userData.docs[0].data() as IUser;
+        }
+
+        return null;
+    };
+
+    useEffect(() => {
+        const getUserData = async () => {
+            const userData = await fetchUserData(uid);
+            console.log(userData);
+            
+            setUserData(userData)
+        }
+        uid && getUserData()
+    }, [])
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, () => {
             setAuthChecked(true);
@@ -125,7 +147,7 @@ function PostItem(props: IPost, key: number) {
                             <Flex alignItems={'center'} gap={'2'}>
                                 <Avatar
                                     name={fullName}
-                                    src={photoURL}
+                                    src={userData?.avatar || photoURL}
                                     borderColor="green.500"
                                     borderWidth="2px"
                                     bg={'black'}
