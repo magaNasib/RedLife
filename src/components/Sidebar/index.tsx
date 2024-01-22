@@ -36,7 +36,7 @@ const Sidebar = () => {
       w="200px"
       h="100%"
       position="fixed"
-      bgColor="#445760"
+      bgColor="#151c24"
       align="center"
       pl="30px"
     >
@@ -51,7 +51,7 @@ const Sidebar = () => {
         <NavLink
           to="/"
           style={({ isActive }) => ({
-            color: isActive ? "#e6010b" : "#fff",
+            color: isActive ? "#e6010b" : "#99a6b3",
             display: "flex",
             alignItems: "center",
             marginBottom: "30px",
@@ -62,7 +62,7 @@ const Sidebar = () => {
         <NavLink
           to="/donors"
           style={({ isActive }) => ({
-            color: isActive ? "#e6010b" : "#fff",
+            color: isActive ? "#e6010b" : "#99a6b3",
             marginBottom: "30px",
             display: "flex",
             alignItems: "center",
@@ -74,7 +74,7 @@ const Sidebar = () => {
         <NavLink
           to="/messages"
           style={({ isActive }) => ({
-            color: isActive ? "#e6010b" : "#fff",
+            color: isActive ? "#e6010b" : "#99a6b3",
             marginBottom: "30px",
             display: "flex",
             alignItems: "center",
@@ -86,7 +86,7 @@ const Sidebar = () => {
         <NavLink
           to="/infoDetails"
           style={({ isActive }) => ({
-            color: isActive ? "#e6010b" : "#fff",
+            color: isActive ? "#e6010b" : "#99a6b3",
             marginBottom: "30px",
             display: "flex",
             alignItems: "center",
@@ -100,7 +100,7 @@ const Sidebar = () => {
           <NavLink
             to="/profile"
             style={({ isActive }) => ({
-              color: isActive ? "#790b18" : "#fff",
+              color: isActive ? "#790b18" : "#99a6b3",
               paddingRight: "15px",
               display: "flex",
               alignItems: "center",
@@ -115,7 +115,7 @@ const Sidebar = () => {
           <NavLink
             to="/login"
             style={({ isActive }) => ({
-              color: isActive ? "#790b18" : "#fff",
+              color: isActive ? "#790b18" : "#99a6b3",
               paddingRight: "15px",
               display: "flex",
               alignItems: "center",

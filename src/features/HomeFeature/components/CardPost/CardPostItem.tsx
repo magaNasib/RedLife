@@ -133,7 +133,7 @@ function CardPostItem(props: IPost, key: number) {
 
   const { isLoaded } = useJsApiLoader({
     id: mapOptions.googleMapApiKey,
-    googleMapsApiKey: mapOptions.googleMapApiKey,
+    googleMapsApiKey: mapOptions.googleMapApiKey,     
   });
 
   useEffect(() => {

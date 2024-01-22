@@ -25,18 +25,7 @@ function Header() {
 
   return (
     <Box position="fixed" zIndex="10" w="100%" top={'0'}>
-      <Flex
-        bgColor="#D94B3C"
-        color="#FFFF"
-        p="0 45px"
-        justify="space-between"
-        align="center"
-        h="25px"
-        fontSize="sm"
-      >
-        <Text>blood@smarteyeapps.com </Text>
-        <Text>{t("HeaderContact")} +9940556784534</Text>
-      </Flex>
+    
       <Flex
         h="65px"
         w="100%"

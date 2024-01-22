@@ -24,23 +24,23 @@ const PostScoialButtons = ({ id }: { id: string }) => {
         <PopoverContent borderRadius={'15px'} bgColor={'gray.50'} w={'auto'} minW={'140px'} p={'2'}>
             <Flex gap={'2'}>
                 <FacebookShareButton
-                    url={window.location.href + id}
+                    url={window.location.origin + '/' + id}
                     hashtag="#redlife"
                 >
                     <FacebookIcon size={32} round />        
                 </FacebookShareButton>
                 <TwitterShareButton
-                    url={window.location.href + id}
+                    url={window.location.origin + '/' + id}
                 >
                     <TwitterIcon size={32} round />
                 </TwitterShareButton>
                 <WhatsappShareButton
-                    url={window.location.href + id}
+                    url={window.location.origin + '/' + id}
                 >
                     <WhatsappIcon size={32} round />
                 </WhatsappShareButton>
                 <LinkedinShareButton
-                    url={window.location.href + id}
+                    url={window.location.origin + '/' + id}
                 >
                     <LinkedinIcon size={32} round />
                 </LinkedinShareButton>

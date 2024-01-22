@@ -76,10 +76,7 @@ const PostActions = ({ uid, id }: { uid: string; id: string }) => {
                             </PopoverHeader>
                         </>
                     }
-                    <PopoverHeader cursor={'pointer'}>
-                        <Flex alignItems={'center'}>
-                            <MdReport /><Text ml={'10px'} fontSize={'18px'}>{t("CardReport")}</Text>
-                        </Flex></PopoverHeader>
+                  
                     <PopoverHeader cursor={'pointer'}>
                         <Flex alignItems={'center'}>
                             <CopyToClipboard text={window.location.origin + '/' + id} onCopy={() => {
