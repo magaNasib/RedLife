@@ -36,12 +36,16 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onCl
                             <FormLabel>{t("NameProfileModal")}</FormLabel>
                             <Input type="text" placeholder={t("NamePlaceholderModal")} />
                         </FormControl>
-
                         <FormControl>
-                            <FormLabel>{t("CountryModal")}</FormLabel>
-                            <Input type="text" placeholder={t("CountryPlaceholderModal")} />
+                            <FormLabel>{t("MailProfileModal")}</FormLabel>
+                            <Input type="text" placeholder={t("MailPlaceholderModal")} />
                         </FormControl>
 
+                        {/* <FormControl>
+                            <FormLabel>{t("CountryModal")}</FormLabel>
+                            <Input type="text" placeholder={t("CountryPlaceholderModal")} />
+                        </FormControl> */}
+{/* 
                         <FormControl>
                             <FormLabel>{t("PhoneNumberModal")}</FormLabel>
                             <InputGroup>
@@ -50,9 +54,9 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onCl
                                 </InputLeftElement>
                                 <Input type='tel' placeholder={t("PhonePlaceholderModal")}/>
                             </InputGroup>
-                        </FormControl>
+                        </FormControl> */}
 
-                        <FormControl>
+                        {/* <FormControl>
                             <FormLabel>{t("BloodGroupModal")}</FormLabel>
                             <Select placeholder={t("BloodPlaceholderModal")}>
                                 <option value="O(I) Rh+">O(I) Rh+</option>
@@ -64,7 +68,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({ isOpen, onCl
                                 <option value="AB (IV) Rh+">AB (IV) Rh+</option>
                                 <option value="AB (IV) Rh">AB (IV) Rh</option>
                             </Select>
-                        </FormControl>
+                        </FormControl> */}
                     </VStack>
                 </ModalBody>
                 <ModalFooter>

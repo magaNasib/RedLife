@@ -13,12 +13,16 @@
 
     "EditProfileModal": "Изменить профиль",
     "NameProfileModal": "Имя",
+    "MailProfileModal": "электронная почта",
+
     "CountryModal": "Страна",
     "PhoneNumberModal": "Телефонный номер",
     "BloodGroupModal": "Группа крови",
     "CloseModal": "Закрыть",
     "SaveChangesModal": "Сохранить изменения",
     "NamePlaceholderModal": "Введите ваше имя",
+    "MailPlaceholderModal": "Введите ваше электронная почта",
+    
     "CountryPlaceholderModal": "Введите вашу страну",
     "PhonePlaceholderModal": "Введите ваш телефонный номер",
     "BloodPlaceholderModal": "Выберите группу крови",
