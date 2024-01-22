@@ -72,24 +72,37 @@ import PostActions from "../../../../components/PostComponents/PostActions";
 function CardPostItem(props: IPost, key: number) {
   const [showComment, setShowComment] = useState(false);
   const { t } = useTranslation();
-  const {
-    id,
-    phone,
-    likes,
-    comments,
-    saved,
-    type,
-    description,
-    city,
-    bloodGroup,
-    fullName,
-    photoURL,
-    coordinates,
-    uid,
-  } = props;
+  const { id, phone, likes, comments, saved, publish_date, type, description, city, bloodGroup, fullName, avatar, coordinates, uid } = props
+  // const date = new Date(publish_date?.seconds * 1000 + publish_date?.nanoseconds / 1e6);
+
+
+  const date: any = new Date(publish_date.seconds * 1000 + publish_date.nanoseconds / 1e6);
+  const now: any = new Date();
+
+  // Calculate the time difference in seconds and minutes
+  const timeDifferenceInSeconds = Math.floor((now - date) / 1000);
+  const timeDifferenceInMinutes = Math.floor(timeDifferenceInSeconds / 60);
+
+  let diffTime;
+
+  if (timeDifferenceInSeconds < 60) {
+    diffTime = `${timeDifferenceInSeconds} seconds ago`;
+  } else if (timeDifferenceInMinutes < 60) {
+    diffTime = `${timeDifferenceInMinutes} minutes ago`;
+  } else if (timeDifferenceInMinutes >= 60 && timeDifferenceInMinutes < 1440) {
+    // Calculate hours ago
+    const hoursAgo = Math.floor(timeDifferenceInMinutes / 60);
+    diffTime = `${hoursAgo} hours ago`;
+  } else if (timeDifferenceInMinutes >= 1440) {
+    // More than 1 day, show month and day
+    const options = { month: 'short', day: 'numeric' };
+    const formattedDate = date.toLocaleDateString('en-US', options as Intl.DateTimeFormatOptions); // Cast options to the correct type
+    diffTime = `Published on ${formattedDate}`;
+  }
+
   const navigate = useNavigate();
-  const triggerContext = useContext<any>(AuthContext);
-  const toast = useToast();
+  const triggerContext = useContext<any>(AuthContext)
+  const toast = useToast()
 
   const [authChecked, setAuthChecked] = useState(false);
 
@@ -172,13 +185,17 @@ function CardPostItem(props: IPost, key: number) {
               <Flex alignItems={"center"} gap={"2"}>
                 <Avatar
                   name={fullName}
-                  src={photoURL}
+                  src={avatar}
                   borderColor="green.500"
                   borderWidth="2px"
                   bg={"black"}
                 />
-                <div>
-                  <Heading size="md">{fullName}</Heading>
+                <Box w={'100%'}>
+                  <Flex justifyContent={'space-between'}>
+
+                    <Heading size="md">{fullName}</Heading>
+                    <Text>{diffTime}</Text>
+                  </Flex>
                   <Flex
                     alignItems="center"
                     w={"full"}
@@ -205,7 +222,7 @@ function CardPostItem(props: IPost, key: number) {
                       {<GoLocation />} {city}
                     </Text>
                   </Flex>
-                </div>
+                </Box>
               </Flex>
               <Flex alignItems={"center"} gap={"2"}>
                 <Flex>

@@ -39,6 +39,7 @@ export interface IPost {
     lat: number
     lng: number
   }
+  avatar:string
   phone: string;
   description?: string;
   fullName: string;
@@ -95,7 +96,7 @@ const AddPost = () => {
       >
         <Stack isInline spacing={4} alignItems={`${!show && "center"}`}>
           <Avatar
-            src="https://bit.ly/broken-link"
+            src={auth?.currentUser?.photoURL || "https://bit.ly/broken-link"}
             borderColor="green.500"
             borderWidth="2px"
           />

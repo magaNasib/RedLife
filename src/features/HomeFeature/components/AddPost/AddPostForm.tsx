@@ -120,7 +120,7 @@ const AddPostForm = ({ setShow, mode, id = ' ' }: { setShow: (a: boolean) => voi
                 publish_date: new Date(),
                 uid: auth.currentUser?.uid,
                 fullName: auth.currentUser?.displayName,
-                avatar: auth.currentUser?.photoURL,
+                avatar: auth.currentUser?.photoURL, 
                 likes: [],
                 comments: [],
                 saved: []
