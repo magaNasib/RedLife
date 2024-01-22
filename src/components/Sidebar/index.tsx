@@ -107,7 +107,8 @@ const Sidebar = () => {
             })}
           >
             <CgProfile size={25} style={{ marginRight: "10px" }} />
-            Profile
+            {t("SidebarProfile")}
+
           </NavLink>
         )}
         {authChecked && !auth.currentUser && (
@@ -121,7 +122,8 @@ const Sidebar = () => {
             })}
           >
             <CiLogin size={25} style={{ marginRight: "10px" }} />
-            Login
+            {t("SidebarLogin")}
+
           </NavLink>
         )}
       </Flex>
