@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 
 
 const PostActions = ({ uid, id }: { uid: string; id: string }) => {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
 
     const donorCollectionRef = collection(db, 'donors');
     const triggerContext = useContext<any>(AuthContext)
@@ -82,7 +82,7 @@ const PostActions = ({ uid, id }: { uid: string; id: string }) => {
                         </Flex></PopoverHeader>
                     <PopoverHeader cursor={'pointer'}>
                         <Flex alignItems={'center'}>
-                            <CopyToClipboard text={window.location.href + id} onCopy={() => {
+                            <CopyToClipboard text={window.location.origin + '/' + id} onCopy={() => {
                                 toast({
                                     title: t("SharedMessage"),
                                     status: 'info',
@@ -109,7 +109,7 @@ const PostActions = ({ uid, id }: { uid: string; id: string }) => {
                         </AlertDialogHeader>
 
                         <AlertDialogBody>
-                        {t("DeleteAlert2")}
+                            {t("DeleteAlert2")}
                         </AlertDialogBody>
 
                         <AlertDialogFooter>

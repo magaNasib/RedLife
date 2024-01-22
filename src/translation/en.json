@@ -103,7 +103,8 @@
     "AddPostDescription": "Additional information if you want...",
     "AddPostCancelBtn": "Cancel",
     "AddPostPostBtn": "Post",
-    "SavePostPostBtn": "Save",
+    
+    "SavePostBtn": "Save",
     "AddPostStartPostBtn": "Start a post",
     "ValidationMessage": "This field is required",
     "PhoneValidationMessage" : "Phone number must be 9 digits",

@@ -14,7 +14,7 @@ import {
 import { BiLike, BiChat, BiSave, BiBookmark } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import React, { Dispatch, SetStateAction, useContext, useEffect, useReducer, useState } from "react";
-import { collection, getDocs, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { IPost } from "../AddPost";
 import { db } from "../../../../firebase";
 import CardPostItem from "./CardPostItem";
@@ -39,14 +39,16 @@ interface IProps {
   trigger?: boolean
   filteredPosts?: IPost[]
 }
+
 function CardPost(props: IProps) {
 
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(true)
   const donorCollectionRef = collection(db, 'donors');
   const { SUBMIT_POST } = postActions;
   const [state, dispatch] = useReducer(PostsReducer, postsStates);
   const triggerContext = useContext<any>(AuthContext)
+ 
   
   useEffect(() => {
     const getPosts = async () => {
@@ -54,16 +56,16 @@ function CardPost(props: IProps) {
         const data = await getDocs(query(donorCollectionRef, orderBy('publish_date', 'desc')));
 
         if (data.docs.length > 0) {
-          const donorData = data.docs.map((doc) => {
-            console.log({...doc.data()}.uid);
-            // const donorDocRef = doc(db, "users", doc.data().uid);
+          const donorData = await Promise.all(data.docs.map(async (doc) => {
+            // const myUid = { ...doc.data() }.uid;
 
-            
-            
-            return ({ ...doc.data(), id: doc.id }) as IPost
-          });
-          console.log(donorData);
-          
+         
+            const mergedData = { ...doc.data(), id: doc.id };
+            return mergedData as IPost;
+
+          }));
+
+
           dispatch({
             type: SUBMIT_POST,
             posts: donorData,
@@ -81,7 +83,7 @@ function CardPost(props: IProps) {
 
   const POSTS = props.filteredPosts ? props.filteredPosts : state?.posts
 
-  if (loading) return <PostSkeleton/>
+  if (loading) return <PostSkeleton />
 
   if (POSTS.length === 0) {
     return (
