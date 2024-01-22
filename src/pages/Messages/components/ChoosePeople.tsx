@@ -1,14 +1,15 @@
-
 import "./index.css"
 
 import { Avatar, Box, Flex, Heading, Input, InputGroup, InputLeftElement, Text } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons';
+import { useTranslation } from "react-i18next";
 
 interface ChoosePeopleProps {
 	handleBoxClick: () => void;
 }
 
 const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
+	const {t} = useTranslation();
 	return (
 		<Box
 			w="25%"
@@ -29,7 +30,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							Zeynab Aliyeva
 						</Text>
 						<Text fontWeight="bold" mb="10px" fontSize="md">
-							Messages
+							{t("MessagesHeading")}
 						</Text>
 					</Box>
 					<InputGroup w="95%">
@@ -71,7 +72,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -95,7 +96,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -119,7 +120,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -143,7 +144,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -167,7 +168,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -191,7 +192,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -215,7 +216,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -239,7 +240,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -263,7 +264,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -287,7 +288,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -311,7 +312,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -335,7 +336,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -359,7 +360,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -383,7 +384,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>
@@ -407,7 +408,7 @@ const ChoosePeople: React.FC<ChoosePeopleProps> = ({ handleBoxClick }) => {
 							/>
 							<Box pt="15px" pb="15px">
 								<Heading size="sm">Mehemmed Nesibov</Heading>
-								<Text>En son yazilan sms</Text>
+								<Text>{t("MessagesPlaceholder")}</Text>
 							</Box>
 						</Flex>
 					</Box>

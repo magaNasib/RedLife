@@ -174,8 +174,8 @@ export const Banner = () => {
           {/* Upload image button */}
           <Flex justifyContent={'center'} alignItems={'center'} border={'2px solid white'} borderRadius={'5px'} width={'180px'} height={'40px'} cursor={'pointer'}>
             <MdOutlineDriveFolderUpload color={'white'} />
-            <FormLabel htmlFor="file" color={'white'} pt={'8px'} cursor={'pointer'}>
-              Image
+            <FormLabel htmlFor="file" color={'white'} pt={'8px'}>
+            {t("İmageProfPage")}
             </FormLabel>
             <Input
               type="file"

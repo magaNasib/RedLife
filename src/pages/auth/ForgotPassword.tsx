@@ -92,7 +92,7 @@ const ForgotPassword: React.FC = () => {
                       control={methods.control}
                       name='email'
                       rules={{
-                        required: 'This field is required'
+                        required: t("ValidationMessage")
                       }}
                       render={({ field }) => (
                         <>
