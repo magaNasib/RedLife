@@ -8,7 +8,7 @@ const Post = () => {
     return (
         <>
             <Sidebar />
-            <Flex justifyContent="center" bgColor="#F1F2F5"  ml={'100px'}>
+            <Flex justifyContent="center" bgColor="#F1F2F5" minH='100vh' ml={'100px'}>
                 <Box m="0 auto" py={'100'} >
                     <PostFeature />
                 </Box>

@@ -26,7 +26,7 @@ const Messages: React.FC = () => {
   return (
     <>
       <Sidebar />
-      <Flex bgColor="#F2F2F5" ml="200px" h="100vh">
+      <Flex bgColor="#F2F2F5" ml="200px" minH="100vh">
         <ChoosePeople handleBoxClick={handleBoxClick} />
         {isBoxClicked ? (
           <Flex

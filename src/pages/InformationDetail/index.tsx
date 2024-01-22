@@ -39,7 +39,7 @@ const InfoDetails: React.FC = () => {
   return (
     <>
       <Sidebar />
-      <VStack align="stretch" bg="#F1F2F5" h="100%">
+      <VStack align="stretch" bg="#F1F2F5" minH="100vh">
         <Container
           mt={20}
           maxW="container.md"
